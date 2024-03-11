@@ -82,6 +82,8 @@ function LogAndReg() {
         });
         if (request) {
           localStorage.setItem("token", request.data.token);
+          localStorage.setItem("cartItems", JSON.stringify([]));
+          localStorage.setItem("cartCounter", 0);
           return true;
         }
       } catch (error) {

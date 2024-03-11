@@ -9,12 +9,16 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { setGlobalState, useGlobalState } from "../globalStates";
 function logOut() {
   localStorage.removeItem("token");
+localStorage.removeItem("cartItems");
+  localStorage.removeItem("cartCounter");
 }
 
 function Header() {
+const [cartCounter] = useGlobalState("cartCounter");
+
   let result = false;
   const [value, setvalue] = useState(false);
   const [input, setInput] = useState(" ");
@@ -201,13 +205,18 @@ function Header() {
           <div className="p-2.5 rounded cursor-pointer pt-[20px] font-[700] Order border border-transparent border-solid ">
             Orders
           </div>
-          <div className="flex rounded p-2.5 cursor-pointer cart border border-transparent border-solid ">
+          <Link to="/cart">
+            <div className="flex rounded p-2.5 cursor-pointer cart border border-transparent border-solid relative ">
+              <span className="absolute w-[20px] h-[20px] rounded-full bg-red-500 flex justify-center items-center left-[40px] top-[0px]">
+                {cartCounter}
+              </span>
             <FontAwesomeIcon
               icon={faCartShopping}
               className="w-[50px] h-[30px]"
             />
             <p className="text-[15px] pt-[10px]">Cart</p>
           </div>
+</Link>
         </div>
       </div>
       <ul className="flex item-center  bg-[#3E64DC] text-white">

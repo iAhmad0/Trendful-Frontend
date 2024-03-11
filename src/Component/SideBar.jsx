@@ -1,5 +1,5 @@
-import React from 'react'
-import { IoIosLogOut } from 'react-icons/io'
+import React from "react";
+import { IoIosLogOut } from "react-icons/io";
 import {
   BsCart3,
   BsGrid1X2Fill,
@@ -8,11 +8,13 @@ import {
   BsListCheck,
   BsMenuButtonWideFill,
   BsFillGearFill,
-} from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+} from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 function logOut() {
-  localStorage.removeItem('sellerToken')
+  localStorage.removeItem("sellerToken");
+  localStorage.removeItem("cartItems");
+  localStorage.removeItem("cartCounter");
 }
 
 function SideBar() {
@@ -53,7 +55,7 @@ function SideBar() {
         <Link to="/seller/inventory">
           <li className="p-[20px] text-[15px]  hover:cursor-pointer hover:bg-[#F39E31]">
             <div className="text-no-underline text-white flex">
-              <BsListCheck className="mr-[5px] align-middle leading-3 text-[20px]" />{' '}
+              <BsListCheck className="mr-[5px] align-middle leading-3 text-[20px]" />{" "}
               Inventory
             </div>
           </li>
@@ -61,7 +63,7 @@ function SideBar() {
         <Link to="/seller/settings">
           <li className="p-[20px] text-[15px]  hover:cursor-pointer hover:bg-[#F39E31]">
             <div className="text-no-underline text-white flex">
-              <BsFillGearFill className="mr-[5px] align-middle leading-3 text-[20px]" />{' '}
+              <BsFillGearFill className="mr-[5px] align-middle leading-3 text-[20px]" />{" "}
               Settings
             </div>
           </li>
@@ -69,13 +71,13 @@ function SideBar() {
         <Link to="/seller/login" onClick={logOut}>
           <li className="p-[20px] text-[15px]  hover:cursor-pointer hover:bg-[#F39E31]">
             <div className="text-no-underline text-white flex items-center">
-              <IoIosLogOut className="mr-[5px] align-middle leading-3 text-[20px]" />{' '}
+              <IoIosLogOut className="mr-[5px] align-middle leading-3 text-[20px]" />{" "}
               Sign Out
             </div>
           </li>
         </Link>
       </ul>
     </aside>
-  )
+  );
 }
-export default SideBar
+export default SideBar;
