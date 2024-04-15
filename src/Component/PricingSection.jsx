@@ -5,7 +5,7 @@ import { json } from "react-router-dom";
 import { useEffect } from "react";
 function PricingSection({ price, quantity }) {
   const leftover = Math.trunc((price - Math.floor(price)) * 100);
-// let [currentCart] = useGlobalState("cartCounter");
+  // let [currentCart] = useGlobalState("cartCounter");
   const id = window.location.pathname.substring(
     window.location.pathname.lastIndexOf("/") + 1
   );
@@ -43,6 +43,14 @@ function PricingSection({ price, quantity }) {
             localStorage.setItem(
               "cartItems",
               JSON.stringify([...cartItems, id])
+            );
+            const itemsNumber = JSON.parse(
+              localStorage.getItem("itemsQuantities")
+            );
+
+            localStorage.setItem(
+              "itemsQuantities",
+              JSON.stringify([...itemsNumber, 1])
             );
           }
         }}

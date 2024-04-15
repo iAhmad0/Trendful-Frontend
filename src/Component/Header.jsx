@@ -12,12 +12,13 @@ import axios from "axios";
 import { setGlobalState, useGlobalState } from "../globalStates";
 function logOut() {
   localStorage.removeItem("token");
-localStorage.removeItem("cartItems");
+  localStorage.removeItem("cartItems");
   localStorage.removeItem("cartCounter");
+  localStorage.removeItem("itemsQuantities");
 }
 
 function Header() {
-const [cartCounter] = useGlobalState("cartCounter");
+  const [cartCounter] = useGlobalState("cartCounter");
 
   let result = false;
   const [value, setvalue] = useState(false);
@@ -210,13 +211,13 @@ const [cartCounter] = useGlobalState("cartCounter");
               <span className="absolute w-[20px] h-[20px] rounded-full bg-red-500 flex justify-center items-center left-[40px] top-[0px]">
                 {cartCounter}
               </span>
-            <FontAwesomeIcon
-              icon={faCartShopping}
-              className="w-[50px] h-[30px]"
-            />
-            <p className="text-[15px] pt-[10px]">Cart</p>
-          </div>
-</Link>
+              <FontAwesomeIcon
+                icon={faCartShopping}
+                className="w-[50px] h-[30px]"
+              />
+              <p className="text-[15px] pt-[10px]">Cart</p>
+            </div>
+          </Link>
         </div>
       </div>
       <ul className="flex item-center  bg-[#3E64DC] text-white">

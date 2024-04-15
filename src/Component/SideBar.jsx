@@ -15,6 +15,7 @@ function logOut() {
   localStorage.removeItem("sellerToken");
   localStorage.removeItem("cartItems");
   localStorage.removeItem("cartCounter");
+  localStorage.removeItem("itemsQuantities");
 }
 
 function SideBar() {
@@ -41,7 +42,7 @@ function SideBar() {
         <Link to="/seller/products">
           <li className="p-[20px] text-[15px]  hover:cursor-pointer hover:bg-[#F39E31]">
             <div className="text-no-underline text-white flex">
-              <BsFillArchiveFill className="mr-[5px] align-middle leading-3 text-[20px]" />{' '}
+              <BsFillArchiveFill className="mr-[5px] align-middle leading-3 text-[20px]" />{" "}
               Products
             </div>
           </li>
