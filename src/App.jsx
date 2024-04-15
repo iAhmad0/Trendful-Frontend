@@ -1,17 +1,17 @@
-import { Route, BrowserRouter, Routes } from "react-router-dom";
-import Home from "./Routes/Home";
-import LogAndReg from "./Routes/LogAndReg";
-import YourAccount from "./Routes/YourAccount";
-import ProductPage from "./Routes/ProductPage";
-import ErrorPage from "./Routes/ErorrPage";
-import SellerLogin from "./Routes/SellerLogin";
-import SellerPage from "./Routes/SellerPage";
-import SellerProductPage from "./Routes/SellerProductPage";
-import SellerInventoryPage from "./Routes/SellerInventoryPage";
-import SellerAccount from "./Routes/SellerAccountPage";
-import SearchPage from "./Routes/SearchPage";
-import CartPage from "./Routes/CartPage";
-
+import { Route, BrowserRouter, Routes } from 'react-router-dom'
+import Home from './Routes/Home'
+import LogAndReg from './Routes/LogAndReg'
+import YourAccount from './Routes/YourAccount'
+import ProductPage from './Routes/ProductPage'
+import ErrorPage from './Routes/ErorrPage'
+import SellerLogin from './Routes/SellerLogin'
+import SellerPage from './Routes/SellerPage'
+import SellerProductPage from './Routes/SellerProductPage'
+import SellerInventoryPage from './Routes/SellerInventoryPage'
+import SellerAccount from './Routes/SellerAccountPage'
+import SearchPage from './Routes/SearchPage'
+import CartPage from './Routes/CartPage'
+import PaymentPage from './Routes/PaymentPage'
 function App() {
   return (
     <BrowserRouter>
@@ -28,10 +28,11 @@ function App() {
         <Route path="seller/products" element={<SellerProductPage />} />
         <Route path="seller/inventory" element={<SellerInventoryPage />} />
         <Route path="seller/settings" element={<SellerAccount />} />
+        <Route path="checkout/:data" element={<PaymentPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
