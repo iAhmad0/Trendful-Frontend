@@ -92,7 +92,6 @@ const Cart = () => {
                   className="border border-red-300 border-1 px-[5px] py-[7px] hover:bg-red-500 hover:text-[white] transition duration-300  linear "
                   onClick={() => {
                     const items = JSON.parse(localStorage.getItem('cartItems'))
-
                     let itemsCounter = Number(
                       localStorage.getItem('cartCounter')
                     )
