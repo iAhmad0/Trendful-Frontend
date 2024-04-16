@@ -19,6 +19,7 @@ const netBanking = [
 
 const Payment = (props) => {
   const [shipping, setShipping] = useState(50)
+  const [discount, setDiscount] = useState('')
   return (
     <main className="">
       <div className="  p-[10px] w-[80%] mx-auto mt-[10px]">
@@ -147,7 +148,41 @@ const Payment = (props) => {
             </form>
           </div>
         </div>
-        <div className="border-b-solid  border-b-slate-500  border-b-[3px]">
+        <form action="">
+          <label htmlFor="Promo" className="font-bold">
+            Promo code
+          </label>
+          <input
+            type="text"
+            name=""
+            id="Promo"
+            placeholder="Enter Promo Code"
+            required
+            className="bg-[#eee] rounded-[3px]  ml-[10px] mb-6 w-[220px] p-[5px] outline-none text-[13px] placeholder:text-[gray]"
+            onFocus={(e) => {
+              e.target.placeholder = ''
+            }}
+            onBlur={(e) => {
+              if (!e.target.value) {
+                e.target.placeholder = 'Enter Promo Code'
+              }
+            }}
+          />
+        </form>
+        <div className="border-y-solid  border-y-slate-500  border-y-[3px]">
+          <h1 className="w-fit mx-auto font-bold">Invoice</h1>
+          <div className="flex items-center justify-between p-[5px]">
+            <p>Total cost</p>
+            <p>{props.props}</p>
+          </div>
+          {discount ? (
+            <div className="flex items-center justify-between p-[5px]">
+              <p>Discount</p>
+              <p>{discount}</p>
+            </div>
+          ) : (
+            ''
+          )}
           <div className="flex items-center justify-between p-[5px]">
             <p>shipping cost</p>
             <p>{shipping}</p>
