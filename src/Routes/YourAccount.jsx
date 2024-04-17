@@ -4,6 +4,7 @@ import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import axios from "axios";
 import Header from "../Component/Header";
+import bcrypt from "bcryptjs-react";
 
 function YourAccount() {
   const [buyer, setBuyer] = useState({});
@@ -41,6 +42,51 @@ function YourAccount() {
       }
     };
     send();
+  }
+
+  function updateInfo(
+    name = buyer.name,
+    email = buyer.email,
+    mobile = buyer.mobile
+  ) {
+    const update = async () => {
+      try {
+        const request = await axios.patch(
+          "http://localhost:3000/api/buyerInfo",
+          {
+            token: localStorage.getItem("token"),
+            newName: name,
+            newEmail: email,
+            newMobile: mobile,
+          }
+        );
+      } catch (err) {}
+    };
+    update();
+  }
+
+  function encryptPassword(newPassword) {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(newPassword, salt);
+
+    return hash;
+  }
+  function updatePassword(currentPass, newPass) {
+    const update = async () => {
+      try {
+        const encryptedPassword = await encryptPassword(newPass);
+
+        const request = await axios.patch(
+          "http://localhost:3000/api/buyerPasswordChange",
+          {
+            token: localStorage.getItem("token"),
+            currentPassword: currentPass,
+            newPassword: encryptedPassword,
+          }
+        );
+      } catch (err) {}
+    };
+    update();
   }
 
   const [navigate, setNavigate] = useState({
@@ -141,7 +187,10 @@ function YourAccount() {
     } else if (fields.rePassChange !== fields.newPassChange) {
       errors.rePassError = "password is not the same as the new one";
     }
+
     if (Object.keys(errors).length === 0) {
+      updatePassword(fields.currentPassChange, fields.newPassChange);
+      setNavigate({ ...navigate, toPassChange: false, mainBox: true });
       console.log("the password successfuly changed!!");
       return;
     }
@@ -156,7 +205,10 @@ function YourAccount() {
     } else if (!phoneReg.test(fields.phoneChange)) {
       errors.phoneError = "invalid phone number";
     }
+
     if (Object.keys(errors).length === 0) {
+      updateInfo(undefined, undefined, fields.phoneChange);
+      setNavigate({ ...navigate, toEmailChange: false, mainBox: true });
       console.log("the phone successfuly changed!!");
       return;
     }
@@ -172,6 +224,10 @@ function YourAccount() {
     } else if (!mailReg.test(fields.emailChange)) {
       errors.emailError = "invalid email";
     }
+
+    updateInfo(undefined, fields.emailChange, undefined);
+    setNavigate({ ...navigate, toEmailChange: false, mainBox: true });
+
     if (Object.keys(errors).length === 0) {
       console.log("the Email successfuly changed!!");
       return;
@@ -185,6 +241,10 @@ function YourAccount() {
     if (fields.nameChange === "") {
       errors.nameError = "you must provide this field";
     }
+
+    updateInfo(fields.nameChange, undefined, undefined);
+    setNavigate({ ...navigate, toNameChange: false, mainBox: true });
+
     if (Object.keys(errors).length === 0) {
       console.log("the Name successfuly changed!!");
       return;
@@ -255,7 +315,7 @@ function YourAccount() {
         <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
           <div className="p-[15px]">
             <p className="text-[14px] mb-[30px]">
-              If you want to change the name associated with your Amazon
+              If you want to change the name associated with your Trendful
               customer account, you may do so below Be sure to click the{" "}
               <span className="font-bold">Save Changes</span> button when you
               are done.
@@ -450,7 +510,8 @@ function YourAccount() {
         <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
           <div className="p-[15px]">
             <p className="text-[14px] mb-[30px]">
-              Use the form below to change the password for your Amazon account
+              Use the form below to change the password for your Trendful
+              account
             </p>
             <form className="mb-[30px]">
               <label
