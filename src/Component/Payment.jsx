@@ -1,65 +1,130 @@
-import { useState } from "react";
-
+import { useState } from 'react'
 const address = [
-  { type: "text", Abstract: "First Name*" },
-  { type: "text", Abstract: "Last Name*" },
-  { type: "email", Abstract: "Email Address*" },
-  { type: "text", Abstract: "Telephone*" },
-  { type: "text", Abstract: "Address" },
-  { type: "text", Abstract: "Town" },
-  { type: "text", Abstract: "Country" },
-  { type: "text", Abstract: "Postal Code" },
-];
+  { type: 'text', Abstract: 'First Name*', id: 'fname' },
+  { type: 'text', Abstract: 'Last Name*', id: 'lname' },
+  { type: 'email', Abstract: 'Email Address*', id: 'email' },
+  { type: 'text', Abstract: 'Telephone*', id: 'telephone' },
+  { type: 'text', Abstract: 'Address', id: 'address' },
+  { type: 'text', Abstract: 'Town', id: 'town' },
+  { type: 'text', Abstract: 'Country', id: 'country' },
+  { type: 'text', Abstract: 'Postal Code', id: 'Pcode' },
+]
 const netBanking = [
-  { id: "bank", Abstract: "XXXX XXXX XXXX XXXX", label: "VISA Card Number" },
-  { id: "cvc", Abstract: "CVC", label: "CVC/CVV" },
-  { id: "EX", Abstract: "MM/YY", label: "Expire Date" },
-  { id: "name", Abstract: "Name", label: "Name Of Card" },
-];
+  {
+    id: 'bank',
+    Abstract: 'XXXX XXXX XXXX XXXX',
+    label: 'VISA Card Number',
+    error: 'Credit Card Number',
+    regex: /^\d{4}(?:\s\d{4}){3}$/,
+  },
+  {
+    id: 'cvc',
+    Abstract: 'CVC',
+    label: 'CVC/CVV',
+    error: 'CVC Number',
+    regex: /^\d{3}$/,
+  },
+  {
+    id: 'EX',
+    Abstract: 'MM/YY',
+    label: 'Expire Date',
+    error: 'Expire Date',
+    regex: /^(0[1-9]|1[0-2])\/(0[0-9]|1[0-9]|2[0-9]|3[0-9])$/,
+  },
+  {
+    id: 'Cname',
+    Abstract: 'Name Of Card',
+    label: 'Name Of Card',
+    error: 'Name Of Credit Card',
+    regex: /^[A-Za-z]+(?: [A-Za-z]+)*$/,
+  },
+]
 
-const Payment = (props) => {
-  const [shipping, setShipping] = useState(0);
-  const [discount, setDiscount] = useState("");
+const Payment = () => {
+  const [shipping, setShipping] = useState(0)
+  const [discount, setDiscount] = useState(0)
+  const [error, setError] = useState('')
+  const [total, setTotal] = useState(localStorage.getItem('total'))
+  const [data, setData] = useState({
+    fname: '',
+    lname: '',
+    email: '',
+    telephone: '',
+    address: '',
+    town: '',
+    country: '',
+    Pcode: '',
+    bank: '',
+    cvc: '',
+    EX: '',
+    pay: '',
+    ship: '',
+    promo: '',
+    Cname: '',
+  })
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setData((prev) => {
+      return { ...prev, [name]: value }
+    })
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(data)
+  }
   return (
-    <main className="">
+    <form onSubmit={handleSubmit}>
       <div className="  p-[10px] w-[80%] mx-auto mt-[10px]">
         <img src="/public/images/favicon.png" alt="" className="mx-auto my-4" />
         <h1 className="font-bold my-1">CHECKOUT</h1>
         <div className="flex justify-between">
-          <form
-            action=""
-            className="border-[1px] border-solid  border-[gray] rounded-[10px] text-[15px] p-[5px] w-[49%]"
-          >
+          <div className="border-[1px] border-solid  border-[gray] rounded-[10px] text-[15px] p-[5px] w-[49%]">
             <h1 className="mb-[5px] ml-[10px]">
-              BILLING ADDRESS{" "}
+              BILLING ADDRESS{' '}
               <span className="text-[10px] text-red-700">Required Field*</span>
             </h1>
             {address.map((object, index) => {
               return (
                 <input
+                  onChange={handleChange}
                   key={index}
                   onFocus={(e) => {
-                    e.target.placeholder = "";
+                    e.target.placeholder = ''
                   }}
                   onBlur={(e) => {
                     if (!e.target.value) {
-                      e.target.placeholder = address[index].Abstract;
+                      e.target.placeholder = address[index].Abstract
                     }
                   }}
+                  name={object.id}
                   type={object.type}
                   required
                   placeholder={object.Abstract}
                   className={`bg-[#eee] rounded-[3px] ml-[10px] my-2  ${
-                    index < 2 ? "w-[220px]" : "w-[460px]"
+                    index < 2 ? 'w-[220px]' : 'w-[460px]'
                   } w-[220px] ${
-                    index === 0 ? "mr-[10px]" : ""
+                    index === 0 ? 'mr-[10px]' : ''
                   } p-[5px] outline-none text-[13px] placeholder:text-[gray]`}
                 />
-              );
+              )
             })}
-          </form>
+            {data.Pcode &&
+            data.address &&
+            data.country &&
+            data.fname &&
+            data.lname &&
+            data.telephone &&
+            data.town &&
+            data.email ? (
+              ''
+            ) : (
+              <div className="text-[13px] text-[red] p-[5px] ml-[10px]">
+                You Must fill this Form
+              </div>
+            )}
+          </div>
           <div className="w-[49%]">
-            <form
+            <div
               action=""
               className="border-[1px] border-solid border-[gray] rounded-[10px] text-[15px] p-[5px] w-[100%]"
             >
@@ -69,45 +134,80 @@ const Payment = (props) => {
                   <>
                     <label
                       htmlFor={object.id}
-                      className="ml-[10px] text-[12px] font-bold block"
-                      id={index}
+                      className="ml-[10px] text-[12px] mt-6 font-bold block"
+                      key={index}
                     >
                       {object.label}
                     </label>
                     <input
-                      id={object.id}
+                      key={index}
+                      onChange={(e) => {
+                        const name = e.target.name
+                        const value = e.target.value
+                        const check = object.regex
+                        // Example regex for a simple email validation
+                        const isValid = check.test(value)
+                        setError(isValid ? '' : object.id)
+                        setData((prev) => {
+                          return { ...prev, [name]: value }
+                        })
+                        if (!e.target.value) {
+                          setError('')
+                        }
+                      }}
+                      name={object.id}
                       type="text"
                       required
                       placeholder={object.Abstract}
                       onFocus={(e) => {
-                        e.target.placeholder = "";
+                        e.target.placeholder = ''
                       }}
                       onBlur={(e) => {
                         if (!e.target.value) {
-                          e.target.placeholder = netBanking[index].Abstract;
+                          e.target.placeholder = netBanking[index].Abstract
                         }
                       }}
-                      className={`bg-[#eee] rounded-[3px]  ml-[10px] mb-6 ${
-                        index === 1 || index === 2 ? "w-[220px]" : "w-[460px]"
+                      className={`bg-[#eee] rounded-[3px]  ml-[10px]  ${
+                        index === 1 || index === 2 ? 'w-[220px]' : 'w-[460px]'
                       } p-[5px] outline-none text-[13px] placeholder:text-[gray]`}
                     />
+                    {error === object.id ? (
+                      <div className="text-[13px] p-[5px]  ml-[10px] text-[red]">
+                        Invalid {object.error}
+                      </div>
+                    ) : (
+                      ''
+                    )}
                   </>
-                );
+                )
               })}
-            </form>
+              {data.Cname && data.EX && data.bank && data.cvc ? (
+                ''
+              ) : (
+                <div className="text-[13px] text-[red] p-[5px] ml-[10px]">
+                  You Must fill this Form
+                </div>
+              )}
+            </div>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <div className="py-[10px] w-[49%]">
             <h1 className="font-bold">Select Shipping Method</h1>
-            <form action="">
+            <div>
               <div className="my-2">
                 <input
+                  required
                   type="radio"
                   name="ship"
+                  value="50"
                   id="one"
-                  onClick={() => {
-                    setShipping(50);
+                  onClick={(e) => {
+                    const { name, value } = e.target
+                    setData((prev) => {
+                      return { ...prev, [name]: value }
+                    })
+                    setShipping(50)
                   }}
                 />
                 <label htmlFor="one" className="ml-[10px]">
@@ -117,63 +217,88 @@ const Payment = (props) => {
 
               <div className="my-2">
                 <input
+                  required
                   type="radio"
                   name="ship"
                   id="two"
-                  onClick={() => {
-                    setShipping(100);
+                  value="100"
+                  onClick={(e) => {
+                    const { name, value } = e.target
+                    setData((prev) => {
+                      return { ...prev, [name]: value }
+                    })
+                    setShipping(100)
                   }}
                 />
                 <label htmlFor="two" className="ml-[10px]">
                   Express Shipping 100EGP
                 </label>
+                {data.ship ? (
+                  ''
+                ) : (
+                  <div className="text-[13px] text-[red] p-[5px] ml-[10px]">
+                    You Must fill this Form
+                  </div>
+                )}
               </div>
-            </form>
+            </div>
           </div>
           <div className="py-[10px] w-[49%]">
             <h1 className="font-bold">Payment</h1>
-            <form action="">
+            <div>
               <div className="my-2">
-                <input type="radio" name="pay" id="credit" />
+                <input
+                  type="radio"
+                  onClick={handleChange}
+                  name="pay"
+                  id="credit"
+                  value="credit"
+                />
                 <label htmlFor="credit" className="ml-[10px]">
                   Credit Card
                 </label>
               </div>
               <div className="my-2">
-                <input type="radio" name="pay" id="cash" />
+                <input
+                  type="radio"
+                  name="pay"
+                  onClick={handleChange}
+                  id="cash"
+                  value="cash"
+                />
                 <label htmlFor="cash" className="ml-[10px]">
                   Cash
                 </label>
               </div>
-            </form>
+            </div>
           </div>
         </div>
-        <form action="">
+        <div action="">
           <label htmlFor="Promo" className="font-bold">
             Promo code
           </label>
           <input
             type="text"
-            name=""
+            name="promo"
             id="Promo"
             placeholder="Enter Promo Code"
-            required
             className="bg-[#eee] rounded-[3px]  ml-[10px] mb-6 w-[220px] p-[5px] outline-none text-[13px] placeholder:text-[gray]"
             onFocus={(e) => {
-              e.target.placeholder = "";
+              e.target.placeholder = ''
             }}
+            onChange={handleChange}
             onBlur={(e) => {
               if (!e.target.value) {
-                e.target.placeholder = "Enter Promo Code";
+                e.target.placeholder = 'Enter Promo Code'
               }
             }}
           />
-        </form>
+        </div>
         <div className="border-y-solid  border-y-slate-500  border-y-[3px]">
           <h1 className="w-fit mx-auto font-bold">Invoice</h1>
           <div className="flex items-center justify-between p-[5px]">
             <p>Total Cost</p>
-            <p>{props.props}</p>
+            <p>{total}</p>
           </div>
           {discount ? (
             <div className="flex items-center justify-between p-[5px]">
@@ -181,7 +306,7 @@ const Payment = (props) => {
               <p>{discount}</p>
             </div>
           ) : (
-            ""
+            ''
           )}
           <div className="flex items-center justify-between p-[5px]">
             <p>Shipping Cost</p>
@@ -190,13 +315,16 @@ const Payment = (props) => {
         </div>
         <div className="flex items-center justify-between font-bold my-[10px]">
           <p>TOTAL</p>
-          <p>{Number(props.props) + shipping} EGP</p>
+          <p>{Number(total) + shipping - discount} EGP</p>
         </div>
-        <button className="w-[100%] text-center bg-[#3E64DA] py-[10px] rounded-[10px] font-bold p-[5px] text-white">
+        <button
+          type="submit"
+          className="w-[100%] text-center bg-[#3E64DA] py-[10px] rounded-[10px] font-bold p-[5px] text-white"
+        >
           Complete Check
         </button>
       </div>
-    </main>
-  );
-};
-export default Payment;
+    </form>
+  )
+}
+export default Payment

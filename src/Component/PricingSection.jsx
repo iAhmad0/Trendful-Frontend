@@ -57,9 +57,16 @@ function PricingSection({ price, quantity }) {
       >
         Add to Cart
       </button>
-      <button className="mt-[10px] mb-[10px] text-[13px] block bg-orange-500 text-center pt-[5px] pb-[5px] w-[100%] rounded-[10px]">
-        Buy Now
-      </button>
+      <Link to="/checkout">
+        <button
+          onClick={() => {
+            localStorage.setItem('total', price)
+          }}
+          className="mt-[10px] mb-[10px] text-[13px] block bg-orange-500 text-center pt-[5px] pb-[5px] w-[100%] rounded-[10px]"
+        >
+          Buy Now
+        </button>
+      </Link>
     </div>
   )
 }

@@ -28,7 +28,7 @@ function App() {
         <Route path="seller/products" element={<SellerProductPage />} />
         <Route path="seller/inventory" element={<SellerInventoryPage />} />
         <Route path="seller/settings" element={<SellerAccount />} />
-        <Route path="checkout/:data" element={<PaymentPage />} />
+        <Route path="checkout" element={<PaymentPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
