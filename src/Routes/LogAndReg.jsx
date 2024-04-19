@@ -2,10 +2,10 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-
+import { AiOutlineEye, AiFillEyeInvisible } from "react-icons/ai";
 function LogAndReg() {
   const [render, setRender] = useState(false);
-
+  const [visible, setVisible] = useState(false);
   function checkLoggedIn() {
     const send = async () => {
       try {
@@ -145,10 +145,13 @@ function LogAndReg() {
         });
         if (request) {
           localStorage.setItem("token", request.data.token);
+          localStorage.setItem("cartItems", JSON.stringify([]));
+          localStorage.setItem("cartCounter", 0);
+          localStorage.setItem("itemsQuantities", JSON.stringify([]));
           return true;
         }
       } catch (error) {
-        setErros({ ...Erros, regMailError: "Email already exists" });
+        setErros({ ...Erros, regMailError: "response error" });
       }
     };
     if (Object.keys(errors).length === 0) {
@@ -211,7 +214,7 @@ function LogAndReg() {
               ""
             )} */}
             </div>
-            <div className="field-container mb-5">
+            <div className="field-container mb-5 relative ">
               <div className="flex justify-between mb-1">
                 <label htmlFor="password" className="font-bold label-font	">
                   Password
@@ -230,6 +233,28 @@ function LogAndReg() {
                   Erros.logPassError ? `border-red-500` : `border-field`
                 }	border rounded w-full	h-8 pl-1.5 field-shadow`}
               />
+
+              {visible ? (
+                <AiOutlineEye
+                  className="absolute top-[59%] right-[10px] cursor-pointer"
+                  onClick={() => {
+                    setVisible(!visible);
+                    document
+                      .getElementById("password")
+                      .setAttribute("type", "password");
+                  }}
+                />
+              ) : (
+                <AiFillEyeInvisible
+                  className="absolute top-[59%] right-[10px] cursor-pointer"
+                  onClick={() => {
+                    setVisible(!visible);
+                    document
+                      .getElementById("password")
+                      .setAttribute("type", "text");
+                  }}
+                />
+              )}
               {Erros.logPassError ? (
                 <div className="mt-3 flex items-center">
                   <FontAwesomeIcon

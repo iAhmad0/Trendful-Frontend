@@ -1,41 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import { setGlobalState } from '../globalStates'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from "react";
+import { setGlobalState } from "../globalStates";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([])
-  const [total, setTotal] = useState(0)
+  const [cartItems, setCartItems] = useState([]);
+  const [total, setTotal] = useState(0);
   let [itemsQuan, setItemsQuan] = useState(
+<<<<<<< HEAD
     JSON.parse(localStorage.getItem('itemsQuantities'))
   )
   localStorage.setItem('total', total)
+=======
+    JSON.parse(localStorage.getItem("itemsQuantities"))
+  );
+
+>>>>>>> c1fc95f8a22a443ab772899b2200b799e0733f1d
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        'http://localhost:3000/api/v1/all-products'
-      )
+        "http://localhost:3000/api/v1/all-products"
+      );
 
-      const items = JSON.parse(localStorage.getItem('cartItems'))
-      const temp = []
+      const items = JSON.parse(localStorage.getItem("cartItems"));
+      const temp = [];
       items.forEach((item) => {
         response.data.forEach((product) => {
-          if (product._id === item) temp.push(product)
-        })
-      })
+          if (product._id === item) temp.push(product);
+        });
+      });
 
-      setCartItems(temp)
-      const itemsQuan = JSON.parse(localStorage.getItem('itemsQuantities'))
-      let sum = 0
+      setCartItems(temp);
+      const itemsQuan = JSON.parse(localStorage.getItem("itemsQuantities"));
+      let sum = 0;
       temp.forEach(function (element, i) {
-        sum += element.price * itemsQuan[i]
-      })
-      setTotal(sum)
-    }
-    fetchData()
-  }, [])
+        sum += element.price * itemsQuan[i];
+      });
+      setTotal(sum);
+    };
+    fetchData();
+  }, []);
   return (
     <>
-      <div className="w-[700px]  absolute left-[50%] top-[25%] transform translate-x-[-50%]">
+      <div className="w-[700px]  absolute left-[50%] top-[25%] transform translate-x-[-50%] ">
         {cartItems.map((product, index) => {
           return (
             <div
@@ -48,16 +56,16 @@ const Cart = () => {
                   className="border-r border-grey-300 px-[10px] py-[6px] cursor-pointer text-gray-400"
                   onClick={() => {
                     if (itemsQuan[index] > 1) {
-                      const itemsNumber = itemsQuan
-                      itemsNumber[index]--
+                      const itemsNumber = itemsQuan;
+                      itemsNumber[index]--;
                       localStorage.setItem(
-                        'itemsQuantities',
+                        "itemsQuantities",
                         JSON.stringify(itemsNumber)
-                      )
+                      );
                       setItemsQuan(
-                        JSON.parse(localStorage.getItem('itemsQuantities'))
-                      )
-                      setTotal(total - product.price)
+                        JSON.parse(localStorage.getItem("itemsQuantities"))
+                      );
+                      setTotal(total - product.price);
                     }
                   }}
                 >
@@ -67,17 +75,17 @@ const Cart = () => {
                 <span
                   className="border-l-[1px] border-grey-300 px-[10px] py-[6px] cursor-pointer text-gray-400"
                   onClick={() => {
-                    const itemsNumber = itemsQuan
-                    itemsNumber[index]++
+                    const itemsNumber = itemsQuan;
+                    itemsNumber[index]++;
                     localStorage.setItem(
-                      'itemsQuantities',
+                      "itemsQuantities",
                       JSON.stringify(itemsNumber)
-                    )
+                    );
 
                     setItemsQuan(
-                      JSON.parse(localStorage.getItem('itemsQuantities'))
-                    )
-                    setTotal(total + product.price)
+                      JSON.parse(localStorage.getItem("itemsQuantities"))
+                    );
+                    setTotal(total + product.price);
                   }}
                 >
                   +
@@ -91,44 +99,44 @@ const Cart = () => {
                 <button
                   className="border border-red-300 border-1 px-[5px] py-[7px] hover:bg-red-500 hover:text-[white] transition duration-300  linear "
                   onClick={() => {
-                    const items = JSON.parse(localStorage.getItem('cartItems'))
+                    const items = JSON.parse(localStorage.getItem("cartItems"));
                     let itemsCounter = Number(
-                      localStorage.getItem('cartCounter')
-                    )
-                    itemsCounter--
-                    localStorage.setItem('cartCounter', itemsCounter)
-                    setGlobalState('cartCounter', itemsCounter)
+                      localStorage.getItem("cartCounter")
+                    );
+                    itemsCounter--;
+                    localStorage.setItem("cartCounter", itemsCounter);
+                    setGlobalState("cartCounter", itemsCounter);
                     const newItemsIds = items.filter((item) => {
-                      return item !== product._id
-                    })
+                      return item !== product._id;
+                    });
                     localStorage.setItem(
-                      'cartItems',
+                      "cartItems",
                       JSON.stringify(newItemsIds)
-                    )
+                    );
                     const newItems = cartItems.filter((item) => {
-                      return item._id !== product._id
-                    })
-                    setCartItems(newItems)
+                      return item._id !== product._id;
+                    });
+                    setCartItems(newItems);
                     const itemsNumber = JSON.parse(
-                      localStorage.getItem('itemsQuantities')
-                    )
+                      localStorage.getItem("itemsQuantities")
+                    );
                     const newItemsNumber = itemsNumber.filter((i, ind) => {
-                      return ind !== index
-                    })
-                    console.log(newItemsNumber)
+                      return ind !== index;
+                    });
+                    console.log(newItemsNumber);
                     localStorage.setItem(
-                      'itemsQuantities',
+                      "itemsQuantities",
                       JSON.stringify(newItemsNumber)
-                    )
-                    setItemsQuan(newItemsNumber)
-                    setTotal(total - product.price * itemsQuan[index])
+                    );
+                    setItemsQuan(newItemsNumber);
+                    setTotal(total - product.price * itemsQuan[index]);
                   }}
                 >
                   Remove Item
                 </button>
               </div>
             </div>
-          )
+          );
         })}
         {cartItems.length > 0 ? (
           <div className="flex  justify-between p-[10px]  ">
@@ -148,11 +156,22 @@ const Cart = () => {
             </Link>
           </div>
         ) : (
-          ''
+          ""
         )}
       </div>
+      {cartItems.length === 0 ? (
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <FontAwesomeIcon
+            icon={faCartShopping}
+            className="w-[100px] h-[70px] "
+          />
+          <p className="mt-3 text-center text-gray-500">cart is empty</p>
+        </div>
+      ) : (
+        ""
+      )}
     </>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
