@@ -75,7 +75,7 @@ function Header() {
     "TV's & Electronics",
   ];
 
-  const navbar4 = ["Help & Settings", "Your Account"];
+  const navbar4 = ["Help & Settings", "Purchase History", "Your Account"];
   return (
     <header>
       <div className="bg-[#3E64DA]  text-white w-full flex items-center justify-between pt-[5px] pb-[5px] pr-[20px] pl-[20px]">
@@ -310,8 +310,8 @@ function Header() {
           {navbar4.map((name, index) => {
             return (
               <>
-                {index == 1 ? (
-                  <Link to="settings">
+                {index === 1 || index === 2 ? (
+                  <Link to={`${index === 1 ? "/history" : "/settings"}`}>
                     {" "}
                     <li
                       id={index}

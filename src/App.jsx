@@ -1,17 +1,18 @@
-import { Route, BrowserRouter, Routes } from 'react-router-dom'
-import Home from './Routes/Home'
-import LogAndReg from './Routes/LogAndReg'
-import YourAccount from './Routes/YourAccount'
-import ProductPage from './Routes/ProductPage'
-import ErrorPage from './Routes/ErorrPage'
-import SellerLogin from './Routes/SellerLogin'
-import SellerPage from './Routes/SellerPage'
-import SellerProductPage from './Routes/SellerProductPage'
-import SellerInventoryPage from './Routes/SellerInventoryPage'
-import SellerAccount from './Routes/SellerAccountPage'
-import SearchPage from './Routes/SearchPage'
-import CartPage from './Routes/CartPage'
-import PaymentPage from './Routes/PaymentPage'
+import { Route, BrowserRouter, Routes } from "react-router-dom";
+import Home from "./Routes/Home";
+import LogAndReg from "./Routes/LogAndReg";
+import YourAccount from "./Routes/YourAccount";
+import ProductPage from "./Routes/ProductPage";
+import ErrorPage from "./Routes/ErorrPage";
+import SellerLogin from "./Routes/SellerLogin";
+import SellerPage from "./Routes/SellerPage";
+import SellerProductPage from "./Routes/SellerProductPage";
+import SellerInventoryPage from "./Routes/SellerInventoryPage";
+import SellerAccount from "./Routes/SellerAccountPage";
+import SearchPage from "./Routes/SearchPage";
+import CartPage from "./Routes/CartPage";
+import PaymentPage from "./Routes/PaymentPage";
+import PurchaseHistoryPage from "./Routes/PurchaseHistoryPage";
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,8 @@ function App() {
         <Route path="search/:name" element={<SearchPage />} />
         <Route path="seller/login" element={<SellerLogin />} />
         <Route path="cart" element={<CartPage />} />
+        <Route path="history" element={<PurchaseHistoryPage />} />
+
         {/* <Route path="seller" element={<SellerPage />} /> */}
         <Route path="seller/products" element={<SellerProductPage />} />
         <Route path="seller/inventory" element={<SellerInventoryPage />} />
@@ -32,7 +35,7 @@ function App() {
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

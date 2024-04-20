@@ -8,15 +8,9 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
   let [itemsQuan, setItemsQuan] = useState(
-<<<<<<< HEAD
-    JSON.parse(localStorage.getItem('itemsQuantities'))
-  )
-  localStorage.setItem('total', total)
-=======
     JSON.parse(localStorage.getItem("itemsQuantities"))
   );
 
->>>>>>> c1fc95f8a22a443ab772899b2200b799e0733f1d
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
@@ -146,9 +140,9 @@ const Cart = () => {
             </div>
             <Link to="/checkout">
               <button
-                // onClick={() => {
-                //   localStorage.setItem('total', total)
-                // }}
+                onClick={() => {
+                  localStorage.setItem("total", total);
+                }}
                 className="border border-green-300 border-1 px-[5px] py-[7px] hover:bg-green-500 hover:text-[white] transition duration-300  linear"
               >
                 Purchase
