@@ -1,7 +1,6 @@
-import React from 'react'
-// import { BsHandIndexThumbFill } from 'react-icons/bs'
+import { useState } from 'react'
 
-const PurchaseList = () => {
+function PointsAndReward() {
   const data = [
     {
       itemName: 'Headphone',
@@ -16,9 +15,11 @@ const PurchaseList = () => {
       quantity: 6,
     },
   ]
+  let totalPoints = 0
   return (
-    <div className="mx-auto w-[700px] p-[10px]">
+    <div className="mx-auto p-[10px] w-[700px] ">
       {data.map(({ itemName, price, img, quantity }, index) => {
+        totalPoints += quantity * price
         return (
           <div
             key={index}
@@ -28,19 +29,15 @@ const PurchaseList = () => {
             <div className="p-[10px]">
               <p className="p-[10px]">Name : {itemName}</p>
               <p className="p-[10px]">Quantity : {quantity}</p>
-              <p className="p-[10px]">Price : {price}</p>
-              {/* <button className="text-[13px] absolute right-[80px] bottom-[10px] border border-cyan-600 border-1 rounded-lg  text-cyan-600 p-[5px] hover:text-orange-600 hover:border-orange-600">
-                Add To Cart
-              </button>
-              <button className="text-[13px] absolute right-[10px] bottom-[10px] border border-cyan-600 border-1 rounded-lg  text-cyan-600 p-[5px] hover:text-orange-600 hover:border-orange-600">
-                Reorder
-              </button> */}
+              <p className="p-[10px]">Points : {price}</p>
             </div>
           </div>
         )
       })}
+      <div className="">
+        Total Points : <span>{totalPoints}</span>
+      </div>
     </div>
   )
 }
-
-export default PurchaseList
+export default PointsAndReward
