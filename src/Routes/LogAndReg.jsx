@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { AiOutlineEye, AiFillEyeInvisible } from "react-icons/ai";
+
 function LogAndReg() {
   const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
+
   function checkLoggedIn() {
     const send = async () => {
       try {
@@ -214,7 +216,7 @@ function LogAndReg() {
               ""
             )} */}
             </div>
-            <div className="field-container mb-5 relative ">
+            <div className="field-container mb-5 relative">
               <div className="flex justify-between mb-1">
                 <label htmlFor="password" className="font-bold label-font	">
                   Password

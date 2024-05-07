@@ -1,167 +1,169 @@
-import { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamation } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamation } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { AiOutlineEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function LogAndReg() {
-  const [render, setRender] = useState(false)
+  const [render, setRender] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   function checkLoggedIn() {
     const send = async () => {
       try {
         const request = await axios.post(
-          'http://localhost:3000/api/seller/token',
+          "http://localhost:3000/api/seller/token",
           {
-            token: localStorage.getItem('sellerToken'),
+            token: localStorage.getItem("sellerToken"),
           }
-        )
-        window.location.href = 'http://localhost:5173/seller/products'
+        );
+        window.location.href = "http://localhost:5173/seller/products";
       } catch (err) {
-        setRender(true)
+        setRender(true);
       }
-    }
-    send()
+    };
+    send();
   }
 
-  checkLoggedIn()
+  checkLoggedIn();
 
   const [fields, setFields] = useState({
-    logEmail: '',
-    logPass: '',
-    regName: '',
-    regEmail: '',
-    regPass: '',
-    rePass: '',
-  })
+    logEmail: "",
+    logPass: "",
+    regName: "",
+    regEmail: "",
+    regPass: "",
+    rePass: "",
+  });
 
   const emptyFields = {
-    logEmail: '',
-    logPass: '',
-    regName: '',
-    regEmail: '',
-    regPass: '',
-    rePass: '',
-  }
+    logEmail: "",
+    logPass: "",
+    regName: "",
+    regEmail: "",
+    regPass: "",
+    rePass: "",
+  };
 
-  const [check, setCheck] = useState(false)
-  const [Erros, setErros] = useState({})
-  const [toReg, setToReg] = useState(false)
+  const [check, setCheck] = useState(false);
+  const [Erros, setErros] = useState({});
+  const [toReg, setToReg] = useState(false);
 
   const resetFields = () => {
-    setFields({ ...emptyFields })
-  }
+    setFields({ ...emptyFields });
+  };
 
   const handleChange = (e) => {
-    setFields({ ...fields, [e.target.name]: e.target.value })
+    setFields({ ...fields, [e.target.name]: e.target.value });
     if (Erros) {
-      if (e.target.name === 'logEmail') {
-        setErros({ ...Erros, logEmailError: '' })
-      } else if (e.target.name === 'logPass') {
-        setErros({ ...Erros, logPassError: '' })
-      } else if (e.target.name === 'regEmail') {
-        setErros({ ...Erros, regMailError: '' })
-      } else if (e.target.name === 'regPass') {
-        setErros({ ...Erros, regPassError: '' })
-      } else if (e.target.name === 'regName') {
-        setErros({ ...Erros, regNameError: '' })
-      } else if (e.target.name === 'rePass') {
-        setErros({ ...Erros, regRePassError: '' })
+      if (e.target.name === "logEmail") {
+        setErros({ ...Erros, logEmailError: "" });
+      } else if (e.target.name === "logPass") {
+        setErros({ ...Erros, logPassError: "" });
+      } else if (e.target.name === "regEmail") {
+        setErros({ ...Erros, regMailError: "" });
+      } else if (e.target.name === "regPass") {
+        setErros({ ...Erros, regPassError: "" });
+      } else if (e.target.name === "regName") {
+        setErros({ ...Erros, regNameError: "" });
+      } else if (e.target.name === "rePass") {
+        setErros({ ...Erros, regRePassError: "" });
       }
     }
-  }
+  };
 
   const handleLoginSubmit = (e) => {
-    e.preventDefault()
-    const errors = {}
+    e.preventDefault();
+    const errors = {};
 
     const handleLogin = async () => {
       try {
-        const request = await axios.post('http://localhost:3000/seller/login', {
+        const request = await axios.post("http://localhost:3000/seller/login", {
           email: fields.logEmail,
           password: fields.logPass,
-        })
+        });
         if (request) {
-          localStorage.setItem('sellerToken', request.data.token)
-          return true
+          localStorage.setItem("sellerToken", request.data.token);
+          return true;
         }
       } catch (error) {
         setErros({
           ...Erros,
-          logEmailError: '',
-          logPassError: 'Invalid email or password.',
-        })
+          logEmailError: "",
+          logPassError: "Invalid email or password.",
+        });
       }
-    }
+    };
 
     if (Object.keys(errors).length === 0) {
       const checkLogin = async () => {
-        const response = await handleLogin()
+        const response = await handleLogin();
         if (response) {
-          window.location.href = 'http://localhost:5173/seller/products'
+          window.location.href = "http://localhost:5173/seller/products";
         }
-      }
-      checkLogin()
+      };
+      checkLogin();
     }
-  }
+  };
 
   const handleRegSubmit = (e) => {
-    e.preventDefault()
-    const errors = {}
+    e.preventDefault();
+    const errors = {};
     const passReg =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/
-    const phoneReg = /\+20\d{11}/
-    const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/;
+    const phoneReg = /\+20\d{11}/;
+    const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (!fields.regName) {
-      errors.regNameError = 'name must be provided!'
+      errors.regNameError = "name must be provided!";
     }
 
     if (!fields.regEmail) {
-      errors.regMailError = 'Email or Number must be provided!'
+      errors.regMailError = "Email or Number must be provided!";
     } else if (
       !mailReg.test(fields.regEmail) &&
       !phoneReg.test(fields.regEmail)
     ) {
-      errors.regMailError = 'invalid email or phone number'
+      errors.regMailError = "invalid email or phone number";
     }
     if (!fields.regPass) {
-      errors.regPassError = 'password is required'
+      errors.regPassError = "password is required";
     } else if (!passReg.test(fields.regPass)) {
-      errors.regPassError = 'invalid password'
+      errors.regPassError = "invalid password";
     }
     if (!fields.rePass) {
-      errors.regRePassError = 'you must re-enter the password'
+      errors.regRePassError = "you must re-enter the password";
     } else if (fields.rePass !== fields.regPass) {
-      errors.regRePassError = 'the password is different'
+      errors.regRePassError = "the password is different";
     }
     const handleSignup = async () => {
       try {
         const request = await axios.post(
-          'http://localhost:3000/seller/signup',
+          "http://localhost:3000/seller/signup",
           {
             name: fields.regName,
             email: fields.regEmail,
             password: fields.regPass,
           }
-        )
+        );
         if (request) {
-          localStorage.setItem('sellerToken', request.data.token)
-          return true
+          localStorage.setItem("sellerToken", request.data.token);
+          return true;
         }
       } catch (error) {
-        setErros({ ...Erros, regMailError: 'Email already exists' })
+        setErros({ ...Erros, regMailError: "Email already exists" });
       }
-    }
+    };
     if (Object.keys(errors).length === 0) {
       const checkSignup = async () => {
-        const response = await handleSignup()
+        const response = await handleSignup();
         if (response) {
-          window.location.href = 'http://localhost:5173/seller'
+          window.location.href = "http://localhost:5173/seller";
         }
-      }
-      checkSignup()
+      };
+      checkSignup();
     }
-    setErros(errors)
-  }
+    setErros(errors);
+  };
 
   if (render) {
     return (
@@ -172,7 +174,7 @@ function LogAndReg() {
         </div>
         <div
           className={`container w-[90%] sm:w-96 mr-auto ml-auto ${
-            toReg ? `hidden` : ''
+            toReg ? `hidden` : ""
           } `}
         >
           <form
@@ -211,7 +213,7 @@ function LogAndReg() {
               ""
             )} */}
             </div>
-            <div className="field-container mb-5">
+            <div className="field-container mb-5 relative">
               <div className="flex justify-between mb-1">
                 <label htmlFor="password" className="font-bold label-font	">
                   Password
@@ -230,6 +232,28 @@ function LogAndReg() {
                   Erros.logPassError ? `border-red-500` : `border-field`
                 }	border rounded w-full	h-8 pl-1.5 field-shadow`}
               />
+
+              {visible ? (
+                <AiOutlineEye
+                  className="absolute top-[59%] right-[10px] cursor-pointer"
+                  onClick={() => {
+                    setVisible(!visible);
+                    document
+                      .getElementById("password")
+                      .setAttribute("type", "password");
+                  }}
+                />
+              ) : (
+                <AiFillEyeInvisible
+                  className="absolute top-[59%] right-[10px] cursor-pointer"
+                  onClick={() => {
+                    setVisible(!visible);
+                    document
+                      .getElementById("password")
+                      .setAttribute("type", "text");
+                  }}
+                />
+              )}
               {Erros.logPassError ? (
                 <div className="mt-3 flex items-center">
                   <FontAwesomeIcon
@@ -241,7 +265,7 @@ function LogAndReg() {
                   </span>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
             {/* <div className="flex items-center">
@@ -266,8 +290,8 @@ function LogAndReg() {
             type="submit"
             className=" block mb-5 w-full bg-white p-1 rounded-lg label-font border-solid	border-form border create-btn"
             onClick={() => {
-              setToReg(true)
-              setErros({})
+              setToReg(true);
+              setErros({});
             }}
           >
             Create your Trendful account
@@ -276,7 +300,7 @@ function LogAndReg() {
         {/* Register Component */}
         <div
           className={`container  w-[90%] sm:w-96  mr-auto ml-auto ${
-            !toReg ? `hidden` : ''
+            !toReg ? `hidden` : ""
           } `}
         >
           <form
@@ -315,7 +339,7 @@ function LogAndReg() {
                   </span>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
             <div className="field-container mb-5">
@@ -347,7 +371,7 @@ function LogAndReg() {
                   </span>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
             <div className="field-container mb-5">
@@ -410,7 +434,7 @@ function LogAndReg() {
                   </span>
                 </div>
               ) : (
-                ''
+                ""
               )}
             </div>
             <button
@@ -422,9 +446,9 @@ function LogAndReg() {
             <button
               className="block mb-5 w-full bg-[#3E64DA] text-[white] p-2 rounded-lg label-font"
               onClick={(e) => {
-                e.preventDefault()
-                resetFields()
-                setToReg(!toReg)
+                e.preventDefault();
+                resetFields();
+                setToReg(!toReg);
               }}
             >
               Return to login
@@ -432,7 +456,7 @@ function LogAndReg() {
           </form>
         </div>
       </>
-    )
+    );
   }
 }
-export default LogAndReg
+export default LogAndReg;

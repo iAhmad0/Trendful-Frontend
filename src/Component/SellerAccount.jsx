@@ -3,6 +3,7 @@ import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import axios from "axios";
+import bcrypt from "bcryptjs-react";
 
 function SellerAccount() {
   const [seller, setSeller] = useState({});
@@ -40,6 +41,51 @@ function SellerAccount() {
       }
     };
     send();
+  }
+
+  function updateInfo(
+    name = seller.name,
+    email = seller.email,
+    mobile = seller.mobile
+  ) {
+    const update = async () => {
+      try {
+        const request = await axios.patch(
+          "http://localhost:3000/api/sellerInfo",
+          {
+            token: localStorage.getItem("sellerToken"),
+            newName: name,
+            newEmail: email,
+            newMobile: mobile,
+          }
+        );
+      } catch (err) {}
+    };
+    update();
+  }
+
+  function encryptPassword(newPassword) {
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(newPassword, salt);
+
+    return hash;
+  }
+  function updatePassword(currentPass, newPass) {
+    const update = async () => {
+      try {
+        const encryptedPassword = await encryptPassword(newPass);
+
+        const request = await axios.patch(
+          "http://localhost:3000/api/sellerPasswordChange",
+          {
+            token: localStorage.getItem("sellerToken"),
+            currentPassword: currentPass,
+            newPassword: encryptedPassword,
+          }
+        );
+      } catch (err) {}
+    };
+    update();
   }
 
   const [navigate, setNavigate] = useState({
@@ -141,7 +187,8 @@ function SellerAccount() {
       errors.rePassError = "password is not the same as the new one";
     }
     if (Object.keys(errors).length === 0) {
-      console.log("the password successfuly changed!!");
+      updatePassword(fields.currentPassChange, fields.newPassChange);
+      setNavigate({ ...navigate, toPassChange: false, mainBox: true });
       return;
     }
     setErros(errors);
@@ -156,7 +203,8 @@ function SellerAccount() {
       errors.phoneError = "invalid phone number";
     }
     if (Object.keys(errors).length === 0) {
-      console.log("the phone successfuly changed!!");
+      updateInfo(undefined, undefined, fields.phoneChange);
+      setNavigate({ ...navigate, toEmailChange: false, mainBox: true });
       return;
     }
     setErros(errors);
@@ -171,6 +219,10 @@ function SellerAccount() {
     } else if (!mailReg.test(fields.emailChange)) {
       errors.emailError = "invalid email";
     }
+
+    updateInfo(undefined, fields.emailChange, undefined);
+    setNavigate({ ...navigate, toEmailChange: false, mainBox: true });
+
     if (Object.keys(errors).length === 0) {
       console.log("the Email successfuly changed!!");
       return;
@@ -184,6 +236,10 @@ function SellerAccount() {
     if (fields.nameChange === "") {
       errors.nameError = "you must provide this field";
     }
+
+    updateInfo(fields.nameChange, undefined, undefined);
+    setNavigate({ ...navigate, toNameChange: false, mainBox: true });
+
     if (Object.keys(errors).length === 0) {
       console.log("the Name successfuly changed!!");
       return;

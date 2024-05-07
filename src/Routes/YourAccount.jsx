@@ -191,7 +191,6 @@ function YourAccount() {
     if (Object.keys(errors).length === 0) {
       updatePassword(fields.currentPassChange, fields.newPassChange);
       setNavigate({ ...navigate, toPassChange: false, mainBox: true });
-      console.log("the password successfuly changed!!");
       return;
     }
     setErros(errors);
@@ -209,7 +208,6 @@ function YourAccount() {
     if (Object.keys(errors).length === 0) {
       updateInfo(undefined, undefined, fields.phoneChange);
       setNavigate({ ...navigate, toEmailChange: false, mainBox: true });
-      console.log("the phone successfuly changed!!");
       return;
     }
     setErros(errors);
