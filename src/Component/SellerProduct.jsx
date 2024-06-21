@@ -75,6 +75,7 @@ function SellerProductPage() {
   const [proName, setProName] = useState('')
   const [AdPrice, setAdPrice] = useState(0)
   const [pay, setPay] = useState(false)
+  const [check, setCheck] = useState(false)
   const [error, setError] = useState('')
   const [data, setData] = useState({
     credit: '',
@@ -88,6 +89,7 @@ function SellerProductPage() {
       return <ProductPop />
     }
   }
+  console.log(pay, AdPrice, showPromote)
 
   return (
     <main className="flex-1 p-[20px] relative">
@@ -135,7 +137,12 @@ function SellerProductPage() {
                   >
                     Promote
                   </button>
-                  <button className="block text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px]  rounded-[5px] mb-[10px] ">
+                  <button
+                    onClick={function () {
+                      setCheck(true)
+                    }}
+                    className="block text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px]  rounded-[5px] mb-[10px] "
+                  >
                     Delete
                   </button>
                   <button className=" text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px] rounded-[5px] ">
@@ -149,7 +156,7 @@ function SellerProductPage() {
         <div
           className={`${
             showPromote ? '' : 'hidden'
-          } p-[15px] absolute border border-[black] border-solid-[1px] rounded-lg w-[50%] h-fit bg-[white] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]`}
+          }  z-10  p-[15px] absolute border border-[black] border-solid-[1px] rounded-lg w-[50%] h-fit bg-[white] o top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]`}
         >
           <FaCircleXmark
             onClick={() => {
@@ -181,7 +188,7 @@ function SellerProductPage() {
             {AdPrice ? (
               ''
             ) : (
-              <div className="text-[red] mb-2 p-[5px]">
+              <div className="text-[red] z-10 mb-2 p-[5px]">
                 You must choose your promote
               </div>
             )}
@@ -200,7 +207,7 @@ function SellerProductPage() {
           </form>
         </div>
         {pay ? (
-          <div className="border border-[black] border-solid-[1px] p-[15px] absolute rounded-lg w-[50%] h-fit bg-[white] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+          <div className="z-10 border border-[black] border-solid-[1px] p-[15px] order-3 absolute rounded-lg w-[50%] h-fit bg-[white] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
             <FaCircleXmark
               onClick={() => {
                 setPay(false)
@@ -257,7 +264,9 @@ function SellerProductPage() {
               <button
                 type="submit"
                 onClick={() => {
-                  setPay(false)
+                  if (data.credit && data.cvc && data.ex && data.name) {
+                    setPay(false)
+                  }
                   console.log(data)
                 }}
                 className="block w-full bg-[#3E64DA] p-[5px] text-white rounded-lg"
@@ -270,6 +279,11 @@ function SellerProductPage() {
           ''
         )}
       </div>
+      {showPromote || pay ? (
+        <div className=" w-full h-[100vh] absolute bg-black top-0 left-0 opacity-50"></div>
+      ) : (
+        ''
+      )}
     </main>
   )
 }
