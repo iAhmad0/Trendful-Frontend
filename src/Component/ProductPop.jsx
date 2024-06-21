@@ -1,13 +1,13 @@
-import { useState } from "react";
-import OptionBox from "./OptionBox";
-import { IoIosArrowBack } from "react-icons/io";
+import { useState } from 'react'
+import OptionBox from './OptionBox'
+import { IoIosArrowBack } from 'react-icons/io'
 
 const ProductPop = () => {
-  const [pop, setPop] = useState(true);
+  const [pop, setPop] = useState(true)
   return pop ? (
     <>
       <div
-        className="absolute w-full h-full left-0 top-0 bg-black bg-opacity-50"
+        className="absolute w-full min-h-screen left-0 top-0 bg-black bg-opacity-50"
         onClick={() => setPop(false)}
       ></div>
       <div className="absolute text-[20px] rounded-[10px]  bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
@@ -40,8 +40,8 @@ const ProductPop = () => {
       </div>
     </>
   ) : (
-    ""
-  );
-};
+    ''
+  )
+}
 
-export default ProductPop;
+export default ProductPop

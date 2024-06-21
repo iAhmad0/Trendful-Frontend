@@ -1,17 +1,17 @@
-import { useState } from "react";
-const options = ["cat", "cat", "cat", "cat"];
+import { useState } from 'react'
+const options = ['cat', 'cat', 'cat', 'cat']
 const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
-  const [files, setFiles] = useState([]);
-  const [urls, setUrls] = useState([]);
+  const [files, setFiles] = useState([])
+  const [urls, setUrls] = useState([])
   function handleChange(e) {
-    setFiles([...e.target.files]);
-    setUrls(files.map((file) => URL.createObjectURL(file)));
+    setFiles([...e.target.files])
+    setUrls(files.map((file) => URL.createObjectURL(file)))
   }
   return (
-    <div className=" mb-[15px]">
+    <div className=" mb-[10px]">
       <label
         className={` block text-[#3E64DA] mb-[5px] ${
-          title === "Name" ? "mt-[10px]" : ""
+          title === 'Name' ? 'mt-[10px]' : ''
         }`}
       >
         {title}
@@ -23,8 +23,8 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
           type={type}
           placeholder={placeholder}
           className={`outline-none hover:border-[#F39E31] text-xs rounded-[5px] ${
-            type !== "file" ? "border border-[#3E64DA] border-solid" : ""
-          }  ${type === "number" ? "w-[100%]" : "w-[100%]"} pl-3`}
+            type !== 'file' ? 'border border-[#3E64DA] border-solid' : ''
+          }  ${type === 'number' ? 'w-[100%]' : 'w-[100%]'} pl-3`}
         />
       ) : type ? (
         <input
@@ -32,15 +32,15 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
           type={type}
           placeholder={placeholder}
           className={`outline-none hover:border-[#F39E31]  rounded-[5px] ${
-            type !== "file" ? "border border-[#3E64DA] border-solid" : ""
-          }  ${type === "number" ? "w-[100%]" : "w-[100%]"}   pl-3`}
+            type !== 'file' ? 'border border-[#3E64DA] border-solid' : ''
+          }  ${type === 'number' ? 'w-[100%]' : 'w-[100%]'}   pl-3`}
           min="0"
           onFocus={(e) => {
-            if (type === "text") e.target.placeholder = "";
+            if (type === 'text') e.target.placeholder = ''
           }}
           onBlur={(e) => {
-            if (type === "text") e.target.placeholder = placeholder;
-            else e.target.value = "";
+            if (type === 'text') e.target.placeholder = placeholder
+            else e.target.value = ''
           }}
         />
       ) : isSelected ? (
@@ -53,7 +53,7 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
               <option key={index} value={option}>
                 {option}
               </option>
-            );
+            )
           })}
         </select>
       ) : (
@@ -63,21 +63,21 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
           id=""
           placeholder={placeholder}
           onFocus={(e) => {
-            e.target.placeholder = "";
+            e.target.placeholder = ''
           }}
           onBlur={(e) => {
-            e.target.placeholder = placeholder;
+            e.target.placeholder = placeholder
           }}
         ></textarea>
       )}
       <div>
         {urls.map((img, index) => {
-          console.log(img);
-          return <img src={img} alt="" className="" key={index} />;
+          console.log(img)
+          return <img src={img} alt="" className="" key={index} />
         })}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OptionBox;
+export default OptionBox

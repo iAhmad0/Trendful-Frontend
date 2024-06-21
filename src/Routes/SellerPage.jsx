@@ -1,39 +1,39 @@
-import SideBar from "../Component/SideBar";
-import SellerPageHome from "../Component/SellerPageHome";
-import { useState } from "react";
-import axios from "axios";
+import SideBar from '../Component/SideBar'
+import SellerPageHome from '../Component/SellerPageHome'
+import { useState } from 'react'
+import axios from 'axios'
 
 function SellerPage() {
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState(false)
 
   function checkLoggedIn() {
     const send = async () => {
       try {
         const request = await axios.post(
-          "http://localhost:3000/api/seller/token",
+          'http://localhost:3000/api/seller/token',
           {
-            token: localStorage.getItem("sellerToken"),
+            token: localStorage.getItem('sellerToken'),
           }
-        );
-        setRender(true);
+        )
+        setRender(true)
       } catch (err) {
-        window.location.href = "http://localhost:5173/seller/login";
+        window.location.href = 'http://localhost:5173/seller/login'
       }
-    };
-    send();
+    }
+    send()
   }
 
-  checkLoggedIn();
+  checkLoggedIn()
 
   if (render) {
     return (
       <div className="flex min-h-screen">
         <SideBar />
-        <div className="flex-1">
+        <div className="flex-1 min-h-screen">
           <SellerPageHome />
         </div>
       </div>
-    );
+    )
   }
 }
-export default SellerPage;
+export default SellerPage

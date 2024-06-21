@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import ProductPop from './ProductPop'
 import { FaCircleXmark } from 'react-icons/fa6'
+import DeletePop from './DeletePop'
+import EditPop from './EditPop'
 
 const products = [
   {
@@ -76,6 +78,7 @@ function SellerProductPage() {
   const [AdPrice, setAdPrice] = useState(0)
   const [pay, setPay] = useState(false)
   const [check, setCheck] = useState(false)
+  const [edit, setEdit] = useState(false)
   const [error, setError] = useState('')
   const [data, setData] = useState({
     credit: '',
@@ -89,11 +92,21 @@ function SellerProductPage() {
       return <ProductPop />
     }
   }
-  console.log(pay, AdPrice, showPromote)
-
+  function deletePop() {
+    if (check === true) {
+      return <DeletePop />
+    }
+  }
+  function editPop() {
+    if (edit === true) {
+      return <EditPop />
+    }
+  }
   return (
-    <main className="flex-1 p-[20px] relative">
+    <main className="flex-1 p-[20px] h-full relative">
       {showPop()}
+      {deletePop()}
+      {editPop()}
       <div className="flex justify-between align-center">
         <h3 className="text-[#3E64DA]">PRODUCTS</h3>
         <button
@@ -139,13 +152,16 @@ function SellerProductPage() {
                   </button>
                   <button
                     onClick={function () {
-                      setCheck(true)
+                      setCheck(!check)
                     }}
                     className="block text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px]  rounded-[5px] mb-[10px] "
                   >
                     Delete
                   </button>
-                  <button className=" text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px] rounded-[5px] ">
+                  <button
+                    onClick={() => setEdit(!edit)}
+                    className=" text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px] rounded-[5px] "
+                  >
                     Edit
                   </button>
                 </div>

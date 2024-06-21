@@ -8,7 +8,7 @@ import {
 
 function SellerPageHome() {
   return (
-    <main className="flex-1 p-[20px] text-white">
+    <main className="flex-1  p-[20px] text-white">
       <div className="flex justify-between">
         <h3 className="text-[#3E64DA]">DASHBOARD</h3>
       </div>
