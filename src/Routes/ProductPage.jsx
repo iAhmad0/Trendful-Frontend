@@ -63,7 +63,11 @@ function ProductPage() {
             name={data.name}
             description={data.description}
           />
-          <PricingSection price={data.price} quantity={data.quantity} />
+          <PricingSection
+            price={data.price}
+            quantity={data.quantity}
+            name={data.name}
+          />
         </div>
         {check()}
       </>

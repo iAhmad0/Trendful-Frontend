@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { setGlobalState } from "../globalStates";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 const Cart = () => {
@@ -19,13 +19,18 @@ const Cart = () => {
 
       const items = JSON.parse(localStorage.getItem("cartItems"));
       const temp = [];
+      const names = [];
       items.forEach((item) => {
         response.data.forEach((product) => {
-          if (product._id === item) temp.push(product);
+          if (product._id === item) {
+            temp.push(product);
+            names.push(product.name);
+          }
         });
       });
 
       setCartItems(temp);
+      localStorage.setItem("toBuyItem", JSON.stringify(names));
       const itemsQuan = JSON.parse(localStorage.getItem("itemsQuantities"));
       let sum = 0;
       temp.forEach(function (element, i) {
@@ -93,6 +98,11 @@ const Cart = () => {
                 <button
                   className="border border-red-300 border-1 px-[5px] py-[7px] hover:bg-red-500 hover:text-[white] transition duration-300  linear "
                   onClick={() => {
+                    let newNames = JSON.parse(
+                      localStorage.getItem("toBuyItem")
+                    );
+                    newNames = newNames.filter((item) => item !== product.name);
+                    localStorage.setItem("toBuyItem", JSON.stringify(newNames));
                     const items = JSON.parse(localStorage.getItem("cartItems"));
                     let itemsCounter = Number(
                       localStorage.getItem("cartCounter")
@@ -110,6 +120,7 @@ const Cart = () => {
                     const newItems = cartItems.filter((item) => {
                       return item._id !== product._id;
                     });
+
                     setCartItems(newItems);
                     const itemsNumber = JSON.parse(
                       localStorage.getItem("itemsQuantities")

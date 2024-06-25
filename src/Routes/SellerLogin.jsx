@@ -235,7 +235,7 @@ function LogAndReg() {
 
               {visible ? (
                 <AiOutlineEye
-                  className="absolute top-[59%] right-[10px] cursor-pointer"
+                  className="absolute top-[32px] right-[10px] cursor-pointer"
                   onClick={() => {
                     setVisible(!visible);
                     document
@@ -245,7 +245,7 @@ function LogAndReg() {
                 />
               ) : (
                 <AiFillEyeInvisible
-                  className="absolute top-[59%] right-[10px] cursor-pointer"
+                  className="absolute top-[32px] right-[10px] cursor-pointer"
                   onClick={() => {
                     setVisible(!visible);
                     document
