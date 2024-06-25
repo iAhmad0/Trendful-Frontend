@@ -103,7 +103,7 @@ function SellerProductPage() {
     }
   }
   return (
-    <main className="flex-1 p-[20px] h-full relative">
+    <main className="flex-1 p-[20px] min-h-screen ">
       {showPop()}
       {deletePop()}
       {editPop()}
@@ -133,12 +133,6 @@ function SellerProductPage() {
                   <h6 className="font-bold text-left text-[13px] mb-[10px] text-black">
                     {object.price}
                   </h6>
-                  <a
-                    href=""
-                    className=" text-blue-700 text-[13px] hover:text-blue-400 block  "
-                  >
-                    SeeMore
-                  </a>
                 </div>
                 <div className="right text-right">
                   <button

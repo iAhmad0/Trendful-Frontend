@@ -1,12 +1,17 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 const options = ['cat', 'cat', 'cat', 'cat']
 const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
   const [files, setFiles] = useState([])
-  const [urls, setUrls] = useState([])
+  //const fileInput = useRef(null)
+  //const [urls, setUrls] = useState([])
   function handleChange(e) {
-    setFiles([...e.target.files])
-    setUrls(files.map((file) => URL.createObjectURL(file)))
+    // console.log(e.target.files[0].name)
+    // console.log(e.target.value)
+    setFiles([...files, ...e.target.files])
+    //setUrls(files.map((file) => URL.createObjectURL(file)))
+    //console.log(files)
   }
+
   return (
     <div className=" mb-[10px]">
       <label
@@ -19,7 +24,7 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
       {map ? (
         <input
           onChange={(e) => handleChange(e)}
-          // multiple
+          multiple
           type={type}
           placeholder={placeholder}
           className={`outline-none hover:border-[#F39E31] text-xs rounded-[5px] ${
@@ -70,10 +75,9 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
           }}
         ></textarea>
       )}
-      <div>
-        {urls.map((img, index) => {
-          console.log(img)
-          return <img src={img} alt="" className="" key={index} />
+      <div className="">
+        {files.map((element, index) => {
+          return <div key={index}>{element.name}</div>
         })}
       </div>
     </div>

@@ -7,10 +7,10 @@ const ProductPop = () => {
   return pop ? (
     <>
       <div
-        className="absolute w-full min-h-screen left-0 top-0 bg-black bg-opacity-50"
+        className=" absolute w-full min-h-screen left-0 top-0 bg-black bg-opacity-50"
         onClick={() => setPop(false)}
       ></div>
-      <div className="absolute text-[20px] rounded-[10px]  bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+      <div className=" absolute text-[20px] rounded-[10px] max-h-[95%] overflow-auto bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
         <IoIosArrowBack
           className="absolute text-[#3E64DA] top-[6px] left-[10px] cursor-pointer"
           onClick={() => setPop(false)}
