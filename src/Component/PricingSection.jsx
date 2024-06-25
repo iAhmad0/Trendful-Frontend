@@ -3,7 +3,7 @@ import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { useGlobalState, setGlobalState } from "../globalStates";
 import { Link, json } from "react-router-dom";
 import { useEffect } from "react";
-function PricingSection({ price, quantity }) {
+function PricingSection({ price, quantity, name }) {
   const leftover = Math.trunc((price - Math.floor(price)) * 100);
   // let [currentCart] = useGlobalState("cartCounter");
   const id = window.location.pathname.substring(
@@ -53,6 +53,10 @@ function PricingSection({ price, quantity }) {
               JSON.stringify([...itemsNumber, 1])
             );
           }
+          // let toBuy = JSON.parse(localStorage.getItem("toBuyItem"));
+          // if (Array.isArray(toBuy)) toBuy.push(name);
+          // else toBuy = [name];
+          // localStorage.setItem("toBuyItem", JSON.stringify(toBuy));
         }}
       >
         Add to Cart
@@ -60,7 +64,8 @@ function PricingSection({ price, quantity }) {
       <Link to="/checkout">
         <button
           onClick={() => {
-            localStorage.setItem('total', price)
+            localStorage.setItem("total", price);
+            localStorage.setItem("toBuyItem", name);
           }}
           className="mt-[10px] mb-[10px] text-[13px] block bg-orange-500 text-center pt-[5px] pb-[5px] w-[100%] rounded-[10px]"
         >
