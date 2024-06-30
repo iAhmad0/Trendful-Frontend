@@ -1,13 +1,25 @@
 import { useRef, useState } from 'react'
 const options = ['cat', 'cat', 'cat', 'cat']
-const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
+const OptionBox = ({
+  title,
+  type,
+  placeholder,
+  isSelected,
+  map,
+  name,
+  handleCh,
+}) => {
   const [files, setFiles] = useState([])
   //const fileInput = useRef(null)
   //const [urls, setUrls] = useState([])
   function handleChange(e) {
     // console.log(e.target.files[0].name)
     // console.log(e.target.value)
-    setFiles([...files, ...e.target.files])
+    // setFiles([...files, ...e.target.files])
+    const selectedFile = Array.from(e.target.files)
+    setFiles(selectedFile)
+
+    handleCh(selectedFile)
     //setUrls(files.map((file) => URL.createObjectURL(file)))
     //console.log(files)
   }
@@ -30,6 +42,7 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
           className={`outline-none hover:border-[#F39E31] text-xs rounded-[5px] ${
             type !== 'file' ? 'border border-[#3E64DA] border-solid' : ''
           }  ${type === 'number' ? 'w-[100%]' : 'w-[100%]'} pl-3`}
+          name={name}
         />
       ) : type ? (
         <input
@@ -41,16 +54,20 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
           }  ${type === 'number' ? 'w-[100%]' : 'w-[100%]'}   pl-3`}
           min="0"
           onFocus={(e) => {
-            if (type === 'text') e.target.placeholder = ''
+            if (type === 'text' || type === 'number') e.target.placeholder = ''
           }}
           onBlur={(e) => {
-            if (type === 'text') e.target.placeholder = placeholder
+            if (type === 'text' || type === 'number')
+              e.target.placeholder = placeholder
             else e.target.value = ''
           }}
+          onChange={handleCh}
+          name={name}
         />
       ) : isSelected ? (
         <select
-          name="category-list"
+          onChange={handleCh}
+          name="category"
           className=" p-[5px] border border-[#3E64DA] rounded-[5px] border-solid outline-none hover:border-[#F39E31]"
         >
           {options.map((option, index) => {
@@ -63,8 +80,9 @@ const OptionBox = ({ title, type, placeholder, isSelected, map }) => {
         </select>
       ) : (
         <textarea
+          onChange={handleCh}
           className="w-full h-[100px]  block outline-none rounded-[5px] hover:border-[#F39E31]  border border-[#3E64DA] border-solid pl-2 resize-none "
-          name=""
+          name={name}
           id=""
           placeholder={placeholder}
           onFocus={(e) => {

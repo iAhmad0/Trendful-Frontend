@@ -2,15 +2,26 @@ import { useState } from 'react'
 import { FaCircleXmark } from 'react-icons/fa6'
 import OptionBox from './OptionBox'
 
-const editObj = {
-  name: '',
-  price: '',
-  des: '',
-  photo: '',
-}
-
 function EditPop() {
   const [pop, setPop] = useState(true)
+  const [data, setData] = useState({
+    name: '',
+    quantity: '',
+    price: '',
+    photo: '',
+    description: '',
+  })
+  function handleChange(e) {
+    const { name, value } = e.target
+    setData({
+      ...data,
+      [name]: value,
+    })
+  }
+  function handleSubmit(e) {
+    e.preventDefault()
+    console.log(data)
+  }
   return pop ? (
     <>
       <div
@@ -23,83 +34,61 @@ function EditPop() {
           className="absolute top-2 right-2 cursor-pointer text-[#3E64DA]"
         />
         <p className="text-[#3E64DA] p-2 text-center">Edit Page</p>
-        {/* <form action="" className="text-[15px]">
-          <label htmlFor="name">Name</label>
-          <input
+        <form onSubmit={handleSubmit}>
+          <OptionBox
+            title="Name"
             type="text"
-            name=""
-            id="name"
             placeholder="Enter New Name"
-            onChange={(e) => {
-              editObj.name = e.target.value
-            }}
-            className="w-full my-2 block outline-none border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
+            name="name"
+            handleCh={handleChange}
           />
-          <label htmlFor="price">Price</label>
-          <input
+          <OptionBox
+            title="Price"
             type="number"
-            name=""
-            id="price"
             placeholder="00.0 L.E"
-            onChange={(e) => {
-              editObj.price = e.target.value
-            }}
-            className="w-full my-2 block outline-none border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
+            name="price"
+            handleCh={handleChange}
           />
-          <label htmlFor="des">Description</label>
-          <textarea
-            name=""
-            id="des"
-            placeholder="Enter New Description"
-            onChange={(e) => {
-              editObj.des = e.target.value
-            }}
-            className="my-2 w-full block outline-none border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
-          ></textarea>
-          <label htmlFor="image">Add Image</label>
-          <input
+          <OptionBox
+            title="Quantity"
+            type="number"
+            placeholder="Enter New Quantity"
+            name="quantity"
+            handleCh={handleChange}
+          />
+          <OptionBox
+            title="Description"
+            placeholder="Enter New Description at least 10 character"
+            name="description"
+            handleCh={handleChange}
+          />
+          <OptionBox
+            title="Choose Images (at least 1 image)"
             type="file"
-            name=""
-            id="image"
-            className="my-2 block"
-            onChange={(e) => {
-              editObj.photo = e.target.value
+            map="map"
+            name="photo"
+            handleCh={(photo) => {
+              setData({
+                ...data,
+                photo: photo,
+              })
             }}
           />
-        </form> */}
-        <OptionBox title="Name" type="text" placeholder="Enter New Name" />
-        <OptionBox title="Price" type="number" placeholder="00.0 L.E" />
-        <OptionBox
-          title="Quantity"
-          type="number"
-          placeholder="Enter New Quantity"
-        />
-        <OptionBox
-          title="Description"
-          placeholder="Enter New Description at least 10 character"
-        />
-        <OptionBox
-          title="Choose Images (at least 1 image)"
-          type="file"
-          map="map"
-        />
-        <div className="flex justify-around align-middle py-2 text-[15px] text-[#3E64DA]">
-          <button
-            onClick={() => {
-              setPop(false)
-              console.log(editObj)
-            }}
-            className=" border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => setPop(false)}
-            className=" border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
-          >
-            Cancel
-          </button>
-        </div>
+          <div className="flex justify-around align-middle py-2 text-[15px] text-[#3E64DA]">
+            <button
+              type="submit"
+              className=" border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => setPop(false)}
+              className=" border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </>
   ) : (
