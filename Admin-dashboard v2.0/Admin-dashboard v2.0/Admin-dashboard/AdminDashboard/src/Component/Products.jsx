@@ -32,11 +32,37 @@ const products = [
 ];
 
 function Products() {
+  //uncomment after integration
+  // const [show, setShow] = useState(false);
+  // const [check, setCheck] = useState(false);
+  // const [edit, setEdit] = useState(false);
+  function showPop() {
+    if (show === true) {
+      return <ProductPop />;
+    }
+  }
+  function deletePop() {
+    if (check === true) {
+      return <DeletePop />;
+    }
+  }
+  function editPop() {
+    if (edit === true) {
+      return <EditPop />;
+    }
+  }
   return (
     <main className="flex-1 p-[20px] text-white">
+      {/* just import the components from after integration*/}
+      {/* {showPop()}
+      {deletePop()}
+      {editPop()} */}
       <div className="flex justify-between align-center">
         <h3 className="text-[#3E64DA]">PRODUCTS</h3>
-        <button className="block bg-green-500 w-[70px]  rounded-[5px] mb-[5px]">
+        <button
+          className="block bg-green-500 w-[70px]  rounded-[5px] mb-[5px]"
+          onClick={() => setShow(!show)}
+        >
           add
         </button>
       </div>
@@ -61,10 +87,16 @@ function Products() {
                   </a>
                 </div>
                 <div className="right">
-                  <button className="block bg-red-500 w-[50px] rounded-[5px] mb-[10px]">
+                  <button
+                    className="block bg-red-500 w-[50px] rounded-[5px] mb-[10px]"
+                    onClick={() => setCheck(!check)}
+                  >
                     delete
                   </button>
-                  <button className=" bg-blue-500 w-[50px] m rounded-[5px]">
+                  <button
+                    className=" bg-blue-500 w-[50px] m rounded-[5px]"
+                    onClick={() => setEdit(!edit)}
+                  >
                     edit
                   </button>
                 </div>

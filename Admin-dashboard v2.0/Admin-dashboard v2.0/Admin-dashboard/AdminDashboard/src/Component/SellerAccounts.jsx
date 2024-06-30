@@ -19,11 +19,11 @@ const Accounts = [
   },
 ];
 
-function EditAndDeleteAccount() {
+function SellerAccounts() {
   return (
     <main className="flex-1 p-[20px] text-white">
       <div className="flex justify-between align-center">
-        <h3 className="text-[#3E64DA]">Customer Account</h3>
+        <h3 className="text-[#3E64DA]">Seller Accounts</h3>
         <button className="block text-[#3E64DA] border-[1px] border-solid border-[#3E64DA]  w-[70px]  rounded-[10px] mb-[5px] hover:border-[#F39E31] hover:text-[#F39E31]">
           add
         </button>
@@ -57,4 +57,4 @@ function EditAndDeleteAccount() {
     </main>
   );
 }
-export default EditAndDeleteAccount;
+export default SellerAccounts;
