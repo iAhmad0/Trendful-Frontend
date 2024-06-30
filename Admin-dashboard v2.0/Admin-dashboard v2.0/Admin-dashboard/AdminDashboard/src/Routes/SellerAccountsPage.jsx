@@ -1,13 +1,14 @@
 import Sidebar from "../Sidebar";
-import Products from "../Component/Products";
-function AdminPage() {
+import SellerAccounts from "../Component/SellerAccounts";
+
+function SellerAccountsPage() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
       <div className="flex-1">
-        <Products />
+        <SellerAccounts />
       </div>
     </div>
   );
 }
-export default AdminPage;
+export default SellerAccountsPage;
