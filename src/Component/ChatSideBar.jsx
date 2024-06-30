@@ -1,31 +1,35 @@
 import React, { useState } from 'react'
 import { IoMdArrowRoundBack } from 'react-icons/io'
+import { Link } from 'react-router-dom'
 const data = [
   {
     id: 0,
-    img: '../../public/Image/avatar.jpg',
+    img: '/images/avatar.jpg',
     userName: 'tamer',
     email: 'dummy_text@gmail.com',
   },
   {
     id: 1,
-    img: '../../public/Image/avatar.jpg',
+    img: '/images/avatar.jpg',
     userName: 'ahmed',
     email: 'dummy_text@gmail.com',
   },
   {
     id: 2,
-    img: '../../public/Image/avatar.jpg',
+    img: '/images/avatar.jpg',
     userName: 'walid',
     email: 'dummy_text@gmail.com',
   },
 ]
+
 const ChatSideBar = () => {
   const [isChatClicked, setIsClicked] = useState(false)
   return {
     render: (
       <ul className="bg-[#3E64DA] px-[10px] py-[30px]  w-[350px] ">
-        <IoMdArrowRoundBack className=" cursor-pointer mb-[10px] text-[white] text-2xl" />
+        <Link to="/admin/products">
+          <IoMdArrowRoundBack className=" cursor-pointer mb-[40px] text-[white] text-2xl" />
+        </Link>
         {data.map((user) => {
           return (
             <li

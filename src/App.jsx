@@ -14,6 +14,10 @@ import CartPage from './Routes/CartPage'
 import PaymentPage from './Routes/PaymentPage'
 import PurchaseHistoryPage from './Routes/PurchaseHistoryPage'
 import PointsAndRewardPage from './Routes/PointsAndRewardPage'
+import AdminPage from './Routes/AdminPage'
+import AdminChat from './Routes/AdminChat'
+import AdminCustomerAccountsPage from './Routes/AdminCustomerAccountsPage'
+import AdminSellerAccountsPage from './Routes/AdminSellerAccountsPage'
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +33,16 @@ function App() {
         <Route path="history" element={<PurchaseHistoryPage />} />
         <Route path="point" element={<PointsAndRewardPage />} />
 
+        <Route path="admin/products" element={<AdminPage />} />
+        <Route path="admin/chat" element={<AdminChat />} />
+        <Route
+          path="admin/customerAccount"
+          element={<AdminCustomerAccountsPage />}
+        />
+        <Route
+          path="admin/sellerAccount"
+          element={<AdminSellerAccountsPage />}
+        />
         {/* <Route path="seller" element={<SellerPage />} /> */}
         <Route path="seller/products" element={<SellerProductPage />} />
         <Route path="seller/inventory" element={<SellerInventoryPage />} />

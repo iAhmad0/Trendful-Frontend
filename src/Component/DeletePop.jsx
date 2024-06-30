@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FaCircleXmark } from 'react-icons/fa6'
-function DeletePop() {
+function DeletePop({ name }) {
   const [pop, setPop] = useState(true)
   return pop ? (
     <>
@@ -14,7 +14,7 @@ function DeletePop() {
           className="absolute top-2 right-2 cursor-pointer text-[#3E64DA]"
         />
         <p className="text-[#3E64DA] p-5">
-          Do You Want To Remove This Product ?
+          Do You Want To Remove {name ? 'this Account' : 'this Product'} ?
         </p>
         <div className="flex justify-around align-middle text-[#3E64DA]">
           <button

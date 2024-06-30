@@ -1,6 +1,6 @@
 import React from 'react'
 import { IoMdSend } from 'react-icons/io'
-const ChatWidnow = () => {
+function ChatWindow() {
   return (
     <main className="flex-1 px-[15px] py-[10px] h-screen border-box">
       <div className="message-container h-[92%]  p-[20px] flex items-start flex-col justify-end"></div>
@@ -45,4 +45,4 @@ const ChatWidnow = () => {
     </main>
   )
 }
-export default ChatWidnow
+export default ChatWindow
