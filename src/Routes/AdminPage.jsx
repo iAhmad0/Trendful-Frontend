@@ -1,5 +1,5 @@
-import AdminProduct from '../Component/AdminProduct'
-import AdminSideBar from '../Component/AdminSIdebar'
+import AdminProduct from "../Components/AdminProduct";
+import AdminSideBar from "../Components/AdminSIdebar";
 
 function AdminPage() {
   return (
@@ -9,6 +9,7 @@ function AdminPage() {
         <AdminProduct />
       </div>
     </div>
-  )
+  );
 }
-export default AdminPage
+
+export default AdminPage;

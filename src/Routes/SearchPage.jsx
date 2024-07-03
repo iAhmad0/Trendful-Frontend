@@ -1,5 +1,5 @@
-import Header from "../Component/Header";
-import SearchProduct from "../Component/SearchProduct";
+import Header from "../Components/Header";
+import SearchProduct from "../Components/SearchProduct";
 
 function SearchPage() {
   const path = window.location.href;

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 function Product({ img, price, name, link }) {
   return (
     <div className="w-[19%] mr-[1%]">

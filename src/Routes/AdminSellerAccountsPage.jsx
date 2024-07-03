@@ -1,5 +1,5 @@
-import AdminSideBar from '../Component/AdminSIdebar'
-import AdminSellerAccount from '../Component/AdminSellerAccount'
+import AdminSideBar from "../Components/AdminSIdebar";
+import AdminSellerAccount from "../Components/AdminSellerAccount";
 
 function AdminSellerAccountsPage() {
   return (
@@ -9,6 +9,7 @@ function AdminSellerAccountsPage() {
         <AdminSellerAccount />
       </div>
     </div>
-  )
+  );
 }
-export default AdminSellerAccountsPage
+
+export default AdminSellerAccountsPage;

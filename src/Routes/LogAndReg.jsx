@@ -1,31 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { AiOutlineEye, AiFillEyeInvisible } from "react-icons/ai";
 
+async function checkLoggedIn() {
+  if (localStorage.getItem("token")) {
+    try {
+      const request = await axios.post(
+        "http://localhost:3000/api/buyer/token",
+        {
+          token: localStorage.getItem("token"),
+        }
+      );
+      window.location.href = "http://localhost:5173/";
+    } catch (err) {
+      localStorage.removeItem("token");
+    }
+  } else {
+    localStorage.removeItem("token");
+  }
+}
+
 function LogAndReg() {
   const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  function checkLoggedIn() {
-    const send = async () => {
-      try {
-        const request = await axios.post(
-          "http://localhost:3000/api/buyer/token",
-          {
-            token: localStorage.getItem("token"),
-          }
-        );
-        window.location.href = "http://localhost:5173/";
-      } catch (err) {
-        setRender(true);
-      }
-    };
-    send();
-  }
-
-  checkLoggedIn();
+  useEffect(() => {
+    setRender(checkLoggedIn());
+  }, []);
 
   const [fields, setFields] = useState({
     logEmail: "",
@@ -45,7 +48,6 @@ function LogAndReg() {
     rePass: "",
   };
 
-  const [check, setCheck] = useState(false);
   const [Erros, setErros] = useState({});
   const [toReg, setToReg] = useState(false);
 
@@ -117,9 +119,9 @@ function LogAndReg() {
     const passReg =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/;
     const phoneReg = /\+20\d{11}/;
-    const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const mailReg = /([a-z]|[A-Z])([\w-])*@[\w-]+.com/;
     if (!fields.regName) {
-      errors.regNameError = "name must be provided!";
+      errors.regNameError = "Name must be provided!";
     }
 
     if (!fields.regEmail) {
@@ -128,17 +130,17 @@ function LogAndReg() {
       !mailReg.test(fields.regEmail) &&
       !phoneReg.test(fields.regEmail)
     ) {
-      errors.regMailError = "invalid email or phone number";
+      errors.regMailError = "Invalid email or phone number";
     }
     if (!fields.regPass) {
-      errors.regPassError = "password is required";
+      errors.regPassError = "Password is required";
     } else if (!passReg.test(fields.regPass)) {
-      errors.regPassError = "invalid password";
+      errors.regPassError = "Invalid password";
     }
     if (!fields.rePass) {
-      errors.regRePassError = "you must re-enter the password";
+      errors.regRePassError = "You must re-enter the password";
     } else if (fields.rePass !== fields.regPass) {
-      errors.regRePassError = "the password is different";
+      errors.regRePassError = "The password is different";
     }
     const handleSignup = async () => {
       try {
@@ -155,7 +157,7 @@ function LogAndReg() {
           return true;
         }
       } catch (error) {
-        setErros({ ...Erros, regMailError: "response error" });
+        setErros({ ...Erros, regMailError: error.response.data.reason });
       }
     };
     if (Object.keys(errors).length === 0) {
@@ -172,16 +174,12 @@ function LogAndReg() {
 
   if (render) {
     return (
-      <>
+      <div className="flex flex-col justify-center items-center min-h-screen">
         {/* Login Component */}
-        <div className="my-5 mx-auto w-fit">
+        <div className="my-5">
           <img src="/images/logo-nobg.png" alt="" className="w-[150px]" />
         </div>
-        <div
-          className={`container w-[90%] sm:w-96 mr-auto ml-auto ${
-            toReg ? `hidden` : ""
-          } `}
-        >
+        <div className={`w-96 ${toReg ? `hidden` : ""} `}>
           <form
             className="sign-form  rounded-md	 border-solid	border-form border w-full  p-6 mb-4"
             onSubmit={handleLoginSubmit}
@@ -204,19 +202,6 @@ function LogAndReg() {
                   Erros.logEmailError ? `border-red-500` : `border-field`
                 }	border rounded w-full	h-8 pl-1.5 field-shadow`}
               />
-              {/* {Erros.logEmailError ? (
-              <div className="mt-1 flex items-center">
-                <FontAwesomeIcon
-                  icon={faExclamation}
-                  className="mr-3 text-red-500"
-                />
-                <span className="label-font text-red-500">
-                  {Erros.logEmailError}
-                </span>
-              </div>
-            ) : (
-              ""
-            )} */}
             </div>
             <div className="field-container mb-5 relative">
               <div className="flex justify-between mb-1">
@@ -273,17 +258,6 @@ function LogAndReg() {
                 ""
               )}
             </div>
-            {/* <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="keep-s"
-                checked={check}
-                onChange={(e) => setCheck(e.target.checked)}
-              />
-              <label htmlFor="keep-s" className="label-font ml-1">
-                Keep me signed in
-              </label>
-            </div> */}
             <button className="block mt-5 w-full bg-[#3E64DA] text-[white] p-2 rounded-lg label-font">
               Sign in
             </button>
@@ -302,12 +276,9 @@ function LogAndReg() {
             Create your Trendful account
           </button>
         </div>
+
         {/* Register Component */}
-        <div
-          className={`container  w-[90%] sm:w-96  mr-auto ml-auto ${
-            !toReg ? `hidden` : ""
-          } `}
-        >
+        <div className={`w-96 ${!toReg ? `hidden` : ""} `}>
           <form
             className="sign-form  rounded-md	 border-solid	border-form border w-full  p-6 mb-6"
             onSubmit={handleRegSubmit}
@@ -460,8 +431,9 @@ function LogAndReg() {
             </button>
           </form>
         </div>
-      </>
+      </div>
     );
   }
 }
+
 export default LogAndReg;

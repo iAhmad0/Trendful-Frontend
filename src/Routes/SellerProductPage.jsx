@@ -1,5 +1,5 @@
-import SideBar from "../Component/SideBar";
-import SellerProduct from "../Component/SellerProduct";
+import SideBar from "../Components/SideBar";
+import SellerProduct from "../Components/SellerProduct";
 import { useState } from "react";
 import axios from "axios";
 

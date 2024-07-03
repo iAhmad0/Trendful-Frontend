@@ -1,5 +1,5 @@
-import AdminCustomerAccount from '../Component/AdminCustomerAccount'
-import AdminSideBar from '../Component/AdminSIdebar'
+import AdminCustomerAccount from "../Components/AdminCustomerAccount";
+import AdminSideBar from "../Components/AdminSIdebar";
 
 function AdminCustomerAccountsPage() {
   return (
@@ -9,6 +9,7 @@ function AdminCustomerAccountsPage() {
         <AdminCustomerAccount />
       </div>
     </div>
-  )
+  );
 }
-export default AdminCustomerAccountsPage
+
+export default AdminCustomerAccountsPage;

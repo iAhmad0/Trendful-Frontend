@@ -1,30 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 /* General rule */
-body {
-  font-family: 'Poppins', sans-serif;
-  font-family: 'Roboto', sans-serif;
-  font-family: 'Open Sans', sans-serif;
-}
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-family: "Open Sans", sans-serif;
+}
+
 #root {
   margin: 0px;
   padding: 0px;
   max-width: 100%;
 }
-/*to show language section*/
-header .language:hover + div,
-header .language:hover .list-lan {
-  display: block;
-}
 
 /*to show sign section*/
-header .sign:hover + div,
 header .sign:hover .list-lan {
   display: block;
 }

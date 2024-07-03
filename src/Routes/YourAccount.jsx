@@ -1,16 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "../Component/Header";
+import Header from "../Components/Header";
 import bcrypt from "bcryptjs-react";
 
 function YourAccount() {
   const [buyer, setBuyer] = useState({});
 
-  function checkLoggedIn() {
-    const send = async () => {
+  async function checkLoggedIn() {
+    if (localStorage.getItem("token")) {
       try {
         const request = await axios.post(
           "http://localhost:3000/api/buyer/token",
@@ -22,12 +22,17 @@ function YourAccount() {
         localStorage.removeItem("token");
         window.location.href = "http://localhost:5173/login";
       }
-    };
-    send();
+    } else {
+      localStorage.removeItem("token");
+    }
   }
 
-  function getInfo() {
-    const send = async () => {
+  useEffect(() => {
+    checkLoggedIn();
+  }, []);
+
+  async function getInfo() {
+    if (localStorage.getItem("token")) {
       try {
         const request = await axios.post(
           "http://localhost:3000/api/buyerInfo",
@@ -40,16 +45,22 @@ function YourAccount() {
         localStorage.removeItem("token");
         window.location.href = "http://localhost:5173/login";
       }
-    };
-    send();
+    } else {
+      window.location.href = "http://localhost:5173/login";
+      localStorage.removeItem("token");
+    }
   }
 
-  function updateInfo(
+  useEffect(() => {
+    getInfo();
+  }, []);
+
+  async function updateInfo(
     name = buyer.name,
     email = buyer.email,
     mobile = buyer.mobile
   ) {
-    const update = async () => {
+    if (localStorage.getItem("token")) {
       try {
         const request = await axios.patch(
           "http://localhost:3000/api/buyerInfo",
@@ -60,22 +71,25 @@ function YourAccount() {
             newMobile: mobile,
           }
         );
-      } catch (err) {}
-    };
-    update();
+      } catch (err) {
+        localStorage.removeItem("token");
+        window.location.href = "http://localhost:5173/login";
+      }
+    } else {
+      window.location.href = "http://localhost:5173/login";
+    }
   }
 
   function encryptPassword(newPassword) {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(newPassword, salt);
-
     return hash;
   }
-  function updatePassword(currentPass, newPass) {
-    const update = async () => {
+
+  async function updatePassword(currentPass, newPass) {
+    if (localStorage.getItem("token")) {
       try {
         const encryptedPassword = await encryptPassword(newPass);
-
         const request = await axios.patch(
           "http://localhost:3000/api/buyerPasswordChange",
           {
@@ -84,9 +98,13 @@ function YourAccount() {
             newPassword: encryptedPassword,
           }
         );
-      } catch (err) {}
-    };
-    update();
+      } catch (err) {
+        localStorage.removeItem("token");
+        window.location.href = "http://localhost:5173/login";
+      }
+    } else {
+      window.location.href = "http://localhost:5173/login";
+    }
   }
 
   const [navigate, setNavigate] = useState({
@@ -244,7 +262,6 @@ function YourAccount() {
     setNavigate({ ...navigate, toNameChange: false, mainBox: true });
 
     if (Object.keys(errors).length === 0) {
-      console.log("the Name successfuly changed!!");
       return;
     }
     setErros(errors);
@@ -252,8 +269,6 @@ function YourAccount() {
   //Handeling Submitting ends
   return (
     <>
-      {checkLoggedIn()}
-      {getInfo()}
       <Header />
       {/* Setting Page --------------------------------------------------------------------------- */}
       <div
@@ -372,11 +387,6 @@ function YourAccount() {
           navigate.toEmailChange ? "visible" : "hidden"
         }`}
       >
-        <img
-          src="/images/logo.svg"
-          alt=""
-          className="mr-auto ml-auto mb-[15px]"
-        />
         <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
           <div className="p-[15px]">
             <h1 className="text-[20px] text-center mb-[15px]">

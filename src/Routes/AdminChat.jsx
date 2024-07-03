@@ -1,9 +1,8 @@
-import React from 'react'
-import ChatSideBar from '../Component/ChatSideBar'
-import ChatWindow from '../Component/ChatWindow'
+import ChatSideBar from "../Components/ChatSideBar";
+import ChatWindow from "../Components/ChatWindow";
 
 function AdminChat() {
-  const { render, isChatClicked } = ChatSideBar()
+  const { render, isChatClicked } = ChatSideBar();
   return (
     <main className="flex min-h-screen">
       {render}
@@ -18,6 +17,7 @@ function AdminChat() {
         </div>
       )}
     </main>
-  )
+  );
 }
-export default AdminChat
+
+export default AdminChat;

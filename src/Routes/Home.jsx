@@ -1,5 +1,6 @@
-import Product from "../Component/Product";
-import Header from "../Component/Header";
+import Header from "../Components/Header.jsx";
+import HomeProducts from "../Components/HomeProducts.jsx";
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -17,32 +18,11 @@ function Home() {
   }, []);
 
   return (
-    <>
+    <div className="bg-[rgb(227,230,230)] min-h-screen">
       <Header />
-      <main className="bg-[rgb(227,230,230)] p-[20px] h-screen">
-        {/* <div className="m-[10px] mb-[20px] flex justify-between items-center">
-          {card.map((object) => {
-            return <Cards {...object} />;
-          })}
-        </div> */}
-        <div className="m-[10px] mb-[20px] bg-white p-[20px]">
-          <h1 className="font-bold text-left mb-[10px]">Products</h1>
-          <div className="flex items-center">
-            {data.map((object, index) => {
-              return (
-                <Product
-                  key={index}
-                  img={object.images[0]}
-                  name={object.name}
-                  price={object.price}
-                  link={object._id}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </main>
-    </>
+
+      <HomeProducts products={data} />
+    </div>
   );
 }
 

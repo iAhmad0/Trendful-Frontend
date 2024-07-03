@@ -1,6 +1,6 @@
-import React from "react";
-import Header from "../Component/Header";
-import Cart from "../Component/Cart";
+import Header from "../Components/Header";
+import Cart from "../Components/Cart";
+
 const CartPage = () => {
   return (
     <>

@@ -1,5 +1,6 @@
-import SideBar from '../Component/SideBar'
-import Inventory from '../Component/Inventory'
+import SideBar from "../Components/SideBar";
+import Inventory from "../Components/Inventory";
+
 function SellerInventoryPage() {
   return (
     <div className="flex min-h-screen">
@@ -8,6 +9,7 @@ function SellerInventoryPage() {
         <Inventory />
       </div>
     </div>
-  )
+  );
 }
-export default SellerInventoryPage
+
+export default SellerInventoryPage;

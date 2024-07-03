@@ -1,11 +1,12 @@
-import Header from '../Component/Header'
-import Payment from '../Component/Payment'
+import Header from "../Components/Header";
+import Payment from "../Components/Payment";
+
 function PaymentPage() {
   return (
     <>
       <Header />
       <Payment />
     </>
-  )
+  );
 }
-export default PaymentPage
+export default PaymentPage;

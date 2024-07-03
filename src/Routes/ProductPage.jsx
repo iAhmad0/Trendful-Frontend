@@ -1,40 +1,16 @@
-import PricingSection from "../Component/PricingSection";
-import MiddleSection from "../Component/MiddleSection";
-import LeftSection from "../Component/LeftSection";
-import Header from "../Component/Header";
-import ErrorPage from "./ErorrPage";
+import PricingSection from "../Components/PricingSection";
+import MiddleSection from "../Components/MiddleSection";
+import LeftSection from "../Components/LeftSection";
+import Header from "../Components/Header";
+import ErrorPage from "./ErrorPage";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-let result = false;
 
 function ProductPage() {
   const id = window.location.pathname;
 
   const [render, setRender] = useState(true);
-  const [buyer, setBuyer] = useState("sign in");
   const [data, setData] = useState([]);
-
-  function check() {
-    const send = async () => {
-      const request = await axios.post(
-        "http://localhost:3000/api/buyer/token",
-        {
-          token: localStorage.getItem("token"),
-        }
-      );
-      setTimeout(() => {
-        result = request.data.valid;
-
-        if (result) {
-          setBuyer(request.data.name);
-        } else {
-          localStorage.removeItem("token");
-        }
-      }, 500);
-    };
-    send();
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,21 +31,23 @@ function ProductPage() {
   if (render) {
     return (
       <>
-        <Header name={buyer} />
+        <Header />
+
         <div className="flex p-[15px]">
-          <LeftSection {...data.images} />
+          <LeftSection images={data.images} />
+
           <MiddleSection
             price={data.price}
             name={data.name}
             description={data.description}
           />
+
           <PricingSection
             price={data.price}
-            quantity={data.quantity}
+            stock={data.stock}
             name={data.name}
           />
         </div>
-        {check()}
       </>
     );
   } else {

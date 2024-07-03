@@ -1,4 +1,4 @@
-import SellerHeader from "../Component/SellerHeader";
+import SellerHeader from "../Components/SellerHeader";
 
 const inventory = [
   {

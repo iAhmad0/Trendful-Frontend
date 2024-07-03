@@ -1,5 +1,5 @@
-import Header from '../Component/Header'
-import PointsAndReward from '../Component/PointsAndReward'
+import Header from "../Components/Header";
+import PointsAndReward from "../Components/PointsAndReward";
 
 function PointsAndRewardPage() {
   return (
@@ -7,6 +7,6 @@ function PointsAndRewardPage() {
       <Header />
       <PointsAndReward />
     </main>
-  )
+  );
 }
-export default PointsAndRewardPage
+export default PointsAndRewardPage;
