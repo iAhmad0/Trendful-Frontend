@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+const imageURL = "http://localhost:3000/api/uploads/images/";
+
 const LeftSection = ({ images }) => {
   const [currentImage, setCurrentImage] = useState();
 
@@ -21,7 +23,7 @@ const LeftSection = ({ images }) => {
                     key={index + 1}
                   >
                     <img
-                      src={img}
+                      src={imageURL + img}
                       alt=""
                       onMouseOver={() => {
                         setCurrentImage(img);
@@ -33,7 +35,11 @@ const LeftSection = ({ images }) => {
             : ""}
         </ul>
 
-        <img className="w-[100%] overflow-hidden" src={currentImage} alt="" />
+        <img
+          className="w-[100%] overflow-hidden"
+          src={imageURL + currentImage}
+          alt=""
+        />
       </div>
     </div>
   );

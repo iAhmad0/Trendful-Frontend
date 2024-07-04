@@ -7,15 +7,18 @@ import { AiOutlineEye, AiFillEyeInvisible } from "react-icons/ai";
 async function checkLoggedIn() {
   if (localStorage.getItem("sellerToken")) {
     try {
-      const request = await axios.post("http://localhost:3000/seller/login", {
-        token: localStorage.getItem("sellerToken"),
-      });
-      window.location.href = "http://localhost:5173/seller/products";
+      const request = await axios.post(
+        "http://localhost:3000/api/seller/token",
+        {
+          token: localStorage.getItem("sellerToken"),
+        }
+      );
+      if (request) {
+        window.location.href = "http://localhost:5173/seller/products";
+      }
     } catch (err) {
-      localStorage.removeItem("token");
+      localStorage.removeItem("sellerToken");
     }
-  } else {
-    localStorage.removeItem("token");
   }
 }
 
