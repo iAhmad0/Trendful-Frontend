@@ -70,6 +70,7 @@ function SellerProductPage() {
     name: "",
   });
   const [products, setProducts] = useState([]);
+  const [id, setID] = useState("");
 
   async function getSellerProducts() {
     try {
@@ -94,19 +95,22 @@ function SellerProductPage() {
 
   function deletePop() {
     if (check === true) {
-      return <DeletePop />;
+      return <DeletePop id={id} />;
     }
   }
+
   function editPop() {
     if (edit === true) {
-      return <EditPop />;
+      return <EditPop id={id} />;
     }
   }
+
   return (
     <main className="p-[20px] min-h-screen ">
       {showPop()}
       {deletePop()}
       {editPop()}
+
       <div className="flex justify-between align-center">
         <h3 className="text-[#3E64DA]">PRODUCTS</h3>
         <button
@@ -116,6 +120,7 @@ function SellerProductPage() {
           Add
         </button>
       </div>
+
       <div className="grid grid-cols-3 gap-5">
         {products.map((object, index) => {
           if (products != []) {
@@ -148,13 +153,17 @@ function SellerProductPage() {
                     <button
                       onClick={function () {
                         setCheck(!check);
+                        setID(object._id);
                       }}
                       className="block text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px]  rounded-[5px] mb-[10px] "
                     >
                       Delete
                     </button>
                     <button
-                      onClick={() => setEdit(!edit)}
+                      onClick={() => {
+                        setEdit(!edit);
+                        setID(object._id);
+                      }}
                       className=" text-[#3E64DA] text-center border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-[15px] w-[70px] rounded-[5px] "
                     >
                       Edit
@@ -165,6 +174,7 @@ function SellerProductPage() {
             );
           }
         })}
+
         <div
           className={`${
             showPromote ? "" : "hidden"
@@ -176,6 +186,7 @@ function SellerProductPage() {
             }}
             className="absolute right-[15px] top-[15px] cursor-pointer"
           />
+
           <form action="">
             <h1 className="font-bold mb-5">
               Select your promote for {proName}

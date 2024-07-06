@@ -1,7 +1,28 @@
-import { useState } from 'react'
-import { FaCircleXmark } from 'react-icons/fa6'
-function DeletePop({ name }) {
-  const [pop, setPop] = useState(true)
+import { useState } from "react";
+import { FaCircleXmark } from "react-icons/fa6";
+import axios from "axios";
+
+function DeletePop({ id }) {
+  const [pop, setPop] = useState(true);
+
+  async function deleteProduct() {
+    if (localStorage.getItem("sellerToken")) {
+      try {
+        const response = await axios.delete(
+          "http://localhost:3000/seller/delete-product/" +
+            localStorage.getItem("sellerToken") +
+            "/" +
+            id
+        );
+
+        window.location.reload();
+      } catch (error) {
+        localStorage.removeItem("sellerToken");
+        window.location.href = "http://localhost:5173/seller/login";
+      }
+    }
+  }
+
   return pop ? (
     <>
       <div
@@ -14,11 +35,14 @@ function DeletePop({ name }) {
           className="absolute top-2 right-2 cursor-pointer text-[#3E64DA]"
         />
         <p className="text-[#3E64DA] p-5">
-          Do You Want To Remove {name ? 'this Account' : 'this Product'} ?
+          Do You Want To Remove {name ? "this Account" : "this Product"} ?
         </p>
         <div className="flex justify-around align-middle text-[#3E64DA]">
           <button
-            onClick={() => setPop(false)}
+            onClick={() => {
+              setPop(false);
+              deleteProduct();
+            }}
             className=" border-solid border-[1px] border-[#3E64DA]  rounded-xl  py-1 px-2 hover:text-[#F39E31] hover:border-[#F39E31]"
           >
             Delete
@@ -33,7 +57,7 @@ function DeletePop({ name }) {
       </div>
     </>
   ) : (
-    ''
-  )
+    ""
+  );
 }
-export default DeletePop
+export default DeletePop;

@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FaCircleXmark } from "react-icons/fa6";
 import OptionBox from "./OptionBox";
-import { IoIosArrowBack } from "react-icons/io";
+import InputField from "./InputField";
+import TextareaField from "./TextareaField";
 import axios from "axios";
 
 const ProductPop = ({ seller }) => {
-  const [data, setData] = useState({
-    name: "",
-    quantity: "",
-    price: "",
-    images: "",
-    description: "",
-    category: "",
-  });
-
   const [pop, setPop] = useState(true);
+  const [data, setData] = useState({});
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/categories"
+        );
+        setCategories(response.data);
+      } catch (error) {}
+    };
+    getCategories();
+  }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -27,24 +34,32 @@ const ProductPop = ({ seller }) => {
     e.preventDefault();
 
     async function addProduct() {
-      try {
-        const response = await axios.post(
-          "http://localhost:3000/api/add-product",
-          {
-            token: localStorage.getItem("sellerToken"),
-            name: data.name,
-            description: data.description,
-            images: data.images,
-            price: data.price,
-            quantity: data.quantity,
-            category: data.category,
-          },
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
-        );
-      } catch (error) {}
+      if (localStorage.getItem("sellerToken")) {
+        try {
+          const response = await axios.post(
+            "http://localhost:3000/api/add-product",
+            {
+              token: localStorage.getItem("sellerToken"),
+              name: data.name,
+              description: data.description,
+              price: data.price,
+              quantity: data.quantity,
+              category: data.category,
+              images: data.images,
+            },
+            {
+              headers: { "Content-Type": "multipart/form-data" },
+            }
+          );
+
+          window.location.reload();
+        } catch (error) {
+          localStorage.removeItem("sellerToken");
+          window.location.href = "http://localhost:5173/seller/login";
+        }
+      }
     }
+
     addProduct();
     setPop(false);
   }
@@ -52,59 +67,73 @@ const ProductPop = ({ seller }) => {
   return pop ? (
     <>
       <div
-        className=" absolute w-full min-h-screen left-0 top-0 bg-black bg-opacity-50"
         onClick={() => setPop(false)}
+        className="absolute w-full min-h-screen top-0 left-0 bg-black opacity-50 "
       ></div>
-      <div className="absolute w-96 text-[20px] rounded-[10px] max-h-[95%] overflow-auto bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
-        <IoIosArrowBack
-          className="absolute text-[#3E64DA] top-[6px] left-[10px] cursor-pointer"
+      <div className="absolute w-96 text-[15px] max-h-[90%] overflow-auto rounded-[10px]  bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+        <FaCircleXmark
           onClick={() => setPop(false)}
+          className="absolute top-2 right-2 cursor-pointer text-[#3E64DA]"
         />
-        <form className="text-base" onSubmit={handleSubmit}>
-          <OptionBox
+
+        <form onSubmit={handleSubmit}>
+          <InputField
             title="Name"
+            name="name"
             type="text"
             placeholder="Enter product name"
-            name="name"
-            handleCh={handleChange}
+            value={data.name}
+            handleChange={handleChange}
           />
-          <OptionBox
+
+          <TextareaField
             title="Description"
-            placeholder="at least 10 characters"
             name="description"
-            handleCh={handleChange}
+            placeholder="at least 10 characters"
+            value={data.description}
+            handleChange={handleChange}
           />
-          <OptionBox
+
+          <InputField
             title="Price"
-            type="number"
             name="price"
-            handleCh={handleChange}
-          />
-          <OptionBox
-            title="Quantity"
             type="number"
-            name="quantity"
-            handleCh={handleChange}
+            placeholder="Price must be greater than 0"
+            value={data.price}
+            handleChange={handleChange}
           />
+
+          <InputField
+            title="Quantity"
+            name="quantity"
+            type="number"
+            placeholder="Quantity must be greater than 0"
+            value={data.quantity}
+            handleChange={handleChange}
+          />
+
           <OptionBox
             title="Category"
-            isSelected={true}
             name="category"
-            handleCh={handleChange}
+            categories={categories}
+            value={data.category}
+            handleChange={handleChange}
           />
+
           {/* Image */}
-          <OptionBox
+          <InputField
             title="Choose Images (at least 1 image)"
+            name="images"
             type="file"
             map="map"
-            name="images"
-            handleCh={(images) => {
+            handleChange={(images) => {
               setData({
                 ...data,
                 images: images,
               });
             }}
           />
+
           <div className="flex justify-center">
             <button className="block border-solid text-base px-4 py-1 mt-4 border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-center  rounded-[5px] mb-[5px] text-[#3E64DA]">
               Confirm

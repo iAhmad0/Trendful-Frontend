@@ -22,14 +22,6 @@ function SideBar() {
         </div>
       </div>
       <ul className="p-0 list-none">
-        {/* <Link to="/seller">
-          <li className="p-[20px] text-[18px] hover:cursor-pointer hover:bg-[#F39E31]">
-            <div className="text-no-underline text-white flex">
-              <BsGrid1X2Fill className="mr-[5px] align-middle leading-3 text-[20px]" />{" "}
-              Dashboard
-            </div>
-          </li>
-        </Link> */}
         <Link to="/seller/products">
           <li className="p-[20px] text-[15px]  hover:cursor-pointer hover:bg-[#F39E31]">
             <div className="text-no-underline text-white flex">
@@ -38,12 +30,7 @@ function SideBar() {
             </div>
           </li>
         </Link>
-        {/* <li className="p-[20px] text-[18px] hover:cursor-pointer hover:bg-[#F39E31]">
-          <div className="text-no-underline text-white flex">
-            <BsFillGrid3X3GapFill className="mr-[5px] align-middle leading-3 text-[20px]" />{" "}
-            Categories
-          </div>
-        </li> */}
+
         <Link to="/seller/inventory">
           <li className="p-[20px] text-[15px]  hover:cursor-pointer hover:bg-[#F39E31]">
             <div className="text-no-underline text-white flex">

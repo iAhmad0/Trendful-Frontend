@@ -1,11 +1,9 @@
 import { Route, BrowserRouter, Routes } from "react-router-dom";
+
 import Home from "./Routes/Home";
-import LogAndReg from "./Routes/LogAndReg";
 import YourAccount from "./Routes/YourAccount";
 import ProductPage from "./Routes/ProductPage";
 import ErrorPage from "./Routes/ErrorPage";
-import SellerLogin from "./Routes/SellerLogin";
-import SellerPage from "./Routes/SellerPage";
 import SellerProductPage from "./Routes/SellerProductPage";
 import SellerInventoryPage from "./Routes/SellerInventoryPage";
 import SellerAccount from "./Routes/SellerAccountPage";
@@ -20,17 +18,23 @@ import AdminChat from "./Routes/AdminChat";
 import AdminCustomerAccountsPage from "./Routes/AdminCustomerAccountsPage";
 import AdminSellerAccountsPage from "./Routes/AdminSellerAccountsPage";
 
+import Login from "./Routes/Login";
+import Register from "./Routes/Register";
+
+import SellerLogin from "./Routes/SellerLogin";
+import SellerRegister from "./Routes/SellerRegister";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="login" element={<LogAndReg />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="settings" element={<YourAccount />} />
         <Route path="product/:id" element={<ProductPage />} />
         <Route path="search/" element={<SearchPage />} />
         <Route path="search/:name" element={<SearchPage />} />
-        <Route path="seller/login" element={<SellerLogin />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="history" element={<PurchaseHistoryPage />} />
         <Route path="point" element={<PointsAndRewardPage />} />
@@ -46,7 +50,9 @@ function App() {
           path="admin/sellerAccount"
           element={<AdminSellerAccountsPage />}
         />
-        {/* <Route path="seller" element={<SellerPage />} /> */}
+        <Route path="seller/login" element={<SellerLogin />} />
+        <Route path="seller/register" element={<SellerRegister />} />
+
         <Route path="seller/products" element={<SellerProductPage />} />
         <Route path="seller/inventory" element={<SellerInventoryPage />} />
         <Route path="seller/settings" element={<SellerAccount />} />

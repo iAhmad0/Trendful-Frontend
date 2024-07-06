@@ -6,28 +6,28 @@ import { useState } from "react";
 import axios from "axios";
 
 async function checkLoggedIn() {
-  if (localStorage.getItem("sellerToken")) {
+  if (localStorage.getItem("token")) {
     try {
       const request = await axios.post(
-        "http://localhost:3000/api/seller/token",
+        "http://localhost:3000/api/buyer/token",
         {
-          token: localStorage.getItem("sellerToken"),
+          token: localStorage.getItem("token"),
         }
       );
 
-      window.location.href = "http://localhost:5173/seller/products";
+      window.location.href = "http://localhost:5173/";
       return true;
     } catch (err) {
-      localStorage.removeItem("sellerToken");
+      localStorage.removeItem("token");
       return true;
     }
   } else {
-    localStorage.removeItem("sellerToken");
+    localStorage.removeItem("token");
     return false;
   }
 }
 
-function SellerLogin() {
+function Login() {
   const [fields, setFields] = useState({
     logEmail: "",
     logPass: "",
@@ -56,14 +56,18 @@ function SellerLogin() {
       setErrors(err);
     } else {
       try {
-        const request = await axios.post("http://localhost:3000/seller/login", {
+        const request = await axios.post("http://localhost:3000/login", {
           email: fields.logEmail,
           password: fields.logPass,
         });
 
         if (request) {
-          localStorage.setItem("sellerToken", request.data.token);
-          window.location.href = "http://localhost:5173/seller/products";
+          localStorage.setItem("token", request.data.token);
+          localStorage.setItem("cartItems", JSON.stringify([]));
+          localStorage.setItem("cartCounter", 0);
+          localStorage.setItem("itemsQuantities", JSON.stringify([]));
+          localStorage.setItem("toBuyItem", "");
+          window.location.href = "http://localhost:5173/";
         }
       } catch (error) {
         setErrors({
@@ -183,7 +187,7 @@ function SellerLogin() {
         </div>
 
         <Link
-          to="/seller/register"
+          to="/register"
           className="w-96 text-center p-1 rounded-lg text-[13px] border-solid	border-[#e1e1e1] border hover:bg-[#edfdff]"
         >
           Create your Trendful account
@@ -193,4 +197,4 @@ function SellerLogin() {
   }
 }
 
-export default SellerLogin;
+export default Login;
