@@ -1,19 +1,18 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faStar,
   faAngleDown,
   faX,
   faAngleUp,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
-import { useEffect } from "react";
+} from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 
 const MiddleSection = ({ name, description, price }) => {
   const [cents, setCents] = useState(
     Math.ceil((price - Math.trunc(price)) * 100)
-  );
+  )
 
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(false)
 
   return (
     <div className="w-[50%]">
@@ -31,7 +30,7 @@ const MiddleSection = ({ name, description, price }) => {
           {cents > 0 ? (
             <div className="absolute -right-4 -top-0 text-[13px]">{cents}</div>
           ) : (
-            ""
+            ''
           )}
           <div className="absolute -left-6 -top-0 text-[13px]">EGP</div>
         </div>
@@ -42,6 +41,6 @@ const MiddleSection = ({ name, description, price }) => {
         <p>{description}</p>
       </div>
     </div>
-  );
-};
-export default MiddleSection;
+  )
+}
+export default MiddleSection

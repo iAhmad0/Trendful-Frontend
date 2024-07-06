@@ -1,7 +1,4 @@
-import React from 'react'
-// import { BsHandIndexThumbFill } from 'react-icons/bs'
-
-const PurchaseList = () => {
+function ComponentImage() {
   const data = [
     {
       itemName: 'Headphone',
@@ -16,9 +13,11 @@ const PurchaseList = () => {
       quantity: 6,
     },
   ]
+  let totalPoints = 0
   return (
-    <div className="mx-auto w-[700px] p-[10px]">
+    <div className=" p-[10px] w-[700px] mr-10 ">
       {data.map(({ itemName, price, img, quantity }, index) => {
+        totalPoints += quantity * price
         return (
           <div
             key={index}
@@ -28,13 +27,15 @@ const PurchaseList = () => {
             <div className="p-[10px]">
               <p className="p-[10px]">Name : {itemName}</p>
               <p className="p-[10px]">Quantity : {quantity}</p>
-              <p className="p-[10px]">Price : {price}</p>
+              <p className="p-[10px]">Points : {price}</p>
             </div>
           </div>
         )
       })}
+      <div className="">
+        Total Points : <span>{totalPoints}</span>
+      </div>
     </div>
   )
 }
-
-export default PurchaseList
+export default ComponentImage

@@ -1,5 +1,5 @@
-import { FiAlertOctagon } from "react-icons/fi";
-import Header from "../Components/Header.jsx";
+import { FiAlertOctagon } from 'react-icons/fi'
+import Header from '../Components/Header.jsx'
 
 function ErrorPage() {
   return (
@@ -12,9 +12,7 @@ function ErrorPage() {
               <FiAlertOctagon />
               <p>404</p>
             </div>
-
             <p className="text-[20px] text-center">Not Found</p>
-
             <p className="text-center">
               The resource requested not found on this server!
             </p>
@@ -22,7 +20,7 @@ function ErrorPage() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default ErrorPage;
+export default ErrorPage

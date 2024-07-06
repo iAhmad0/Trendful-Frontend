@@ -1,13 +1,12 @@
-import { setGlobalState } from "../globalStates";
-import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { setGlobalState } from '../globalStates'
+import { Link } from 'react-router-dom'
 
 function PricingSection({ price, stock, name }) {
-  const leftover = Math.trunc((price - Math.floor(price)) * 100);
+  const leftover = Math.trunc((price - Math.floor(price)) * 100)
   // let [currentCart] = useGlobalState("cartCounter");
   const id = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf("/") + 1
-  );
+    window.location.pathname.lastIndexOf('/') + 1
+  )
 
   return (
     <div className="mt-[10px] w-[280px] ml-[10px] border-solid rounded-[10px] p-[20px] text-left border-[#EEE] border">
@@ -19,33 +18,33 @@ function PricingSection({ price, stock, name }) {
 
       <p
         className={`mt-[10px] font-bold text-[18px]  ${
-          stock ? "text-green-600" : "text-red-600"
+          stock ? 'text-green-600' : 'text-red-600'
         } `}
       >
-        {stock ? "In Stock" : "Out of Stock"}
+        {stock ? 'In Stock' : 'Out of Stock'}
       </p>
       {stock ? (
         <button
           className="mt-[10px] mb-[10px] text-[13px] block bg-orange-300 text-center pt-[5px] pb-[5px] w-[100%] rounded-[10px]"
           onClick={() => {
-            const cartItems = JSON.parse(localStorage.getItem("cartItems"));
-            let oldCounts = Number(localStorage.getItem("cartCounter"));
-            oldCounts++;
+            const cartItems = JSON.parse(localStorage.getItem('cartItems'))
+            let oldCounts = Number(localStorage.getItem('cartCounter'))
+            oldCounts++
             if (!cartItems.includes(id)) {
-              localStorage.setItem("cartCounter", oldCounts);
-              setGlobalState("cartCounter", oldCounts);
+              localStorage.setItem('cartCounter', oldCounts)
+              setGlobalState('cartCounter', oldCounts)
               localStorage.setItem(
-                "cartItems",
+                'cartItems',
                 JSON.stringify([...cartItems, id])
-              );
+              )
               const itemsNumber = JSON.parse(
-                localStorage.getItem("itemsQuantities")
-              );
+                localStorage.getItem('itemsQuantities')
+              )
 
               localStorage.setItem(
-                "itemsQuantities",
+                'itemsQuantities',
                 JSON.stringify([...itemsNumber, 1])
-              );
+              )
             }
           }}
         >
@@ -63,8 +62,8 @@ function PricingSection({ price, stock, name }) {
         {stock ? (
           <button
             onClick={() => {
-              localStorage.setItem("total", price);
-              localStorage.setItem("toBuyItem", name);
+              localStorage.setItem('total', price)
+              localStorage.setItem('toBuyItem', name)
             }}
             className="mt-[10px] mb-[10px] text-[13px] block bg-orange-500 text-center pt-[5px] pb-[5px] w-[100%] rounded-[10px]"
           >
@@ -80,7 +79,7 @@ function PricingSection({ price, stock, name }) {
         )}
       </Link>
     </div>
-  );
+  )
 }
 
-export default PricingSection;
+export default PricingSection
