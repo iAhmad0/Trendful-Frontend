@@ -8,6 +8,9 @@ const { setGlobalState, useGlobalState } = createGlobalState({
   PopInfo: false,
   Check: false,
   count: 0,
+  shipping: 0,
+  credit: 'hidden',
+  discount: 0,
 })
 
 export { setGlobalState, useGlobalState }
