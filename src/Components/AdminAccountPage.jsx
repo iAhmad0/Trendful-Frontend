@@ -2,7 +2,6 @@ import { useGlobalState, setGlobalState } from '../globalStates'
 
 function AdminAccountPage({ prop: Accounts }) {
   const check = useGlobalState('Check')[0]
-  console.log(Accounts)
   return Accounts.map((object, index) => {
     return (
       <div

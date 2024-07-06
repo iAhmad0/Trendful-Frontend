@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Login from '../Components/Login'
-import { Link } from 'react-router-dom'
+import Register from '../Components/Register'
+
 async function checkLoggedIn() {
   if (localStorage.getItem('token')) {
     try {
@@ -20,9 +21,8 @@ async function checkLoggedIn() {
   }
 }
 
-function LogAndReg() {
+function RegisterPage() {
   const [render, setRender] = useState(false)
-
   useEffect(() => {
     setRender(checkLoggedIn())
   }, [])
@@ -32,23 +32,9 @@ function LogAndReg() {
         <div className="my-5 mx-auto w-fit">
           <img src="/images/logo-nobg.png" alt="" className="w-[150px]" />
         </div>
-        <Login />
-        <div
-          className={`text-center  before:mr-[5px] after:ml-[5px] text-[gray] mb-3 text-[13px] `}
-        >
-          New to Trendful?
-        </div>
-        <Link to="/register">
-          <button
-            type="submit"
-            className=" block mb-5 w-[391px] mx-auto bg-white p-1 rounded-lg text-[13px] border-solid	border-[#e1e1e1] border hover:bg-[#edfdff]"
-          >
-            Create your Trendful account
-          </button>
-        </Link>
+        <Register />
       </div>
     )
   }
 }
-
-export default LogAndReg
+export default RegisterPage

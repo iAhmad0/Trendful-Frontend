@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamation } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import { setGlobalState } from '../globalStates'
-
+import { Link } from 'react-router-dom'
 function Register() {
   const [fields, setFields] = useState({
     regName: '',
@@ -221,15 +220,11 @@ function Register() {
         >
           Continue
         </button>
-        <button
-          className="block mb-5 w-full bg-[#3E64DA] text-[white] p-2 rounded-lg text-[13px]"
-          onClick={(e) => {
-            e.preventDefault()
-            setGlobalState('toReg', false)
-          }}
-        >
-          Return to login
-        </button>
+        <Link to="/login">
+          <button className="block mb-5 w-full bg-[#3E64DA] text-[white] p-2 rounded-lg text-[13px]">
+            Return to login
+          </button>
+        </Link>
       </form>
     </div>
   )
