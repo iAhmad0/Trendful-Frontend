@@ -1,140 +1,125 @@
-import React, { useEffect, useState } from "react";
-import { setGlobalState } from "../globalStates";
-import axios from "axios";
-import { Link, json } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const imageURL = "http://localhost:3000/api/uploads/images/";
+
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartProducts, setCartProducts] = useState([]);
   const [total, setTotal] = useState(0);
-  let [itemsQuan, setItemsQuan] = useState(
-    JSON.parse(localStorage.getItem("itemsQuantities"))
-  );
+  const [quantity, setQuantity] = useState({});
+
+  function increaseQuantity(id) {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].id == id) {
+        cart[i].quantity++;
+        window.location.reload();
+        break;
+      }
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+  function decreaseQuantity(id) {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].id == id && cart[i].quantity > 0) {
+        cart[i].quantity--;
+        window.location.reload();
+        break;
+      }
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+
+  function removeProduct(id) {
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    cart = cart.filter((product) => product.id != id);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    window.location.reload();
+  }
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        "http://localhost:3000/api/v1/all-products"
-      );
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      const products = [];
 
-      const items = JSON.parse(localStorage.getItem("cartItems"));
-      const temp = [];
-      const names = [];
-      items.forEach((item) => {
-        response.data.forEach((product) => {
-          if (product._id === item) {
-            temp.push(product);
-            names.push(product.name);
-          }
+      if (cart.length) {
+        for (let i = 0; i < cart.length; i++) {
+          const response = await axios.get(
+            "http://localhost:3000/api/v1/" + cart[i].id
+          );
+
+          const product = response.data;
+
+          const info = {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            quantity: cart[i].quantity,
+            images: product.images,
+          };
+
+          products.push(info);
+          setQuantity({ ...quantity, i: cart[i].quantity });
+        }
+
+        setCartProducts(products);
+
+        let sum = 0;
+        products.forEach((product) => {
+          sum += product.price * product.quantity;
         });
-      });
 
-      setCartItems(temp);
-      localStorage.setItem("toBuyItem", JSON.stringify(names));
-      const itemsQuan = JSON.parse(localStorage.getItem("itemsQuantities"));
-      let sum = 0;
-      temp.forEach(function (element, i) {
-        sum += element.price * itemsQuan[i];
-      });
-      setTotal(sum);
+        setTotal(sum);
+      }
     };
     fetchData();
   }, []);
+
   return (
     <>
       <div className="w-[700px]  absolute left-[50%] top-[25%] transform translate-x-[-50%] ">
-        {cartItems.map((product, index) => {
+        {cartProducts.map((product) => {
           return (
             <div
-              key={index}
+              key={product.id}
               className="flex justify-between items-center mb-[15px] border border-gray-300 border-1 p-[10px] rounded-lg"
             >
-              <img src={product.images[0]} alt="" className="w-[70px]" />
+              <img src={imageURL + product.images[0]} alt="" className="h-32" />
               <span className="border border-gray-300 border-1 text-[25px]">
                 <span
                   className="border-r border-grey-300 px-[10px] py-[6px] cursor-pointer text-gray-400"
-                  onClick={() => {
-                    if (itemsQuan[index] > 1) {
-                      const itemsNumber = itemsQuan;
-                      itemsNumber[index]--;
-                      localStorage.setItem(
-                        "itemsQuantities",
-                        JSON.stringify(itemsNumber)
-                      );
-                      setItemsQuan(
-                        JSON.parse(localStorage.getItem("itemsQuantities"))
-                      );
-                      setTotal(total - product.price);
-                    }
-                  }}
+                  onClick={() => decreaseQuantity(product.id)}
                 >
                   -
                 </span>
-                <span className="p-[10px]">{itemsQuan[index]}</span>
+                <span className="p-[10px]">{product.quantity}</span>
                 <span
                   className="border-l-[1px] border-grey-300 px-[10px] py-[6px] cursor-pointer text-gray-400"
-                  onClick={() => {
-                    const itemsNumber = itemsQuan;
-                    itemsNumber[index]++;
-                    localStorage.setItem(
-                      "itemsQuantities",
-                      JSON.stringify(itemsNumber)
-                    );
-
-                    setItemsQuan(
-                      JSON.parse(localStorage.getItem("itemsQuantities"))
-                    );
-                    setTotal(total + product.price);
-                  }}
+                  onClick={() => increaseQuantity(product.id)}
                 >
                   +
                 </span>
               </span>
+
               <div>
                 <p className="text-[20px]">{product.name}</p>
                 <p className="text-[15px] text-gray-500 mb-[15px]">
-                  {product.price * itemsQuan[index]}
+                  {product.price * product.quantity}
                 </p>
                 <button
                   className="border border-red-300 border-1 px-[5px] py-[7px] hover:bg-red-500 hover:text-[white] transition duration-300  linear "
                   onClick={() => {
-                    let newNames = JSON.parse(
-                      localStorage.getItem("toBuyItem")
-                    );
-                    newNames = newNames.filter((item) => item !== product.name);
-                    localStorage.setItem("toBuyItem", JSON.stringify(newNames));
-                    const items = JSON.parse(localStorage.getItem("cartItems"));
-                    let itemsCounter = Number(
-                      localStorage.getItem("cartCounter")
-                    );
-                    itemsCounter--;
-                    localStorage.setItem("cartCounter", itemsCounter);
-                    setGlobalState("cartCounter", itemsCounter);
-                    const newItemsIds = items.filter((item) => {
-                      return item !== product._id;
-                    });
-                    localStorage.setItem(
-                      "cartItems",
-                      JSON.stringify(newItemsIds)
-                    );
-                    const newItems = cartItems.filter((item) => {
-                      return item._id !== product._id;
-                    });
-
-                    setCartItems(newItems);
-                    const itemsNumber = JSON.parse(
-                      localStorage.getItem("itemsQuantities")
-                    );
-                    const newItemsNumber = itemsNumber.filter((i, ind) => {
-                      return ind !== index;
-                    });
-                    console.log(newItemsNumber);
-                    localStorage.setItem(
-                      "itemsQuantities",
-                      JSON.stringify(newItemsNumber)
-                    );
-                    setItemsQuan(newItemsNumber);
-                    setTotal(total - product.price * itemsQuan[index]);
+                    removeProduct(product.id);
                   }}
                 >
                   Remove Item
@@ -143,10 +128,11 @@ const Cart = () => {
             </div>
           );
         })}
-        {cartItems.length > 0 ? (
+
+        {cartProducts.length > 0 ? (
           <div className="flex  justify-between p-[10px]  ">
             <div>
-              <span>Total:{total}</span>
+              <span>Total: {total}</span>
               <span></span>
             </div>
             <Link to="/checkout">
@@ -164,13 +150,14 @@ const Cart = () => {
           ""
         )}
       </div>
-      {cartItems.length === 0 ? (
+
+      {cartProducts.length === 0 ? (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <FontAwesomeIcon
             icon={faCartShopping}
             className="w-[100px] h-[70px] "
           />
-          <p className="mt-3 text-center text-gray-500">cart is empty</p>
+          <p className="mt-3 text-center text-gray-500">Cart is empty</p>
         </div>
       ) : (
         ""

@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { setGlobalState } from '../globalStates'
+import { useState } from "react";
+import { setGlobalState } from "../globalStates";
 
 function SelectShipping() {
   const [data, setData] = useState({
-    ship: '',
-  })
+    ship: "",
+  });
+
   return (
     <div className="py-[10px] w-[49%]">
       <h1 className="font-bold">Select Shipping Method</h1>
@@ -17,11 +18,11 @@ function SelectShipping() {
             value="50"
             id="one"
             onClick={(e) => {
-              const { name, value } = e.target
+              const { name, value } = e.target;
               setData((prev) => {
-                return { ...prev, [name]: value }
-              })
-              setGlobalState('shipping', 50)
+                return { ...prev, [name]: value };
+              });
+              setGlobalState("shipping", 50);
             }}
           />
           <label htmlFor="one" className="ml-[10px]">
@@ -36,26 +37,26 @@ function SelectShipping() {
             id="two"
             value="100"
             onClick={(e) => {
-              const { name, value } = e.target
+              const { name, value } = e.target;
               setData((prev) => {
-                return { ...prev, [name]: value }
-              })
-              setGlobalState('shipping', 100)
+                return { ...prev, [name]: value };
+              });
+              setGlobalState("shipping", 100);
             }}
           />
           <label htmlFor="two" className="ml-[10px]">
             Express Shipping 100EGP
           </label>
           {data.ship ? (
-            ''
+            ""
           ) : (
             <div className="text-[13px] text-[red] p-[5px] ml-[10px]">
-              You Must fill this Form
+              You must choose an option
             </div>
           )}
         </div>
       </div>
     </div>
-  )
+  );
 }
-export default SelectShipping
+export default SelectShipping;

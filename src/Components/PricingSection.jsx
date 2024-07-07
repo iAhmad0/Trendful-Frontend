@@ -1,13 +1,33 @@
-import { setGlobalState } from "../globalStates";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
 function PricingSection({ price, stock, name }) {
   const leftover = Math.trunc((price - Math.floor(price)) * 100);
-  // let [currentCart] = useGlobalState("cartCounter");
+
   const id = window.location.pathname.substring(
     window.location.pathname.lastIndexOf("/") + 1
   );
+
+  function addToCart() {
+    if (localStorage.getItem("cart")) {
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      let flag = true;
+
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id == id) {
+          cart[i].quantity++;
+          flag = false;
+          break;
+        }
+      }
+
+      if (flag) {
+        cart.push({ id: id, quantity: 1 });
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+    } else {
+      localStorage.setItem("cart", JSON.stringify([{ id: id, quantity: 1 }]));
+    }
+  }
 
   return (
     <div className="mt-[10px] w-[280px] ml-[10px] border-solid rounded-[10px] p-[20px] text-left border-[#EEE] border">
@@ -27,27 +47,7 @@ function PricingSection({ price, stock, name }) {
       {stock ? (
         <button
           className="mt-[10px] mb-[10px] text-[13px] block bg-orange-300 text-center pt-[5px] pb-[5px] w-[100%] rounded-[10px]"
-          onClick={() => {
-            const cartItems = JSON.parse(localStorage.getItem("cartItems"));
-            let oldCounts = Number(localStorage.getItem("cartCounter"));
-            oldCounts++;
-            if (!cartItems.includes(id)) {
-              localStorage.setItem("cartCounter", oldCounts);
-              setGlobalState("cartCounter", oldCounts);
-              localStorage.setItem(
-                "cartItems",
-                JSON.stringify([...cartItems, id])
-              );
-              const itemsNumber = JSON.parse(
-                localStorage.getItem("itemsQuantities")
-              );
-
-              localStorage.setItem(
-                "itemsQuantities",
-                JSON.stringify([...itemsNumber, 1])
-              );
-            }
-          }}
+          onClick={addToCart}
         >
           Add to Cart
         </button>
@@ -59,13 +59,10 @@ function PricingSection({ price, stock, name }) {
           Add to Cart
         </button>
       )}
-      <Link to="/checkout">
+      <Link to="/cart">
         {stock ? (
           <button
-            onClick={() => {
-              localStorage.setItem("total", price);
-              localStorage.setItem("toBuyItem", name);
-            }}
+            onClick={addToCart}
             className="mt-[10px] mb-[10px] text-[13px] block bg-orange-500 text-center pt-[5px] pb-[5px] w-[100%] rounded-[10px]"
           >
             Buy Now

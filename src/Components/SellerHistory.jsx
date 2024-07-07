@@ -3,22 +3,18 @@ import { useEffect, useState } from "react";
 
 const imageURL = "http://localhost:3000/api/uploads/images/";
 
-const PurchaseList = () => {
+function SellerHistory() {
   const [data, setData] = useState([]);
 
   async function getHistory() {
     const response = await axios.post(
-      "http://localhost:3000/api/purchase-history",
+      "http://localhost:3000/api/seller/purchase-history",
       {
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem("sellerToken"),
       }
     );
 
-    const products = [];
-    for (let i = 0; i < response.data.length; i++) {
-      products.push(...response.data[i]);
-    }
-
+    const products = response.data;
     const allProducts = [];
 
     if (response) {
@@ -67,6 +63,6 @@ const PurchaseList = () => {
       })}
     </div>
   );
-};
+}
 
-export default PurchaseList;
+export default SellerHistory;

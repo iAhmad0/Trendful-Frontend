@@ -98,10 +98,6 @@ function Register() {
 
         if (request) {
           localStorage.setItem("token", request.data.token);
-          localStorage.setItem("cartItems", JSON.stringify([]));
-          localStorage.setItem("cartCounter", 0);
-          localStorage.setItem("itemsQuantities", JSON.stringify([]));
-          localStorage.setItem("toBuyItem", "");
           window.location.href = "http://localhost:5173/";
         }
       } catch (error) {

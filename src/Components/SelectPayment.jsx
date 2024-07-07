@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import { setGlobalState } from '../globalStates'
+import { useState } from "react";
+import { setGlobalState } from "../globalStates";
+
 function SelectPayment() {
   const [data, setData] = useState({
-    pay: '',
-  })
+    pay: "",
+  });
+
   return (
     <div className="py-[10px] w-[49%]">
       <h1 className="font-bold">Payment</h1>
@@ -12,11 +14,11 @@ function SelectPayment() {
           <input
             type="radio"
             onClick={function (e) {
-              setGlobalState('credit', 'block')
-              const { name, value } = e.target
+              setGlobalState("credit", "block");
+              const { name, value } = e.target;
               setData((prev) => {
-                return { ...prev, [name]: value }
-              })
+                return { ...prev, [name]: value };
+              });
             }}
             name="pay"
             id="credit"
@@ -31,11 +33,11 @@ function SelectPayment() {
             type="radio"
             name="pay"
             onClick={function (e) {
-              setGlobalState('credit', 'hidden')
-              const { name, value } = e.target
+              setGlobalState("credit", "hidden");
+              const { name, value } = e.target;
               setData((prev) => {
-                return { ...prev, [name]: value }
-              })
+                return { ...prev, [name]: value };
+              });
             }}
             id="cash"
             value="cash"
@@ -46,6 +48,6 @@ function SelectPayment() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-export default SelectPayment
+export default SelectPayment;

@@ -1,89 +1,92 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faMagnifyingGlass,
   faCartShopping,
   faUser,
   faXmark,
-} from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
-import { useGlobalState } from '../globalStates/index.js'
-import Category from './Category.jsx'
+} from "@fortawesome/free-solid-svg-icons";
+
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Category from "./Category.jsx";
 
 function logOut() {
-  localStorage.removeItem('token')
-  localStorage.removeItem('cartItems')
-  localStorage.removeItem('cartCounter')
-  localStorage.removeItem('itemsQuantities')
-  localStorage.removeItem('toBuyItem')
-  localStorage.removeItem('total')
+  localStorage.removeItem("token");
+  localStorage.removeItem("total");
+  localStorage.removeItem("cart");
 }
 
 function Header() {
-  const [cartCounter] = useGlobalState('cartCounter')
-  const [value, setValue] = useState(false)
-  const [input, setInput] = useState(' ')
-  const [name, setName] = useState('sign in')
-  const [categories, setCategories] = useState([])
+  const [value, setValue] = useState(false);
+  const [input, setInput] = useState(" ");
+  const [name, setName] = useState("sign in");
+  const [categories, setCategories] = useState([]);
+  const [cartCounter, setCartCounter] = useState(0);
+
+  useEffect(() => {
+    if (localStorage.getItem("cart")) {
+      setCartCounter(JSON.parse(localStorage.getItem("cart")).length);
+    }
+  }, [cartCounter]);
 
   async function check() {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem("token")) {
       try {
         const request = await axios.post(
-          'http://localhost:3000/api/buyer/token',
+          "http://localhost:3000/api/buyer/token",
           {
-            token: localStorage.getItem('token'),
+            token: localStorage.getItem("token"),
           }
-        )
-        setName(request.data.name)
+        );
+        setName(request.data.name);
       } catch (err) {
-        localStorage.removeItem('token')
+        localStorage.removeItem("token");
       }
     } else {
-      localStorage.removeItem('token')
+      localStorage.removeItem("token");
     }
   }
 
   async function getCategories() {
     try {
-      const response = await axios.get('http://localhost:3000/api/categories')
-      setCategories(response.data)
+      const response = await axios.get("http://localhost:3000/api/categories");
+      setCategories(response.data);
     } catch (error) {
-      return []
+      return [];
     }
   }
 
   useEffect(() => {
-    check()
-  }, [])
+    check();
+  }, []);
 
   useEffect(() => {
-    getCategories()
-  }, [])
+    getCategories();
+  }, []);
 
   function handleSearch() {
-    window.location.href = 'http://localhost:5173/search/' + input
+    window.location.href = "http://localhost:5173/search/" + input;
   }
 
   function showNav() {
-    setValue(true)
-    document.body.style.overflow = 'hidden'
+    setValue(true);
+    document.body.style.overflow = "hidden";
   }
 
   function hidenav() {
-    setValue(false)
-    document.body.style.overflow = 'visible'
+    setValue(false);
+    document.body.style.overflow = "visible";
   }
 
   const navbar2 = [
-    'Shop By Category',
-    'Mobiles, Tablets & Accessories',
-    'Computers & Office Supplies',
+    "Shop By Category",
+    "Mobiles, Tablets & Accessories",
+    "Computers & Office Supplies",
     "TV's & Electronics",
-  ]
+  ];
 
-  const navbar4 = ['Help & Settings', 'Purchase History', 'Your Account']
+  const navbar4 = ["Help & Settings", "Purchase History", "Your Account"];
   return (
     <header className="bg-[#3E64DA]">
       <div className="text-white w-full flex items-center justify-between pt-[5px] pb-[5px] pr-[20px] pl-[20px]">
@@ -126,10 +129,10 @@ function Header() {
                     onClick={logOut}
                     className="text-black bg-orange-400 pt-[5px] pb-[5px] pr-[70px] mr-auto ml-auto pl-[70px] block rounded text-[13px]"
                   >
-                    {name === 'sign in' ? 'Sign In' : 'Log Out'}
+                    {name === "sign in" ? "Sign In" : "Log Out"}
                   </button>
                 </Link>
-                {name === 'sign in' ? (
+                {name === "sign in" ? (
                   <Link to="/login">
                     <span className="text-black text-[10px]">
                       New Customer?
@@ -139,7 +142,7 @@ function Header() {
                     </span>
                   </Link>
                 ) : (
-                  ''
+                  ""
                 )}
               </p>
               <div className="text-black flex p-[20px]">
@@ -179,12 +182,12 @@ function Header() {
         icon={faXmark}
         onClick={hidenav}
         className={`absolute top-[10px] ${
-          !value ? 'left-[-30px]' : 'left-[320px]'
+          !value ? "left-[-30px]" : "left-[320px]"
         } duration-[0.3s] cursor-pointer h-[30px] text-white z-20`}
       />
       <nav
         className={`fixed  w-[300px] min-h-screen max-h-screen overflow-x-hidden bg-white z-20 top-0  duration-[0.3s] ${
-          !value ? 'left-[-300px]' : 'left-[0px]'
+          !value ? "left-[-300px]" : "left-[0px]"
         }`}
       >
         <Link to="/login">
@@ -201,13 +204,13 @@ function Header() {
                 key={index}
                 className={`${
                   index == 0
-                    ? 'p-[10px] text-[#111] font-bold'
-                    : 'cursor-pointer p-[10px] hover:bg-[#eee]'
+                    ? "p-[10px] text-[#111] font-bold"
+                    : "cursor-pointer p-[10px] hover:bg-[#eee]"
                 }`}
               >
                 {name}
               </li>
-            )
+            );
           })}
         </ul>
 
@@ -216,22 +219,22 @@ function Header() {
             return (
               <>
                 {index !== 0 ? (
-                  <Link to={`${index === 1 ? '/history' : '/settings'}`}>
-                    {' '}
+                  <Link to={`${index === 1 ? "/history" : "/settings"}`}>
+                    {" "}
                     <li
                       key={index}
-                      className={'cursor-pointer p-[10px] hover:bg-[#eee]'}
+                      className={"cursor-pointer p-[10px] hover:bg-[#eee]"}
                     >
                       {name}
                     </li>
                   </Link>
                 ) : (
-                  <li key={index} className={'p-[10px] text-[#111] font-bold'}>
+                  <li key={index} className={"p-[10px] text-[#111] font-bold"}>
                     {name}
                   </li>
                 )}
               </>
-            )
+            );
           })}
           <Link to="/point">
             <li className="cursor-pointer p-[10px] hover:bg-[#eee]">
@@ -239,23 +242,23 @@ function Header() {
             </li>
           </Link>
           <Link to="login">
-            {' '}
+            {" "}
             <li
               onClick={logOut}
               className="cursor-pointer p-[10px] hover:bg-[#eee]"
             >
-              {name === 'sign in' ? 'Sign in' : 'Log Out'}
+              {name === "sign in" ? "Sign in" : "Log Out"}
             </li>
           </Link>
         </ul>
       </nav>
       <div
         className={`bg-[rgb(0,0,0,0.6)] absolute w-full h-full top-0 left-0 z-10 ${
-          !value ? 'hidden' : ''
+          !value ? "hidden" : ""
         }`}
       ></div>
     </header>
-  )
+  );
 }
 
-export default Header
+export default Header;

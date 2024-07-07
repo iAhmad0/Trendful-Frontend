@@ -23,6 +23,7 @@ import Register from "./Routes/Register";
 
 import SellerLogin from "./Routes/SellerLogin";
 import SellerRegister from "./Routes/SellerRegister";
+import SellerOrderHistory from "./Routes/SellerOrderHistory";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
         <Route path="seller/products" element={<SellerProductPage />} />
         <Route path="seller/inventory" element={<SellerInventoryPage />} />
         <Route path="seller/settings" element={<SellerAccount />} />
+        <Route path="seller/history" element={<SellerOrderHistory />} />
         <Route path="checkout" element={<PaymentPage />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
