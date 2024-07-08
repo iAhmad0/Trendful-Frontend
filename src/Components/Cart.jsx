@@ -9,7 +9,6 @@ const imageURL = "http://localhost:3000/api/uploads/images/";
 const Cart = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [total, setTotal] = useState(0);
-  const [quantity, setQuantity] = useState({});
 
   function increaseQuantity(id) {
     const cart = JSON.parse(localStorage.getItem("cart"));
@@ -21,16 +20,28 @@ const Cart = () => {
         break;
       }
     }
-
     localStorage.setItem("cart", JSON.stringify(cart));
   }
 
   function decreaseQuantity(id) {
-    const cart = JSON.parse(localStorage.getItem("cart"));
+    let cart = JSON.parse(localStorage.getItem("cart"));
 
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].id == id && cart[i].quantity > 0) {
         cart[i].quantity--;
+        window.location.reload();
+      }
+      if (cart[i].id == id && cart[i].quantity == 0) {
+        if (i == 0) {
+          cart.shift();
+          window.location.reload();
+          break;
+        } else if (i == cart.length - 1) {
+          cart.pop();
+          window.location.reload();
+          break;
+        }
+        cart = cart.slice(0, i).concat(cart.slice(i + 1));
         window.location.reload();
         break;
       }
@@ -69,7 +80,6 @@ const Cart = () => {
           };
 
           products.push(info);
-          setQuantity({ ...quantity, i: cart[i].quantity });
         }
 
         setCartProducts(products);
@@ -102,7 +112,9 @@ const Cart = () => {
                 >
                   -
                 </span>
+
                 <span className="p-[10px]">{product.quantity}</span>
+
                 <span
                   className="border-l-[1px] border-grey-300 px-[10px] py-[6px] cursor-pointer text-gray-400"
                   onClick={() => increaseQuantity(product.id)}
