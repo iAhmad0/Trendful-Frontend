@@ -4,12 +4,12 @@ const imageURL = "http://localhost:3000/api/uploads/images/";
 function Product({ img, price, name, link }) {
   return (
     <div className="">
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center h-[200px]">
         <Link to={"product/" + link}>
           <img
             src={imageURL + img}
             alt=""
-            className="mb-2 max-w-full max-h-full h-[200px] w-full"
+            className="mb-2 max-w-full max-h-[200px] w-full"
           />
         </Link>
       </div>

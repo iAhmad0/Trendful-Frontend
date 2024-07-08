@@ -35,11 +35,13 @@ const LeftSection = ({ images }) => {
             : ""}
         </ul>
 
-        <img
-          className="w-[100%] overflow-hidden"
-          src={imageURL + currentImage}
-          alt=""
-        />
+        <div className="w-full flex justify-center">
+          <img
+            className="max-h-96 overflow-hidden"
+            src={imageURL + currentImage}
+            alt=""
+          />
+        </div>
       </div>
     </div>
   );
