@@ -8,6 +8,22 @@ import bcrypt from "bcryptjs-react";
 
 function YourAccount() {
   const [buyer, setBuyer] = useState({});
+  const [navigate, setNavigate] = useState({
+    toNameChange: false,
+    toPhoneChange: false,
+    toEmailChange: false,
+    toPassChange: false,
+    mainBox: true,
+  });
+  const [errors, setErros] = useState({});
+  const [fields, setFields] = useState({
+    nameChange: "",
+    emailChange: "",
+    phoneChange: "",
+    currentPassChange: "",
+    newPassChange: "",
+    rePassChange: "",
+  });
 
   async function checkLoggedIn() {
     if (localStorage.getItem("token")) {
@@ -23,7 +39,7 @@ function YourAccount() {
         window.location.href = "http://localhost:5173/login";
       }
     } else {
-      localStorage.removeItem("token");
+      window.location.href = "http://localhost:5173/login";
     }
   }
 
@@ -47,7 +63,6 @@ function YourAccount() {
       }
     } else {
       window.location.href = "http://localhost:5173/login";
-      localStorage.removeItem("token");
     }
   }
 
@@ -71,9 +86,26 @@ function YourAccount() {
             newMobile: mobile,
           }
         );
+
+        getInfo();
+
+        setFields({
+          nameChange: "",
+          emailChange: "",
+          phoneChange: "",
+          currentPassChange: "",
+          newPassChange: "",
+          rePassChange: "",
+        });
+        setNavigate({
+          toNameChange: false,
+          toPhoneChange: false,
+          toEmailChange: false,
+          toPassChange: false,
+          mainBox: true,
+        });
       } catch (err) {
-        localStorage.removeItem("token");
-        window.location.href = "http://localhost:5173/login";
+        setErros({ emailError: err.response.data });
       }
     } else {
       window.location.href = "http://localhost:5173/login";
@@ -90,6 +122,7 @@ function YourAccount() {
     if (localStorage.getItem("token")) {
       try {
         const encryptedPassword = await encryptPassword(newPass);
+
         const request = await axios.patch(
           "http://localhost:3000/api/buyerPasswordChange",
           {
@@ -107,22 +140,6 @@ function YourAccount() {
     }
   }
 
-  const [navigate, setNavigate] = useState({
-    toNameChange: false,
-    toPhoneChange: false,
-    toEmailChange: false,
-    toPassChange: false,
-    mainBox: true,
-  });
-  const [errors, setErros] = useState({});
-  const [fields, setFields] = useState({
-    nameChange: "",
-    emailChange: "",
-    phoneChange: "",
-    currentPassChange: "",
-    newPassChange: "",
-    rePassChange: "",
-  });
   // Handeling Navigation Starts
   const handleNavigation = (e) => {
     setNavigate({ ...navigate, [e.target.name]: true, mainBox: false });
@@ -164,7 +181,6 @@ function YourAccount() {
 
   // Handeling Fields Change Ends
   //setting box info
-  // console.log(buyer);
   const settingBoxInfo = [
     {
       title: "Name",
@@ -193,17 +209,17 @@ function YourAccount() {
     const passReg =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/;
     if (fields.currentPassChange === "") {
-      errors.currentPassError = "you must provide this field";
+      errors.currentPassError = "You must provide this field";
     }
     if (fields.newPassChange === "") {
-      errors.newPassError = "you must provide this field";
+      errors.newPassError = "You must provide this field";
     } else if (!passReg.test(fields.newPassChange)) {
-      errors.newPassError = "password is invalid";
+      errors.newPassError = "Password is invalid";
     }
     if (fields.rePassChange === "") {
-      errors.rePassError = "you must provide this field";
+      errors.rePassError = "You must provide this field";
     } else if (fields.rePassChange !== fields.newPassChange) {
-      errors.rePassError = "password is not the same as the new one";
+      errors.rePassError = "Passwords must be identical";
     }
 
     if (Object.keys(errors).length === 0) {
@@ -213,59 +229,55 @@ function YourAccount() {
     }
     setErros(errors);
   };
+
   const handlePhoneSubmit = (e) => {
     e.preventDefault();
-    const errors = {};
+    const err = {};
     const phoneReg = /\+20\d{11}/;
     if (fields.phoneChange === "") {
-      errors.phoneError = "you must provide this field";
+      errors.phoneError = "You must provide this field";
     } else if (!phoneReg.test(fields.phoneChange)) {
-      errors.phoneError = "invalid phone number";
+      errors.phoneError = "Invalid phone number";
     }
 
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(err).length === 0) {
       updateInfo(undefined, undefined, fields.phoneChange);
-      setNavigate({ ...navigate, toEmailChange: false, mainBox: true });
       return;
     }
-    setErros(errors);
+    setErros(err);
   };
 
   const handleEmailSubmit = (e) => {
     e.preventDefault();
-    const errors = {};
-    const mailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const err = {};
+    const mailReg = /([a-z]|[A-Z])([\w-])*@[\w-]+.com/;
     if (fields.emailChange === "") {
-      errors.emailError = "you must provide this field";
+      err.emailError = "You must provide this field";
     } else if (!mailReg.test(fields.emailChange)) {
-      errors.emailError = "invalid email";
+      err.emailError = "Invalid email";
     }
 
-    updateInfo(undefined, fields.emailChange, undefined);
-    setNavigate({ ...navigate, toEmailChange: false, mainBox: true });
-
-    if (Object.keys(errors).length === 0) {
-      console.log("the Email successfuly changed!!");
+    if (Object.keys(err).length === 0) {
+      updateInfo(undefined, fields.emailChange, undefined);
       return;
     }
-    setErros(errors);
+    setErros(err);
   };
 
   const handleNameSubmit = (e) => {
     e.preventDefault();
-    const errors = {};
+    const err = {};
     if (fields.nameChange === "") {
-      errors.nameError = "you must provide this field";
+      err.nameError = "You must provide this field";
     }
 
-    updateInfo(fields.nameChange, undefined, undefined);
-    setNavigate({ ...navigate, toNameChange: false, mainBox: true });
-
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(err).length === 0) {
+      updateInfo(fields.nameChange, undefined, undefined);
       return;
     }
-    setErros(errors);
+    setErros(err);
   };
+
   //Handeling Submitting ends
   return (
     <>
