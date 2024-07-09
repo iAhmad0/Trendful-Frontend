@@ -1,287 +1,287 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import bcrypt from "bcryptjs-react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { faExclamation } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import bcrypt from 'bcryptjs-react'
 
 function SellerAccount() {
-  const [seller, setSeller] = useState({});
+  const [seller, setSeller] = useState({})
   const [navigate, setNavigate] = useState({
     toNameChange: false,
     toPhoneChange: false,
     toEmailChange: false,
     toPassChange: false,
     mainBox: true,
-  });
-  const [errors, setErros] = useState({});
+  })
+  const [errors, setErros] = useState({})
   const [fields, setFields] = useState({
-    nameChange: "",
-    emailChange: "",
-    phoneChange: "",
-    currentPassChange: "",
-    newPassChange: "",
-    rePassChange: "",
-  });
+    nameChange: '',
+    emailChange: '',
+    phoneChange: '',
+    currentPassChange: '',
+    newPassChange: '',
+    rePassChange: '',
+  })
 
   async function checkLoggedIn() {
-    if (localStorage.getItem("sellerToken")) {
+    if (localStorage.getItem('sellerToken')) {
       try {
         const request = await axios.post(
-          "http://localhost:3000/api/seller/token",
+          'http://localhost:3000/api/seller/token',
           {
-            token: localStorage.getItem("sellerToken"),
+            token: localStorage.getItem('sellerToken'),
           }
-        );
+        )
       } catch (err) {
-        localStorage.removeItem("sellerToken");
-        window.location.href = "http://localhost:5173/seller/login";
+        localStorage.removeItem('sellerToken')
+        window.location.href = 'http://localhost:5173/seller/login'
       }
     } else {
-      window.location.href = "http://localhost:5173/seller/login";
+      window.location.href = 'http://localhost:5173/seller/login'
     }
   }
 
   useEffect(() => {
-    checkLoggedIn();
-  }, []);
+    checkLoggedIn()
+  }, [])
 
   async function getInfo() {
-    if (localStorage.getItem("sellerToken")) {
+    if (localStorage.getItem('sellerToken')) {
       try {
         const request = await axios.post(
-          "http://localhost:3000/api/sellerInfo",
+          'http://localhost:3000/api/sellerInfo',
           {
-            token: localStorage.getItem("sellerToken"),
+            token: localStorage.getItem('sellerToken'),
           }
-        );
-        setSeller(request.data);
+        )
+        setSeller(request.data)
       } catch (err) {
-        localStorage.removeItem("sellerToken");
-        window.location.href = "http://localhost:5173/seller/login";
+        localStorage.removeItem('sellerToken')
+        window.location.href = 'http://localhost:5173/seller/login'
       }
     } else {
-      window.location.href = "http://localhost:5173/seller/login";
+      window.location.href = 'http://localhost:5173/seller/login'
     }
   }
 
   useEffect(() => {
-    getInfo();
-  }, []);
+    getInfo()
+  }, [])
 
   async function updateInfo(
     name = seller.name,
     email = seller.email,
     mobile = seller.mobile
   ) {
-    if (localStorage.getItem("sellerToken")) {
+    if (localStorage.getItem('sellerToken')) {
       try {
         const request = await axios.patch(
-          "http://localhost:3000/api/sellerInfo",
+          'http://localhost:3000/api/sellerInfo',
           {
-            token: localStorage.getItem("sellerToken"),
+            token: localStorage.getItem('sellerToken'),
             newName: name,
             newEmail: email,
             newMobile: mobile,
           }
-        );
+        )
 
-        getInfo();
+        getInfo()
 
         setFields({
-          nameChange: "",
-          emailChange: "",
-          phoneChange: "",
-          currentPassChange: "",
-          newPassChange: "",
-          rePassChange: "",
-        });
+          nameChange: '',
+          emailChange: '',
+          phoneChange: '',
+          currentPassChange: '',
+          newPassChange: '',
+          rePassChange: '',
+        })
         setNavigate({
           toNameChange: false,
           toPhoneChange: false,
           toEmailChange: false,
           toPassChange: false,
           mainBox: true,
-        });
+        })
       } catch (err) {
-        setErros({ emailError: err.response.data });
+        setErros({ emailError: err.response.data })
       }
     } else {
-      window.location.href = "http://localhost:5173/seller/login";
+      window.location.href = 'http://localhost:5173/seller/login'
     }
   }
 
   function encryptPassword(newPassword) {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(newPassword, salt);
+    const salt = bcrypt.genSaltSync(10)
+    const hash = bcrypt.hashSync(newPassword, salt)
 
-    return hash;
+    return hash
   }
 
   async function updatePassword(currentPass, newPass) {
-    if (localStorage.getItem("sellerToken")) {
+    if (localStorage.getItem('sellerToken')) {
       try {
-        const encryptedPassword = await encryptPassword(newPass);
+        const encryptedPassword = await encryptPassword(newPass)
 
         const request = await axios.patch(
-          "http://localhost:3000/api/sellerPasswordChange",
+          'http://localhost:3000/api/sellerPasswordChange',
           {
-            token: localStorage.getItem("sellerToken"),
+            token: localStorage.getItem('sellerToken'),
             currentPassword: currentPass,
             newPassword: encryptedPassword,
           }
-        );
+        )
       } catch (err) {
-        localStorage.removeItem("sellerToken");
-        window.location.href = "http://localhost:5173/seller/login";
+        localStorage.removeItem('sellerToken')
+        window.location.href = 'http://localhost:5173/seller/login'
       }
     } else {
-      window.location.href = "http://localhost:5173/seller/login";
+      window.location.href = 'http://localhost:5173/seller/login'
     }
   }
 
   // Handeling Navigation Starts
   const handleNavigation = (e) => {
-    setNavigate({ ...navigate, [e.target.name]: true, mainBox: false });
-  };
+    setNavigate({ ...navigate, [e.target.name]: true, mainBox: false })
+  }
   const handleReverseNavigation = (e) => {
     setFields({
-      nameChange: "",
-      emailChange: "",
-      phoneChange: "",
-      currentPassChange: "",
-      newPassChange: "",
-      rePassChange: "",
-    });
-    setErros({});
-    setNavigate({ ...navigate, [e.target.name]: false, mainBox: true });
-  };
+      nameChange: '',
+      emailChange: '',
+      phoneChange: '',
+      currentPassChange: '',
+      newPassChange: '',
+      rePassChange: '',
+    })
+    setErros({})
+    setNavigate({ ...navigate, [e.target.name]: false, mainBox: true })
+  }
   // Handeling Navigation Ends
   //Handeling Fields Change Start
   const handleChange = (e) => {
     if (errors) {
       if (
-        e.target.name === "nameChange" ||
-        e.target.name === "phoneChange" ||
-        e.target.name === "emailChange"
+        e.target.name === 'nameChange' ||
+        e.target.name === 'phoneChange' ||
+        e.target.name === 'emailChange'
       ) {
-        setErros({});
+        setErros({})
       } else {
-        if (e.target.name === "currentPassChange") {
-          setErros({ ...errors, currentPassError: "" });
-        } else if (e.target.name === "newPassChange") {
-          setErros({ ...errors, newPassError: "" });
-        } else if (e.target.name === "rePassChange") {
-          setErros({ ...errors, rePassError: "" });
+        if (e.target.name === 'currentPassChange') {
+          setErros({ ...errors, currentPassError: '' })
+        } else if (e.target.name === 'newPassChange') {
+          setErros({ ...errors, newPassError: '' })
+        } else if (e.target.name === 'rePassChange') {
+          setErros({ ...errors, rePassError: '' })
         }
       }
     }
-    setFields({ ...fields, [e.target.name]: e.target.value });
-  };
+    setFields({ ...fields, [e.target.name]: e.target.value })
+  }
 
   const settingBoxInfo = [
     {
-      title: "Name",
-      buttonText: "Edit",
+      title: 'Name',
+      buttonText: 'Edit',
       message: seller.name,
-      eName: "toNameChange",
+      eName: 'toNameChange',
     },
     {
-      title: "Email",
-      buttonText: "Edit",
+      title: 'Email',
+      buttonText: 'Edit',
       message: seller.email,
-      eName: "toEmailChange",
+      eName: 'toEmailChange',
     },
     {
-      title: "Primary mobile number",
-      buttonText: "Add",
+      title: 'Primary mobile number',
+      buttonText: 'Add',
       message: seller.mobile,
-      eName: "toPhoneChange",
+      eName: 'toPhoneChange',
     },
-    { title: "Password", buttonText: "Edit", eName: "toPassChange" },
-  ];
+    { title: 'Password', buttonText: 'Edit', eName: 'toPassChange' },
+  ]
   //Handeling Submitting Starts
   const handlePassSubmit = (e) => {
-    e.preventDefault();
-    const errors = {};
+    e.preventDefault()
+    const errors = {}
     const passReg =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/;
-    if (fields.currentPassChange === "") {
-      errors.currentPassError = "You must provide this field";
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/
+    if (fields.currentPassChange === '') {
+      errors.currentPassError = 'You must provide this field'
     }
-    if (fields.newPassChange === "") {
-      errors.newPassError = "You must provide this field";
+    if (fields.newPassChange === '') {
+      errors.newPassError = 'You must provide this field'
     } else if (!passReg.test(fields.newPassChange)) {
-      errors.newPassError = "Password is invalid";
+      errors.newPassError = 'Password is invalid'
     }
-    if (fields.rePassChange === "") {
-      errors.rePassError = "You must provide this field";
+    if (fields.rePassChange === '') {
+      errors.rePassError = 'You must provide this field'
     } else if (fields.rePassChange !== fields.newPassChange) {
-      errors.rePassError = "Passwords must be identical";
+      errors.rePassError = 'Passwords must be identical'
     }
 
     if (Object.keys(errors).length === 0) {
-      updatePassword(fields.currentPassChange, fields.newPassChange);
-      setNavigate({ ...navigate, toPassChange: false, mainBox: true });
-      return;
+      updatePassword(fields.currentPassChange, fields.newPassChange)
+      setNavigate({ ...navigate, toPassChange: false, mainBox: true })
+      return
     }
-    setErros(errors);
-  };
+    setErros(errors)
+  }
 
   const handlePhoneSubmit = (e) => {
-    e.preventDefault();
-    const err = {};
-    const phoneReg = /\+20\d{11}/;
-    if (fields.phoneChange === "") {
-      errors.phoneError = "You must provide this field";
+    e.preventDefault()
+    const err = {}
+    const phoneReg = /\+20\d{11}/
+    if (fields.phoneChange === '') {
+      errors.phoneError = 'You must provide this field'
     } else if (!phoneReg.test(fields.phoneChange)) {
-      errors.phoneError = "Invalid phone number";
+      errors.phoneError = 'Invalid phone number'
     }
 
     if (Object.keys(err).length === 0) {
-      updateInfo(undefined, undefined, fields.phoneChange);
-      return;
+      updateInfo(undefined, undefined, fields.phoneChange)
+      return
     }
-    setErros(err);
-  };
+    setErros(err)
+  }
 
   const handleEmailSubmit = (e) => {
-    e.preventDefault();
-    const err = {};
-    const mailReg = /([a-z]|[A-Z])([\w-])*@[\w-]+.com/;
-    if (fields.emailChange === "") {
-      err.emailError = "You must provide this field";
+    e.preventDefault()
+    const err = {}
+    const mailReg = /([a-z]|[A-Z])([\w-])*@[\w-]+.com/
+    if (fields.emailChange === '') {
+      err.emailError = 'You must provide this field'
     } else if (!mailReg.test(fields.emailChange)) {
-      err.emailError = "Invalid email";
+      err.emailError = 'Invalid email'
     }
 
     if (Object.keys(err).length === 0) {
-      updateInfo(undefined, fields.emailChange, undefined);
-      return;
+      updateInfo(undefined, fields.emailChange, undefined)
+      return
     }
-    setErros(err);
-  };
+    setErros(err)
+  }
 
   const handleNameSubmit = (e) => {
-    e.preventDefault();
-    const err = {};
-    if (fields.nameChange === "") {
-      err.nameError = "You must provide this field";
+    e.preventDefault()
+    const err = {}
+    if (fields.nameChange === '') {
+      err.nameError = 'You must provide this field'
     }
 
     if (Object.keys(err).length === 0) {
-      updateInfo(fields.nameChange, undefined, undefined);
-      return;
+      updateInfo(fields.nameChange, undefined, undefined)
+      return
     }
-    setErros(err);
-  };
+    setErros(err)
+  }
 
   return (
     <>
       {/* Setting Page --------------------------------------------------------------------------- */}
       <div
         className={`my-5 mx-auto w-[50%] p-[15px] ${
-          navigate.mainBox ? "visible" : "hidden"
+          navigate.mainBox ? 'visible' : 'hidden'
         }`}
       >
         <h1 className="text-[20px] font-bold mb-[15px]">Login & Security</h1>
@@ -294,24 +294,24 @@ function SellerAccount() {
               >
                 <p className="font-bold p-[10px]">
                   {box.title}
-                  {box.title !== "Password" ? (
+                  {box.title !== 'Password' ? (
                     <span className="block font-normal text-[13px]">
-                      {box.title === "Primary mobile number" &&
-                      box.message === "" ? (
+                      {box.title === 'Primary mobile number' &&
+                      box.message === '' ? (
                         <FontAwesomeIcon
                           icon={faCircleExclamation}
                           className="pr-[5px] text-amber-500"
                         />
                       ) : (
-                        ""
+                        ''
                       )}
-                      {box.title === "Primary mobile number" &&
-                      box.message === ""
-                        ? "Add your phone number"
+                      {box.title === 'Primary mobile number' &&
+                      box.message === ''
+                        ? 'Add your phone number'
                         : box.message}
                     </span>
                   ) : (
-                    ""
+                    ''
                   )}
                 </p>
                 <button
@@ -322,14 +322,14 @@ function SellerAccount() {
                   {box.buttonText}
                 </button>
               </div>
-            );
+            )
           })}
         </div>
       </div>
       {/* Name Change ------------------------------------------------------------------------------ */}
       <div
-        className={`ml-auto mr-auto w-[50%] p-[15px] ${
-          navigate.toNameChange ? "visible" : "hidden"
+        className={`ml-auto mr-auto w-[40%] p-[15px] ${
+          navigate.toNameChange ? 'visible' : 'hidden'
         }`}
       >
         <h1 className="text-[20px] font-bold mb-[15px]">Change your name</h1>
@@ -337,7 +337,7 @@ function SellerAccount() {
           <div className="p-[15px]">
             <p className="text-[14px] mb-[30px]">
               If you want to change the name associated with your Trendful
-              customer account, you may do so below Be sure to click the{" "}
+              customer account, you may do so below Be sure to click the
               <span className="font-bold">Save Changes</span> button when you
               are done.
             </p>
@@ -354,7 +354,7 @@ function SellerAccount() {
                 type="text"
                 name="nameChange"
                 id="Name"
-                className={`border-solid ${
+                className={`w-full border-solid ${
                   errors.nameError ? `border-red-500` : `border-[#000]`
                 } border-[#000] border-[1px] rounded outline-none text-[13px] p-[5px] `}
               />
@@ -369,20 +369,20 @@ function SellerAccount() {
                   </span>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </form>
             <button
               type="submit"
               onClick={handleNameSubmit}
-              className="pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              className="w-full pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
             >
               Save Changes
             </button>
             <button
               onClick={handleReverseNavigation}
               name="toNameChange"
-              className="block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              className="w-full block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
             >
               Return to settings menu
             </button>
@@ -392,7 +392,7 @@ function SellerAccount() {
       {/* Email Change------------------------------------------------------------------------------ */}
       <div
         className={`ml-auto mr-auto w-[30%] p-[15px]  ${
-          navigate.toEmailChange ? "visible" : "hidden"
+          navigate.toEmailChange ? 'visible' : 'hidden'
         }`}
       >
         <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
@@ -432,7 +432,7 @@ function SellerAccount() {
                   </span>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </form>
             <button
@@ -454,8 +454,8 @@ function SellerAccount() {
       </div>
       {/* Mobile Number Change --------------------------------------------------------------------- */}
       <div
-        className={`ml-auto mr-auto w-[50%] p-[15px]  ${
-          navigate.toPhoneChange ? "visible" : "hidden"
+        className={`ml-auto mr-auto w-[40%] p-[15px]  ${
+          navigate.toPhoneChange ? 'visible' : 'hidden'
         }`}
       >
         <h1 className="text-[20px] font-bold mb-[15px]">
@@ -479,7 +479,7 @@ function SellerAccount() {
                 type="text"
                 name="phoneChange"
                 id="Name"
-                className={`border-solid ${
+                className={`w-[81%] border-solid ${
                   errors.phoneError ? `border-red-500` : `border-[#000]`
                 } border-[1px] rounded outline-none text-[13px] p-[5px] `}
               />
@@ -494,14 +494,14 @@ function SellerAccount() {
                   </span>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </form>
             <p></p>
             <button
               type="submit"
               onClick={handlePhoneSubmit}
-              className="pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              className="pt-[5px] pb-[5px] w-full block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
             >
               Continue
             </button>
@@ -509,7 +509,7 @@ function SellerAccount() {
             <button
               onClick={handleReverseNavigation}
               name="toPhoneChange"
-              className="pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[5px]"
+              className="w-full pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[5px]"
             >
               Return to setting menu
             </button>
@@ -518,8 +518,8 @@ function SellerAccount() {
       </div>
       {/* Password Change--------------------------------------------------------------------------- */}
       <div
-        className={`ml-auto mr-auto w-[50%] p-[15px]  ${
-          navigate.toPassChange ? "visible" : "hidden"
+        className={`ml-auto mr-auto w-[30%] p-[15px]  ${
+          navigate.toPassChange ? 'visible' : 'hidden'
         }`}
       >
         <h1 className="text-[20px] font-bold mb-[15px]">Change Password</h1>
@@ -542,7 +542,7 @@ function SellerAccount() {
                 type="password"
                 name="currentPassChange"
                 id="Name"
-                className={`border-solid ${
+                className={`w-full border-solid ${
                   errors.currentPassError ? `border-red-500` : `border-[#000]`
                 }  border-[1px] rounded outline-none text-[13px] p-[5px] `}
               />
@@ -557,7 +557,7 @@ function SellerAccount() {
                   </span>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </form>
             <form className="mb-[30px]">
@@ -573,7 +573,7 @@ function SellerAccount() {
                 type="password"
                 name="newPassChange"
                 id="Name"
-                className={`border-solid ${
+                className={`w-full border-solid ${
                   errors.newPassError ? `border-red-500` : `border-[#000]`
                 }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
               />
@@ -588,7 +588,7 @@ function SellerAccount() {
                   </span>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </form>
             <form className="mb-[15px]">
@@ -604,7 +604,7 @@ function SellerAccount() {
                 type="password"
                 name="rePassChange"
                 id="Name"
-                className={`border-solid ${
+                className={`w-full border-solid ${
                   errors.rePassError ? `border-red-500` : `border-[#000]`
                 }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
               />
@@ -619,20 +619,20 @@ function SellerAccount() {
                   </span>
                 </div>
               ) : (
-                ""
+                ''
               )}
             </form>
             <button
               type="submit"
               onClick={handlePassSubmit}
-              className="pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              className="w-full pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
             >
               Save Changes
             </button>
             <button
               onClick={handleReverseNavigation}
               name="toPassChange"
-              className="block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              className="w-full block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
             >
               Return to setting menu
             </button>
@@ -640,7 +640,7 @@ function SellerAccount() {
             <p className="font-bold text-[14px] mb-[10px]">
               Lost or stolen device? Unusual activity
               <span className="block font-normal">
-                <span className="text-blue-600">Secure your account</span>{" "}
+                <span className="text-blue-600">Secure your account</span>{' '}
                 instead
               </span>
             </p>
@@ -648,6 +648,6 @@ function SellerAccount() {
         </div>
       </div>
     </>
-  );
+  )
 }
-export default SellerAccount;
+export default SellerAccount
