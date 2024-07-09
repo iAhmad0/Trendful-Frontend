@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function PricingSection({ price, stock, name }) {
+function PricingSection({ price, stock }) {
   const leftover = Math.trunc((price - Math.floor(price)) * 100);
 
   const id = window.location.pathname.substring(

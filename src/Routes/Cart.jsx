@@ -9,6 +9,16 @@ const imageURL = "http://localhost:3000/api/uploads/images/";
 function Cart() {
   const [cartProducts, setCartProducts] = useState([]);
   const [total, setTotal] = useState(0);
+
+  function calculateTotal(products) {
+    let sum = 0;
+    products.forEach((product) => {
+      sum += product.price * product.quantity;
+    });
+
+    setTotal(sum);
+  }
+
   function increaseQuantity(id) {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const products = [...cartProducts];
@@ -20,6 +30,8 @@ function Cart() {
         break;
       }
     }
+
+    calculateTotal(products);
 
     setCartProducts(products);
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -52,6 +64,8 @@ function Cart() {
       }
     }
 
+    calculateTotal(products);
+
     setCartProducts(products);
     localStorage.setItem("cart", JSON.stringify(cart));
 
@@ -65,6 +79,8 @@ function Cart() {
     let products = [...cartProducts];
     products = products.filter((product) => product.id != id);
 
+    calculateTotal(products);
+
     setCartProducts(products);
     localStorage.setItem("cart", JSON.stringify(cart));
 
@@ -76,7 +92,7 @@ function Cart() {
       const cart = JSON.parse(localStorage.getItem("cart"));
       const products = [];
 
-      if (cart.length) {
+      if (cart) {
         for (let i = 0; i < cart.length; i++) {
           const response = await axios.get(
             "http://localhost:3000/api/v1/" + cart[i].id
@@ -97,12 +113,7 @@ function Cart() {
 
         setCartProducts(products);
 
-        let sum = 0;
-        products.forEach((product) => {
-          sum += product.price * product.quantity;
-        });
-
-        setTotal(sum);
+        calculateTotal(products);
       }
     };
     fetchData();
@@ -115,7 +126,7 @@ function Cart() {
           return (
             <div
               key={product.id}
-              className="grid grid-cols-3 border border-gray-300 border-1 p-[10px] rounded-lg"
+              className="grid grid-cols-3 p-2 border border-gray-300 border-1 rounded-lg"
             >
               <div className="flex justify-center items-center">
                 <Link to={"/product/" + product.id}>
@@ -174,12 +185,7 @@ function Cart() {
             </p>
 
             <Link to="/checkout">
-              <button
-                onClick={() => {
-                  localStorage.setItem("total", total);
-                }}
-                className="text-sm border border-green-300 border-1 rounded-md px-3 py-1 hover:bg-green-500 hover:text-[white] transition duration-200 linear"
-              >
+              <button className="text-sm border border-green-300 border-1 rounded-md px-3 py-1 hover:bg-green-500 hover:text-[white] transition duration-200 linear">
                 Purchase
               </button>
             </Link>

@@ -38,11 +38,7 @@ function ProductPage() {
             description={data.description}
           />
 
-          <PricingSection
-            price={data.price}
-            stock={data.stock}
-            name={data.name}
-          />
+          <PricingSection price={data.price} stock={data.stock} />
         </div>
       </>
     );

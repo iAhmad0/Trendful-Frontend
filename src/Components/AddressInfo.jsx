@@ -1,34 +1,55 @@
-import { useState } from "react";
-
 const address = [
-  { type: "text", Abstract: "First Name*", id: "firstName" },
-  { type: "text", Abstract: "Last Name*", id: "lastName" },
-  { type: "email", Abstract: "Email Address*", id: "email" },
-  { type: "text", Abstract: "Phone*", id: "phone" },
-  { type: "text", Abstract: "Address*", id: "address" },
-  { type: "text", Abstract: "City*", id: "city" },
+  {
+    type: "text",
+    Abstract: "First Name*",
+    id: "firstName",
+    pattern: "([a-z]|[A-Z]){3,}",
+  },
+  {
+    type: "text",
+    Abstract: "Last Name*",
+    id: "lastName",
+    pattern: "([a-z]|[A-Z]){3,}",
+  },
+  {
+    type: "email",
+    Abstract: "Email Address*",
+    id: "email",
+    pattern: "([a-z]|[A-Z])\\w{0,}@\\w{4,}.com",
+  },
+  {
+    type: "tel",
+    Abstract: "Phone*",
+    id: "phone",
+    pattern: "01(0|1|2|5)[0-9]{8}",
+  },
+  {
+    type: "text",
+    Abstract: "Address*",
+    id: "address",
+    pattern: "([a-z]|[A-Z]|\\s){3,}",
+  },
+  {
+    type: "text",
+    Abstract: "City*",
+    id: "city",
+    pattern: "([a-z]|[A-Z]|\\s){3,}",
+  },
 ];
 
-function AddressInfo({ handleInfo }) {
-  const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-  });
-
+function AddressInfo({ handleChange }) {
   return (
     <div className="border-[1px] border-solid  border-[gray] rounded-[10px] mr-[10px] text-[15px] p-[5px] w-[100%]">
       <h1 className="mb-[5px] ml-[10px]">
         BILLING ADDRESS{" "}
         <span className="text-[10px] text-red-700">Required Field*</span>
       </h1>
+
       {address.map((object, index) => {
         return (
           <input
-            onChange={(e) => handleInfo(e)}
+            pattern={object.pattern}
+            onChange={handleChange}
             key={index}
             onFocus={(e) => {
               e.target.placeholder = "";
@@ -50,21 +71,8 @@ function AddressInfo({ handleInfo }) {
           />
         );
       })}
-      {data.Pcode &&
-      data.address &&
-      data.country &&
-      data.fname &&
-      data.lname &&
-      data.phone &&
-      data.town &&
-      data.email ? (
-        ""
-      ) : (
-        <div className="text-[13px] text-[red] p-[5px] ml-[10px]">
-          You must fill this Form
-        </div>
-      )}
     </div>
   );
 }
+
 export default AddressInfo;

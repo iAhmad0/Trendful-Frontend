@@ -29,6 +29,7 @@ const SellerOrderHistory = () => {
     return (
       <div className="flex min-h-screen">
         <SideBar />
+
         <div className="flex-1">
           <SellerHistory />
         </div>

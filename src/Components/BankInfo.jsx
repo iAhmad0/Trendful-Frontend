@@ -45,6 +45,7 @@ function BankInfo({ handleChange }) {
       className="border-[1px] border-solid border-[gray] rounded-[10px] text-[15px] p-[5px] w-[100%]"
     >
       <h1 className="mb-[10px] ml-[10px]">NET BANKING</h1>
+
       {netBanking.map((object, index) => {
         return (
           <>
@@ -54,6 +55,7 @@ function BankInfo({ handleChange }) {
             >
               {object.label}
             </label>
+
             <input
               key={index}
               onChange={(e) => {

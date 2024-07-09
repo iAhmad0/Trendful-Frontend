@@ -11,18 +11,20 @@ import { Outlet, Link } from "react-router-dom";
 import axios from "axios";
 import Category from "../Components/Category";
 
-function logOut() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("total");
-  localStorage.removeItem("cart");
-}
-
 function Layout() {
   const [value, setValue] = useState(false);
   const [input, setInput] = useState(" ");
   const [name, setName] = useState("sign in");
   const [categories, setCategories] = useState([]);
   const [cartCounter, setCartCounter] = useState(0);
+
+  function logOut() {
+    if (name !== "sign in") {
+      localStorage.removeItem("token");
+      localStorage.removeItem("total");
+      localStorage.removeItem("cart");
+    }
+  }
 
   window.addEventListener("storage", () => {
     setCartCounter(JSON.parse(localStorage.getItem("cart")).length);
@@ -83,12 +85,12 @@ function Layout() {
     <>
       <header className="bg-[#3E64DA]">
         <div className="w-full grid grid-cols-3 items-center justify-between text-white p-5">
-          <div className="border border-transparent border-solid rounded cursor-pointer">
+          <div className="w-fit border border-transparent border-solid rounded cursor-pointer">
             <Link to="/">
               <img
                 src="/images/logo-nobg-white.png"
                 alt=""
-                className="w-[100px] h-[60px] "
+                className="w-[100px] h-[60px]"
               />
             </Link>
           </div>
@@ -96,7 +98,7 @@ function Layout() {
           <form className="h-8 flex justify-self-center rounded overflow-hidden">
             <input
               type="search"
-              placeholder="Search by name ..."
+              placeholder="Search by name or category"
               className="w-96 px-3 text-black outline-none"
               onChange={(e) => setInput(e.target.value)}
             />
@@ -238,7 +240,7 @@ function Layout() {
                 onClick={logOut}
                 className="cursor-pointer p-[10px] hover:bg-[#eee]"
               >
-                {name === "sign in" ? "Sign in" : "Log Out"}
+                {name === "sign in" ? "Sign in" : ""}
               </li>
             </Link>
           </ul>

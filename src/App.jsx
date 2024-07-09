@@ -7,14 +7,13 @@ import Layout from "./Routes/Layout";
 import Home from "./Routes/Home";
 import YourAccount from "./Routes/YourAccount";
 import ProductPage from "./Routes/ProductPage";
-import ErrorPage from "./Routes/ErrorPage";
 import SellerProductPage from "./Routes/SellerProductPage";
 import SellerInventoryPage from "./Routes/SellerInventoryPage";
 import SellerAccount from "./Routes/SellerAccountPage";
 import SearchPage from "./Routes/SearchPage";
 import Cart from "./Routes/Cart";
-import PaymentPage from "./Routes/PaymentPage";
-import PurchaseHistoryPage from "./Routes/PurchaseHistoryPage";
+import Payment from "./Routes/Payment";
+import PurchaseHistory from "./Routes/PurchaseHistory";
 import PointsAndRewardPage from "./Routes/PointsAndRewardPage";
 
 import AdminLogin from "./Routes/AdminLogin";
@@ -26,6 +25,8 @@ import AdminSellerAccountsPage from "./Routes/AdminSellerAccountsPage";
 import SellerLogin from "./Routes/SellerLogin";
 import SellerRegister from "./Routes/SellerRegister";
 import SellerOrderHistory from "./Routes/SellerOrderHistory";
+
+import ErrorPage from "./Routes/ErrorPage";
 
 function App() {
   return (
@@ -41,9 +42,9 @@ function App() {
           <Route path="search/" element={<SearchPage />} />
           <Route path="search/:word" element={<SearchPage />} />
           <Route path="cart" element={<Cart />} />
-          <Route path="history" element={<PurchaseHistoryPage />} />
+          <Route path="history" element={<PurchaseHistory />} />
           <Route path="points" element={<PointsAndRewardPage />} />
-          <Route path="checkout" element={<PaymentPage />} />
+          <Route path="checkout" element={<Payment />} />
         </Route>
 
         <Route path="admin/login" element={<AdminLogin />} />

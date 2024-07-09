@@ -20,7 +20,7 @@ function SellerHistory() {
     if (response) {
       for (let i = 0; i < products.length; i++) {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/" + products[i].id
+          "http://localhost:3000/api/v1/" + products[i].productID
         );
 
         const product = response.data;

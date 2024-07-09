@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { setGlobalState } from "../globalStates";
+
 function PromoCode() {
   const [data, setData] = useState({
     promo: "",
