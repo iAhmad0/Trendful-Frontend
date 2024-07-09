@@ -6,13 +6,13 @@ function SearchPage() {
   return (
     <>
       <Header />
-      <main className="bg-[rgb(227,230,230)] p-[20px] h-screen">
-        <div className="m-[10px] mb-[20px] bg-white p-[20px]">
-          <h1 className="font-bold text-left mb-[10px]">Products</h1>
-          <div className="">
-            <div className="flex justify-between flex-wrap">
-              <SearchProduct link={path} />
-            </div>
+
+      <main className="bg-[rgb(227,230,230)] p-8 min-h-screen">
+        <div className="bg-white p-5">
+          <h1 className="font-bold mb-10">Products</h1>
+
+          <div className="grid grid-cols-2 gap-8">
+            <SearchProduct link={path} />
           </div>
         </div>
       </main>
