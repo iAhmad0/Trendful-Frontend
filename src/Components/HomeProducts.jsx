@@ -3,9 +3,9 @@ import Product from "./Product.jsx";
 const HomeProducts = ({ products }) => {
   return (
     <>
-      <main className="p-5">
-        <div className="m-[10px] mb-[20px] bg-white p-[20px]">
-          <h1 className="font-bold text-left mb-10">Products</h1>
+      <main className="p-8">
+        <div className="bg-white p-5">
+          <h1 className="font-bold mb-10">Products</h1>
 
           <div className="grid grid-cols-6 gap-8">
             {products.map((object, index) => {

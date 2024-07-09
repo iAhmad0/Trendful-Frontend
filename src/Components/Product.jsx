@@ -13,9 +13,9 @@ function Product({ img, price, name, link }) {
           />
         </Link>
       </div>
-      <div className="flex justify-between">
-        <h6 className="font-bold text-left text-[13px]">{name}</h6>
-        <h6 className="font-bold text-left text-[13px] mt-5">EGP {price}</h6>
+      <div>
+        <h6 className="font-bold text-[13px] leading-none">{name}</h6>
+        <h6 className="font-bold text-right text-[13px] mt-5">EGP {price}</h6>
       </div>
     </div>
   );
