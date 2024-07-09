@@ -6,56 +6,69 @@ import axios from "axios";
 
 const imageURL = "http://localhost:3000/api/uploads/images/";
 
-const Cart = () => {
+function Cart() {
   const [cartProducts, setCartProducts] = useState([]);
   const [total, setTotal] = useState(0);
-
   function increaseQuantity(id) {
     const cart = JSON.parse(localStorage.getItem("cart"));
+    const products = [...cartProducts];
 
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].id == id) {
         cart[i].quantity++;
-        window.location.reload();
+        products[i].quantity++;
         break;
       }
     }
+
+    setCartProducts(products);
     localStorage.setItem("cart", JSON.stringify(cart));
   }
 
   function decreaseQuantity(id) {
     let cart = JSON.parse(localStorage.getItem("cart"));
+    let products = [...cartProducts];
 
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].id == id && cart[i].quantity > 0) {
         cart[i].quantity--;
-        window.location.reload();
+        products[i].quantity--;
       }
+
       if (cart[i].id == id && cart[i].quantity == 0) {
         if (i == 0) {
           cart.shift();
-          window.location.reload();
+          products.shift();
           break;
         } else if (i == cart.length - 1) {
           cart.pop();
-          window.location.reload();
+          products.pop();
           break;
         }
+
         cart = cart.slice(0, i).concat(cart.slice(i + 1));
-        window.location.reload();
+        products = cartProducts.slice(0, i).concat(cartProducts.slice(i + 1));
         break;
       }
     }
 
+    setCartProducts(products);
     localStorage.setItem("cart", JSON.stringify(cart));
+
+    window.dispatchEvent(new Event("storage"));
   }
 
   function removeProduct(id) {
     let cart = JSON.parse(localStorage.getItem("cart"));
     cart = cart.filter((product) => product.id != id);
 
+    let products = [...cartProducts];
+    products = products.filter((product) => product.id != id);
+
+    setCartProducts(products);
     localStorage.setItem("cart", JSON.stringify(cart));
-    window.location.reload();
+
+    window.dispatchEvent(new Event("storage"));
   }
 
   useEffect(() => {
@@ -97,44 +110,54 @@ const Cart = () => {
 
   return (
     <>
-      <div className="w-[700px]  absolute left-[50%] top-[25%] transform translate-x-[-50%] ">
+      <div className="w-[700px] grid items-center gap-4 mx-auto my-8">
         {cartProducts.map((product) => {
           return (
             <div
               key={product.id}
-              className="flex justify-between items-center mb-[15px] border border-gray-300 border-1 p-[10px] rounded-lg"
+              className="grid grid-cols-3 border border-gray-300 border-1 p-[10px] rounded-lg"
             >
-              <img src={imageURL + product.images[0]} alt="" className="h-32" />
-              <span className="border border-gray-300 border-1 text-[25px]">
+              <div className="flex justify-center items-center">
+                <Link to={"/product/" + product.id}>
+                  <img
+                    src={imageURL + product.images[0]}
+                    alt=""
+                    className="max-w-48 max-h-32"
+                  />
+                </Link>
+              </div>
+
+              <div className="flex justify-center items-center text-2xl">
                 <span
-                  className="border-r border-grey-300 px-[10px] py-[6px] cursor-pointer text-gray-400"
+                  className="px-2 cursor-pointer text-gray-400"
                   onClick={() => decreaseQuantity(product.id)}
                 >
                   -
                 </span>
 
-                <span className="p-[10px]">{product.quantity}</span>
+                <span className="px-3">{product.quantity}</span>
 
                 <span
-                  className="border-l-[1px] border-grey-300 px-[10px] py-[6px] cursor-pointer text-gray-400"
+                  className="px-2 cursor-pointer text-gray-400"
                   onClick={() => increaseQuantity(product.id)}
                 >
                   +
                 </span>
-              </span>
+              </div>
 
               <div>
-                <p className="text-[20px]">{product.name}</p>
-                <p className="text-[15px] text-gray-500 mb-[15px]">
-                  {product.price * product.quantity}
+                <p className="text-lg">{product.name}</p>
+                <p className="text-sm text-gray-500 mb-[15px]">
+                  {"EGP " + product.price * product.quantity}
                 </p>
+
                 <button
-                  className="border border-red-300 border-1 px-[5px] py-[7px] hover:bg-red-500 hover:text-[white] transition duration-300  linear "
+                  className="text-sm border border-red-300 border-1 rounded-md px-3 py-1 hover:bg-red-500 hover:text-[white] transition duration-200 linear "
                   onClick={() => {
                     removeProduct(product.id);
                   }}
                 >
-                  Remove Item
+                  Remove
                 </button>
               </div>
             </div>
@@ -142,17 +165,20 @@ const Cart = () => {
         })}
 
         {cartProducts.length > 0 ? (
-          <div className="flex  justify-between p-[10px]  ">
-            <div>
-              <span>Total: {total}</span>
-              <span></span>
-            </div>
+          <div className="flex justify-between items-center">
+            <p>
+              <span>Total</span>
+              <br />
+              <span className="font-bold text-sm">EGP </span>
+              <span className="font-bold">{total}</span>
+            </p>
+
             <Link to="/checkout">
               <button
                 onClick={() => {
                   localStorage.setItem("total", total);
                 }}
-                className="border border-green-300 border-1 px-[5px] py-[7px] hover:bg-green-500 hover:text-[white] transition duration-300  linear"
+                className="text-sm border border-green-300 border-1 rounded-md px-3 py-1 hover:bg-green-500 hover:text-[white] transition duration-200 linear"
               >
                 Purchase
               </button>
@@ -176,6 +202,6 @@ const Cart = () => {
       )}
     </>
   );
-};
+}
 
 export default Cart;

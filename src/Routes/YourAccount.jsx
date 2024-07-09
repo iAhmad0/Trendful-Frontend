@@ -3,10 +3,10 @@ import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "../Components/Header";
 import bcrypt from "bcryptjs-react";
 
 function YourAccount() {
+  const [render, setRender] = useState(false);
   const [buyer, setBuyer] = useState({});
   const [navigate, setNavigate] = useState({
     toNameChange: false,
@@ -34,6 +34,8 @@ function YourAccount() {
             token: localStorage.getItem("token"),
           }
         );
+
+        setRender(true);
       } catch (err) {
         localStorage.removeItem("token");
         window.location.href = "http://localhost:5173/login";
@@ -279,379 +281,381 @@ function YourAccount() {
   };
 
   //Handeling Submitting ends
-  return (
-    <>
-      <Header />
-      {/* Setting Page --------------------------------------------------------------------------- */}
-      <div
-        className={`my-5 mx-auto w-[50%] p-[15px] ${
-          navigate.mainBox ? "visible" : "hidden"
-        }`}
-      >
-        <h1 className="text-[20px] font-bold mb-[15px]">Login & Security</h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
-          {settingBoxInfo.map((box, index) => {
-            return (
-              <div
-                key={index}
-                className="p-[15px] flex items-center justify-between border-[2px] border-solid border-b-[#ccc] border-t-transparent border-l-transparent border-r-transparent"
-              >
-                <p className="font-bold p-[10px]">
-                  {box.title}
-                  {box.title !== "Password" ? (
-                    <span className="block font-normal text-[13px]">
-                      {box.title === "Primary mobile number" &&
-                      box.message === "" ? (
-                        <FontAwesomeIcon
-                          icon={faCircleExclamation}
-                          className="pr-[5px] text-amber-500"
-                        />
-                      ) : (
-                        ""
-                      )}
-                      {box.title === "Primary mobile number" &&
-                      box.message === ""
-                        ? "Add your phone number"
-                        : box.message}
-                    </span>
-                  ) : (
-                    ""
-                  )}
-                </p>
-                <button
-                  onClick={handleNavigation}
-                  name={box.eName}
-                  className="pt-[5px] pb-[5px] pl-[50px] pr-[50px] rounded-[10px] text-[13px]  bg-[#3e64da] text-[white] "
+  if (render) {
+    return (
+      <>
+        {/* Setting Page --------------------------------------------------------------------------- */}
+        <div
+          className={`my-5 mx-auto w-[50%] p-[15px] ${
+            navigate.mainBox ? "visible" : "hidden"
+          }`}
+        >
+          <h1 className="text-[20px] font-bold mb-[15px]">Login & Security</h1>
+          <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+            {settingBoxInfo.map((box, index) => {
+              return (
+                <div
+                  key={index}
+                  className="p-[15px] flex items-center justify-between border-[2px] border-solid border-b-[#ccc] border-t-transparent border-l-transparent border-r-transparent"
                 >
-                  {box.buttonText}
-                </button>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      {/* Name Change ------------------------------------------------------------------------------ */}
-      <div
-        className={`ml-auto mr-auto w-[50%] p-[15px] ${
-          navigate.toNameChange ? "visible" : "hidden"
-        }`}
-      >
-        <h1 className="text-[20px] font-bold mb-[15px]">Change your name</h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
-          <div className="p-[15px]">
-            <p className="text-[14px] mb-[30px]">
-              If you want to change the name associated with your Trendful
-              customer account, you may do so below Be sure to click the{" "}
-              <span className="font-bold">Save Changes</span> button when you
-              are done.
-            </p>
-            <form className="mb-[15px]">
-              <label
-                htmlFor="Name"
-                className="font-bold text-[13px] block mb-[10px]"
-              >
-                New name
-              </label>
-              <input
-                onChange={handleChange}
-                value={fields.nameChange}
-                type="text"
-                name="nameChange"
-                id="Name"
-                className={`border-solid ${
-                  errors.nameError ? `border-red-500` : `border-[#000]`
-                } border-[#000] border-[1px] rounded outline-none text-[13px] p-[5px] `}
-              />
-              {errors.nameError ? (
-                <div className="mt-1 flex items-center">
-                  <FontAwesomeIcon
-                    icon={faExclamation}
-                    className=" text-[14px] mr-3 text-red-500"
-                  />
-                  <span className=" text-[14px] text-red-500">
-                    {errors.nameError}
-                  </span>
+                  <p className="font-bold p-[10px]">
+                    {box.title}
+                    {box.title !== "Password" ? (
+                      <span className="block font-normal text-[13px]">
+                        {box.title === "Primary mobile number" &&
+                        box.message === "" ? (
+                          <FontAwesomeIcon
+                            icon={faCircleExclamation}
+                            className="pr-[5px] text-amber-500"
+                          />
+                        ) : (
+                          ""
+                        )}
+                        {box.title === "Primary mobile number" &&
+                        box.message === ""
+                          ? "Add your phone number"
+                          : box.message}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </p>
+                  <button
+                    onClick={handleNavigation}
+                    name={box.eName}
+                    className="pt-[5px] pb-[5px] pl-[50px] pr-[50px] rounded-[10px] text-[13px]  bg-[#3e64da] text-[white] "
+                  >
+                    {box.buttonText}
+                  </button>
                 </div>
-              ) : (
-                ""
-              )}
-            </form>
-            <button
-              type="submit"
-              onClick={handleNameSubmit}
-              className="pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-            >
-              Save Changes
-            </button>
-            <button
-              onClick={handleReverseNavigation}
-              name="toNameChange"
-              className="block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-            >
-              Return to settings menu
-            </button>
+              );
+            })}
           </div>
         </div>
-      </div>
-      {/* Email Change------------------------------------------------------------------------------ */}
-      <div
-        className={`ml-auto mr-auto w-[30%] p-[15px]  ${
-          navigate.toEmailChange ? "visible" : "hidden"
-        }`}
-      >
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
-          <div className="p-[15px]">
-            <h1 className="text-[20px] text-center mb-[15px]">
-              Add an email address
-            </h1>
-            <p className="text-[14px] mb-[30px]">
-              Enter the new email address you would like to associate with your
-              account below.
-            </p>
-            <form className="mb-[15px]">
-              <label
-                htmlFor="Name"
-                className="font-bold text-[13px] block mb-[5px]"
+        {/* Name Change ------------------------------------------------------------------------------ */}
+        <div
+          className={`ml-auto mr-auto w-[50%] p-[15px] ${
+            navigate.toNameChange ? "visible" : "hidden"
+          }`}
+        >
+          <h1 className="text-[20px] font-bold mb-[15px]">Change your name</h1>
+          <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+            <div className="p-[15px]">
+              <p className="text-[14px] mb-[30px]">
+                If you want to change the name associated with your Trendful
+                customer account, you may do so below Be sure to click the{" "}
+                <span className="font-bold">Save Changes</span> button when you
+                are done.
+              </p>
+              <form className="mb-[15px]">
+                <label
+                  htmlFor="Name"
+                  className="font-bold text-[13px] block mb-[10px]"
+                >
+                  New name
+                </label>
+                <input
+                  onChange={handleChange}
+                  value={fields.nameChange}
+                  type="text"
+                  name="nameChange"
+                  id="Name"
+                  className={`border-solid ${
+                    errors.nameError ? `border-red-500` : `border-[#000]`
+                  } border-[#000] border-[1px] rounded outline-none text-[13px] p-[5px] `}
+                />
+                {errors.nameError ? (
+                  <div className="mt-1 flex items-center">
+                    <FontAwesomeIcon
+                      icon={faExclamation}
+                      className=" text-[14px] mr-3 text-red-500"
+                    />
+                    <span className=" text-[14px] text-red-500">
+                      {errors.nameError}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </form>
+              <button
+                type="submit"
+                onClick={handleNameSubmit}
+                className="pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
               >
-                New email address
-              </label>
-              <input
-                onChange={handleChange}
-                value={fields.emailChange}
-                type="email"
-                name="emailChange"
-                id="Name"
-                className={`border-solid ${
-                  errors.emailError ? `border-red-500` : `border-[#000]`
-                } w-[100%] border-[1px] rounded outline-none text-[13px] p-[5px] `}
-              />
-              {errors.emailError ? (
-                <div className="mt-1 flex items-center">
-                  <FontAwesomeIcon
-                    icon={faExclamation}
-                    className=" text-[14px] mr-3 text-red-500"
-                  />
-                  <span className=" text-[14px] text-red-500">
-                    {errors.emailError}
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
-            </form>
-            <button
-              type="submit"
-              onClick={handleEmailSubmit}
-              className="pt-[5px] pb-[5px] w-[100%] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-            >
-              Continue
-            </button>
-            <button
-              onClick={handleReverseNavigation}
-              name="toEmailChange"
-              className="pt-[5px] pb-[5px] w-[100%] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-            >
-              Return to settings menu
-            </button>
+                Save Changes
+              </button>
+              <button
+                onClick={handleReverseNavigation}
+                name="toNameChange"
+                className="block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              >
+                Return to settings menu
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      {/* Mobile Number Change --------------------------------------------------------------------- */}
-      <div
-        className={`ml-auto mr-auto w-[50%] p-[15px]  ${
-          navigate.toPhoneChange ? "visible" : "hidden"
-        }`}
-      >
-        <h1 className="text-[20px] font-bold mb-[15px]">
-          Change Mobile Phone Number
-        </h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
-          <div className="p-[15px]">
-            <form className="mb-[15px]">
-              <label
-                htmlFor="Name"
-                className="font-bold text-[13px] block mb-[5px]"
+        {/* Email Change------------------------------------------------------------------------------ */}
+        <div
+          className={`ml-auto mr-auto w-[30%] p-[15px]  ${
+            navigate.toEmailChange ? "visible" : "hidden"
+          }`}
+        >
+          <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+            <div className="p-[15px]">
+              <h1 className="text-[20px] text-center mb-[15px]">
+                Add an email address
+              </h1>
+              <p className="text-[14px] mb-[30px]">
+                Enter the new email address you would like to associate with
+                your account below.
+              </p>
+              <form className="mb-[15px]">
+                <label
+                  htmlFor="Name"
+                  className="font-bold text-[13px] block mb-[5px]"
+                >
+                  New email address
+                </label>
+                <input
+                  onChange={handleChange}
+                  value={fields.emailChange}
+                  type="email"
+                  name="emailChange"
+                  id="Name"
+                  className={`border-solid ${
+                    errors.emailError ? `border-red-500` : `border-[#000]`
+                  } w-[100%] border-[1px] rounded outline-none text-[13px] p-[5px] `}
+                />
+                {errors.emailError ? (
+                  <div className="mt-1 flex items-center">
+                    <FontAwesomeIcon
+                      icon={faExclamation}
+                      className=" text-[14px] mr-3 text-red-500"
+                    />
+                    <span className=" text-[14px] text-red-500">
+                      {errors.emailError}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </form>
+              <button
+                type="submit"
+                onClick={handleEmailSubmit}
+                className="pt-[5px] pb-[5px] w-[100%] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
               >
-                Mobile number
-              </label>
-              <span className="inline-block mr-[20px] font-bold text-[14px]">
-                EG +20
-              </span>
-              <input
-                onChange={handleChange}
-                value={fields.phoneChange}
-                type="text"
-                name="phoneChange"
-                id="Name"
-                className={`border-solid ${
-                  errors.phoneError ? `border-red-500` : `border-[#000]`
-                } border-[1px] rounded outline-none text-[13px] p-[5px] `}
-              />
-              {errors.phoneError ? (
-                <div className="mt-1 flex items-center">
-                  <FontAwesomeIcon
-                    icon={faExclamation}
-                    className=" text-[14px] mr-3 text-red-500"
-                  />
-                  <span className=" text-[14px] text-red-500">
-                    {errors.phoneError}
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
-            </form>
-            <p></p>
-            <button
-              type="submit"
-              onClick={handlePhoneSubmit}
-              className="pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-            >
-              Continue
-            </button>
+                Continue
+              </button>
+              <button
+                onClick={handleReverseNavigation}
+                name="toEmailChange"
+                className="pt-[5px] pb-[5px] w-[100%] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              >
+                Return to settings menu
+              </button>
+            </div>
+          </div>
+        </div>
+        {/* Mobile Number Change --------------------------------------------------------------------- */}
+        <div
+          className={`ml-auto mr-auto w-[50%] p-[15px]  ${
+            navigate.toPhoneChange ? "visible" : "hidden"
+          }`}
+        >
+          <h1 className="text-[20px] font-bold mb-[15px]">
+            Change Mobile Phone Number
+          </h1>
+          <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+            <div className="p-[15px]">
+              <form className="mb-[15px]">
+                <label
+                  htmlFor="Name"
+                  className="font-bold text-[13px] block mb-[5px]"
+                >
+                  Mobile number
+                </label>
+                <span className="inline-block mr-[20px] font-bold text-[14px]">
+                  EG +20
+                </span>
+                <input
+                  onChange={handleChange}
+                  value={fields.phoneChange}
+                  type="text"
+                  name="phoneChange"
+                  id="Name"
+                  className={`border-solid ${
+                    errors.phoneError ? `border-red-500` : `border-[#000]`
+                  } border-[1px] rounded outline-none text-[13px] p-[5px] `}
+                />
+                {errors.phoneError ? (
+                  <div className="mt-1 flex items-center">
+                    <FontAwesomeIcon
+                      icon={faExclamation}
+                      className=" text-[14px] mr-3 text-red-500"
+                    />
+                    <span className=" text-[14px] text-red-500">
+                      {errors.phoneError}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </form>
+              <p></p>
+              <button
+                type="submit"
+                onClick={handlePhoneSubmit}
+                className="pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
+              >
+                Continue
+              </button>
 
-            <button
-              onClick={handleReverseNavigation}
-              name="toPhoneChange"
-              className="pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[5px]"
-            >
-              Return to setting menu
-            </button>
+              <button
+                onClick={handleReverseNavigation}
+                name="toPhoneChange"
+                className="pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[5px]"
+              >
+                Return to setting menu
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      {/* Password Change--------------------------------------------------------------------------- */}
-      <div
-        className={`ml-auto mr-auto w-[50%] p-[15px]  ${
-          navigate.toPassChange ? "visible" : "hidden"
-        }`}
-      >
-        <h1 className="text-[20px] font-bold mb-[15px]">Change Password</h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
-          <div className="p-[15px]">
-            <p className="text-[14px] mb-[30px]">
-              Use the form below to change the password for your Trendful
-              account
-            </p>
-            <form className="mb-[30px]">
-              <label
-                htmlFor="Name"
-                className="font-bold text-[13px] block mb-[5px]"
+        {/* Password Change--------------------------------------------------------------------------- */}
+        <div
+          className={`ml-auto mr-auto w-[50%] p-[15px]  ${
+            navigate.toPassChange ? "visible" : "hidden"
+          }`}
+        >
+          <h1 className="text-[20px] font-bold mb-[15px]">Change Password</h1>
+          <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+            <div className="p-[15px]">
+              <p className="text-[14px] mb-[30px]">
+                Use the form below to change the password for your Trendful
+                account
+              </p>
+              <form className="mb-[30px]">
+                <label
+                  htmlFor="Name"
+                  className="font-bold text-[13px] block mb-[5px]"
+                >
+                  Current password:
+                </label>
+                <input
+                  onChange={handleChange}
+                  value={fields.currentPassChange}
+                  type="password"
+                  name="currentPassChange"
+                  id="Name"
+                  className={`border-solid ${
+                    errors.currentPassError ? `border-red-500` : `border-[#000]`
+                  }  border-[1px] rounded outline-none text-[13px] p-[5px] `}
+                />
+                {errors.currentPassError ? (
+                  <div className="mt-1 flex items-center">
+                    <FontAwesomeIcon
+                      icon={faExclamation}
+                      className=" text-[14px] mr-3 text-red-500"
+                    />
+                    <span className=" text-[14px] text-red-500">
+                      {errors.currentPassError}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </form>
+              <form className="mb-[30px]">
+                <label
+                  htmlFor="Name"
+                  className="font-bold text-[13px] block mb-[5px]"
+                >
+                  New password:
+                </label>
+                <input
+                  onChange={handleChange}
+                  value={fields.newPassChange}
+                  type="password"
+                  name="newPassChange"
+                  id="Name"
+                  className={`border-solid ${
+                    errors.newPassError ? `border-red-500` : `border-[#000]`
+                  }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
+                />
+                {errors.newPassError ? (
+                  <div className="mt-1 flex items-center">
+                    <FontAwesomeIcon
+                      icon={faExclamation}
+                      className=" text-[14px] mr-3 text-red-500"
+                    />
+                    <span className=" text-[14px] text-red-500">
+                      {errors.newPassError}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </form>
+              <form className="mb-[15px]">
+                <label
+                  htmlFor="Name"
+                  className="font-bold text-[13px] block mb-[5px]"
+                >
+                  Reenter new password:
+                </label>
+                <input
+                  onChange={handleChange}
+                  value={fields.rePassChange}
+                  type="password"
+                  name="rePassChange"
+                  id="Name"
+                  className={`border-solid ${
+                    errors.rePassError ? `border-red-500` : `border-[#000]`
+                  }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
+                />
+                {errors.rePassError ? (
+                  <div className="mt-1 flex items-center">
+                    <FontAwesomeIcon
+                      icon={faExclamation}
+                      className=" text-[14px] mr-3 text-red-500"
+                    />
+                    <span className=" text-[14px] text-red-500">
+                      {errors.rePassError}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </form>
+              <button
+                type="submit"
+                onClick={handlePassSubmit}
+                className="pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
               >
-                Current password:
-              </label>
-              <input
-                onChange={handleChange}
-                value={fields.currentPassChange}
-                type="password"
-                name="currentPassChange"
-                id="Name"
-                className={`border-solid ${
-                  errors.currentPassError ? `border-red-500` : `border-[#000]`
-                }  border-[1px] rounded outline-none text-[13px] p-[5px] `}
-              />
-              {errors.currentPassError ? (
-                <div className="mt-1 flex items-center">
-                  <FontAwesomeIcon
-                    icon={faExclamation}
-                    className=" text-[14px] mr-3 text-red-500"
-                  />
-                  <span className=" text-[14px] text-red-500">
-                    {errors.currentPassError}
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
-            </form>
-            <form className="mb-[30px]">
-              <label
-                htmlFor="Name"
-                className="font-bold text-[13px] block mb-[5px]"
+                Save Changes
+              </button>
+              <button
+                onClick={handleReverseNavigation}
+                name="toPassChange"
+                className="block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
               >
-                New password:
-              </label>
-              <input
-                onChange={handleChange}
-                value={fields.newPassChange}
-                type="password"
-                name="newPassChange"
-                id="Name"
-                className={`border-solid ${
-                  errors.newPassError ? `border-red-500` : `border-[#000]`
-                }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
-              />
-              {errors.newPassError ? (
-                <div className="mt-1 flex items-center">
-                  <FontAwesomeIcon
-                    icon={faExclamation}
-                    className=" text-[14px] mr-3 text-red-500"
-                  />
-                  <span className=" text-[14px] text-red-500">
-                    {errors.newPassError}
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
-            </form>
-            <form className="mb-[15px]">
-              <label
-                htmlFor="Name"
-                className="font-bold text-[13px] block mb-[5px]"
-              >
-                Reenter new password:
-              </label>
-              <input
-                onChange={handleChange}
-                value={fields.rePassChange}
-                type="password"
-                name="rePassChange"
-                id="Name"
-                className={`border-solid ${
-                  errors.rePassError ? `border-red-500` : `border-[#000]`
-                }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
-              />
-              {errors.rePassError ? (
-                <div className="mt-1 flex items-center">
-                  <FontAwesomeIcon
-                    icon={faExclamation}
-                    className=" text-[14px] mr-3 text-red-500"
-                  />
-                  <span className=" text-[14px] text-red-500">
-                    {errors.rePassError}
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
-            </form>
-            <button
-              type="submit"
-              onClick={handlePassSubmit}
-              className="pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-            >
-              Save Changes
-            </button>
-            <button
-              onClick={handleReverseNavigation}
-              name="toPassChange"
-              className="block pt-[5px] pb-[5px] pl-[10px] pr-[10px] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-            >
-              Return to setting menu
-            </button>
+                Return to setting menu
+              </button>
 
-            <p className="font-bold text-[14px] mb-[10px]">
-              Lost or stolen device? Unusual activity
-              <span className="block font-normal">
-                <span className="text-blue-600">Secure your account</span>{" "}
-                instead
-              </span>
-            </p>
+              <p className="font-bold text-[14px] mb-[10px]">
+                Lost or stolen device? Unusual activity
+                <span className="block font-normal">
+                  <span className="text-blue-600">Secure your account</span>{" "}
+                  instead
+                </span>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }
+
 export default YourAccount;

@@ -1,5 +1,9 @@
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Login from "./Routes/Login";
+import Register from "./Routes/Register";
+
+import Layout from "./Routes/Layout";
 import Home from "./Routes/Home";
 import YourAccount from "./Routes/YourAccount";
 import ProductPage from "./Routes/ProductPage";
@@ -8,18 +12,16 @@ import SellerProductPage from "./Routes/SellerProductPage";
 import SellerInventoryPage from "./Routes/SellerInventoryPage";
 import SellerAccount from "./Routes/SellerAccountPage";
 import SearchPage from "./Routes/SearchPage";
-import CartPage from "./Routes/CartPage";
+import Cart from "./Routes/Cart";
 import PaymentPage from "./Routes/PaymentPage";
 import PurchaseHistoryPage from "./Routes/PurchaseHistoryPage";
 import PointsAndRewardPage from "./Routes/PointsAndRewardPage";
+
 import AdminLogin from "./Routes/AdminLogin";
 import AdminPage from "./Routes/AdminPage";
 import AdminChat from "./Routes/AdminChat";
 import AdminCustomerAccountsPage from "./Routes/AdminCustomerAccountsPage";
 import AdminSellerAccountsPage from "./Routes/AdminSellerAccountsPage";
-
-import Login from "./Routes/Login";
-import Register from "./Routes/Register";
 
 import SellerLogin from "./Routes/SellerLogin";
 import SellerRegister from "./Routes/SellerRegister";
@@ -29,16 +31,20 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="settings" element={<YourAccount />} />
-        <Route path="product/:id" element={<ProductPage />} />
-        <Route path="search/" element={<SearchPage />} />
-        <Route path="search/:name" element={<SearchPage />} />
-        <Route path="cart" element={<CartPage />} />
-        <Route path="history" element={<PurchaseHistoryPage />} />
-        <Route path="point" element={<PointsAndRewardPage />} />
+
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="settings" element={<YourAccount />} />
+          <Route path="product/:id" element={<ProductPage />} />
+          <Route path="search/" element={<SearchPage />} />
+          <Route path="search/:word" element={<SearchPage />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="history" element={<PurchaseHistoryPage />} />
+          <Route path="points" element={<PointsAndRewardPage />} />
+          <Route path="checkout" element={<PaymentPage />} />
+        </Route>
 
         <Route path="admin/login" element={<AdminLogin />} />
         <Route path="admin/products" element={<AdminPage />} />
@@ -58,7 +64,7 @@ function App() {
         <Route path="seller/inventory" element={<SellerInventoryPage />} />
         <Route path="seller/settings" element={<SellerAccount />} />
         <Route path="seller/history" element={<SellerOrderHistory />} />
-        <Route path="checkout" element={<PaymentPage />} />
+
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

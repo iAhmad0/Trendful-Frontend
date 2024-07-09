@@ -1,10 +1,8 @@
 import { FiAlertOctagon } from "react-icons/fi";
-import Header from "../Components/Header.jsx";
 
 function ErrorPage() {
   return (
     <>
-      <Header />
       <div className="w-[100%] h-[100%] top-[0px] left-[0px] ">
         <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50%]">
           <div className=" text-[bold] mx-auto w-fit">

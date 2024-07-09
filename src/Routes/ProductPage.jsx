@@ -1,38 +1,34 @@
 import PricingSection from "../Components/PricingSection";
 import MiddleSection from "../Components/MiddleSection";
 import LeftSection from "../Components/LeftSection";
-import Header from "../Components/Header";
 import ErrorPage from "./ErrorPage";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import axios from "axios";
 
 function ProductPage() {
-  const id = window.location.pathname;
-
   const [render, setRender] = useState(true);
   const [data, setData] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/" +
-            id.substring(id.lastIndexOf("/") + 1)
-        );
+        const response = await axios.get("http://localhost:3000/api/v1/" + id);
+
         setData(response.data);
         setRender(true);
       } catch (err) {
         setRender(false);
       }
     };
+
     fetchData();
   }, []);
 
   if (render) {
     return (
       <>
-        <Header />
-
         <div className="flex p-[15px]">
           <LeftSection images={data.images} />
 

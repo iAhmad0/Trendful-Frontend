@@ -16,7 +16,9 @@ const ProductPop = ({ seller }) => {
         const response = await axios.get(
           "http://localhost:3000/api/categories"
         );
-        setCategories(response.data);
+        const cat = [{ _id: 0, name: "" }, ...response.data];
+
+        setCategories(cat);
       } catch (error) {}
     };
     getCategories();
@@ -24,14 +26,19 @@ const ProductPop = ({ seller }) => {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value,
-    });
+
+    if (value != "") {
+      setData({
+        ...data,
+        [name]: value,
+      });
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const { name, description, price, quantity, category, images } = data;
 
     async function addProduct() {
       if (localStorage.getItem("sellerToken")) {
@@ -40,12 +47,12 @@ const ProductPop = ({ seller }) => {
             "http://localhost:3000/api/add-product",
             {
               token: localStorage.getItem("sellerToken"),
-              name: data.name,
-              description: data.description,
-              price: data.price,
-              quantity: data.quantity,
-              category: data.category,
-              images: data.images,
+              name: name,
+              description: description,
+              price: price,
+              quantity: quantity,
+              category: category,
+              images: images,
             },
             {
               headers: { "Content-Type": "multipart/form-data" },
@@ -60,15 +67,24 @@ const ProductPop = ({ seller }) => {
       }
     }
 
-    addProduct();
-    setPop(false);
+    if (
+      name != null &&
+      description != null &&
+      price != null &&
+      quantity != null &&
+      category != null &&
+      images
+    ) {
+      addProduct();
+      setPop(false);
+    }
   }
 
   return pop ? (
     <>
       <div
         onClick={() => setPop(false)}
-        className="absolute w-full min-h-screen top-0 left-0 bg-black opacity-50 "
+        className="fixed w-full min-h-screen top-0 left-0 bg-black opacity-50 "
       ></div>
       <div className="absolute w-96 text-[15px] max-h-[90%] overflow-auto rounded-[10px]  bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
         <FaCircleXmark
@@ -115,8 +131,8 @@ const ProductPop = ({ seller }) => {
           <OptionBox
             title="Category"
             name="category"
-            categories={categories}
             value={data.category}
+            categories={categories}
             handleChange={handleChange}
           />
 

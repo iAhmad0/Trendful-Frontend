@@ -1,4 +1,4 @@
-const OptionBox = ({ title, handleChange, value, categories }) => {
+const OptionBox = ({ title, name, value, categories, handleChange }) => {
   return (
     <div className=" mb-[10px]">
       <label
@@ -12,12 +12,12 @@ const OptionBox = ({ title, handleChange, value, categories }) => {
       <select
         value={value}
         onChange={handleChange}
-        name="category"
+        name={name}
         className=" p-[5px] border border-[#3E64DA] rounded-[5px] border-solid outline-none hover:border-[#F39E31]"
       >
-        {categories.map((option, index) => {
+        {categories.map((option) => {
           return (
-            <option key={index} value={option.name}>
+            <option key={option._id} value={option.name}>
               {option.name}
             </option>
           );

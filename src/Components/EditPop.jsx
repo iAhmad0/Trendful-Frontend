@@ -79,7 +79,7 @@ function EditPop({ id }) {
     <>
       <div
         onClick={() => setPop(false)}
-        className="absolute w-full min-h-screen top-0 left-0 bg-black opacity-50 "
+        className="fixed w-full min-h-screen top-0 left-0 bg-black opacity-50 "
       ></div>
       <div className="absolute w-96 text-[15px] max-h-[90%] overflow-auto rounded-[10px]  bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
         <FaCircleXmark

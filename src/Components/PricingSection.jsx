@@ -27,6 +27,8 @@ function PricingSection({ price, stock, name }) {
     } else {
       localStorage.setItem("cart", JSON.stringify([{ id: id, quantity: 1 }]));
     }
+
+    window.dispatchEvent(new Event("storage"));
   }
 
   return (

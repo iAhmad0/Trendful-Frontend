@@ -79,6 +79,7 @@ function SellerProductPage() {
           "/" +
           localStorage.getItem("sellerToken")
       );
+
       setProducts(response.data);
     } catch (error) {}
   }

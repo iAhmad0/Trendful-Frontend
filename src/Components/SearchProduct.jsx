@@ -1,36 +1,36 @@
-import { Link } from "react-router-dom";
 import axios from "axios";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const imageURL = "http://localhost:3000/api/uploads/images/";
 
-function SearchProduct({ link }) {
-  let path = link;
-  path = path.substring(path.lastIndexOf("/") + 1);
-
+function SearchProduct() {
   const [data, setData] = useState([]);
+  const { word } = useParams();
 
   useEffect(() => {
     const send = async () => {
       try {
-        if (path) {
-          const request = await axios.post(
-            "http://localhost:3000/api/v1/search",
-            {
-              search: path,
-            }
+        if (word) {
+          const response = await axios.get(
+            "http://localhost:3000/api/search/" + word
           );
-          setData(request.data);
+
+          setData(response.data);
         } else {
           const response = await axios.get(
             "http://localhost:3000/api/v1/all-products"
           );
+
           setData(response.data);
         }
-      } catch (err) {}
+      } catch (err) {
+        return;
+      }
     };
+
     send();
-  }, []);
+  }, [word]);
 
   return (
     <>

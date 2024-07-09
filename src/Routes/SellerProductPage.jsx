@@ -29,6 +29,7 @@ function SellerProductPage() {
     return (
       <div className="flex min-h-screen">
         <SideBar />
+
         <div className="flex-1">
           <SellerProduct />
         </div>
