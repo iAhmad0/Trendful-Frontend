@@ -113,7 +113,7 @@ function Layout() {
           </form>
 
           <div className="flex justify-self-end justify-center items-center">
-            <div className="z-20 sign p-2.5 pr-[15px] text-left rounded cursor-pointer relative border border-transparent border-solid">
+            <div className="sign p-2.5 pr-[15px] text-left rounded cursor-pointer relative border border-transparent border-solid">
               <span className="block text-[10px] text-[#c7c3c7]">
                 Hello, {name}
               </span>
@@ -165,7 +165,7 @@ function Layout() {
               </div>
             </div>
 
-            <div className="bg-[rgb(0,0,0,0.6)] fixed w-full h-full top-0 left-0 z-10 hidden"></div>
+            <div className="bg-[rgb(0,0,0,0.6)] fixed w-full h-full top-0 left-0 hidden"></div>
 
             <Link to="/history">
               <div className="p-2.5 rounded cursor-pointer pt-[20px] font-[700] Order border border-transparent border-solid ">
@@ -174,7 +174,7 @@ function Layout() {
             </Link>
 
             <Link to="/cart">
-              <div className="flex rounded p-2.5 cursor-pointer cart border border-transparent border-solid relative ">
+              <div className="cart flex rounded p-2.5 cursor-pointer border border-transparent border-solid relative">
                 <span className="absolute w-[20px] h-[20px] rounded-full bg-red-500 flex justify-center items-center left-[40px] top-[0px]">
                   {cartCounter}
                 </span>
@@ -240,7 +240,7 @@ function Layout() {
                 onClick={logOut}
                 className="cursor-pointer p-[10px] hover:bg-[#eee]"
               >
-                {name === "sign in" ? "Sign in" : ""}
+                {name === "sign in" ? "Sign in" : "Log Out"}
               </li>
             </Link>
           </ul>

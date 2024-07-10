@@ -22,11 +22,17 @@ body {
 }
 
 /*to show sign section*/
+header .sign:hover {
+  z-index: 10;
+}
+
 header .sign:hover .list-lan {
+  z-index: 10;
   display: block;
 }
 
 header .sign:hover ~ div {
+  z-index: 5;
   display: block;
 }
 
