@@ -355,7 +355,7 @@ function YourAccount() {
 
               <form className="mb-[15px]">
                 <label
-                  htmlFor="Name"
+                  htmlFor="name"
                   className="font-bold text-[13px] block mb-[10px]"
                 >
                   New name
@@ -366,7 +366,7 @@ function YourAccount() {
                   value={fields.nameChange}
                   type="text"
                   name="nameChange"
-                  id="Name"
+                  id="name"
                   className={`w-full border-solid ${
                     errors.nameError ? `border-red-500` : `border-[#000]`
                   } border-[#000] border-[1px] rounded outline-none text-[13px] p-[5px] `}
@@ -419,7 +419,7 @@ function YourAccount() {
               </p>
               <form className="mb-[15px]">
                 <label
-                  htmlFor="Name"
+                  htmlFor="email"
                   className="font-bold text-[13px] block mb-[5px]"
                 >
                   New email address
@@ -429,7 +429,7 @@ function YourAccount() {
                   value={fields.emailChange}
                   type="email"
                   name="emailChange"
-                  id="Name"
+                  id="email"
                   className={`border-solid ${
                     errors.emailError ? `border-red-500` : `border-[#000]`
                   } w-[100%] border-[1px] rounded outline-none text-[13px] p-[5px] `}
@@ -479,7 +479,7 @@ function YourAccount() {
             <div className="p-[15px]">
               <form className="mb-[15px]">
                 <label
-                  htmlFor="Name"
+                  htmlFor="mobile"
                   className="font-bold text-[13px] block mb-[5px]"
                 >
                   Mobile Number
@@ -494,7 +494,7 @@ function YourAccount() {
                   value={fields.phoneChange}
                   type="text"
                   name="phoneChange"
-                  id="Name"
+                  id="mobile"
                   className={`w-[81%] border-solid ${
                     errors.phoneError ? `border-red-500` : `border-[#000]`
                   } border-[1px] rounded outline-none text-[13px] p-[5px] `}
@@ -549,7 +549,7 @@ function YourAccount() {
               </p>
               <form className="mb-[30px]">
                 <label
-                  htmlFor="Name"
+                  htmlFor="password"
                   className="font-bold text-[13px] block mb-[5px]"
                 >
                   Current password:
@@ -559,7 +559,7 @@ function YourAccount() {
                   value={fields.currentPassChange}
                   type="password"
                   name="currentPassChange"
-                  id="Name"
+                  id="password"
                   className={`w-full border-solid ${
                     errors.currentPassError ? `border-red-500` : `border-[#000]`
                   }  border-[1px] rounded outline-none text-[13px] p-[5px] `}
@@ -580,7 +580,7 @@ function YourAccount() {
               </form>
               <form className="mb-[30px]">
                 <label
-                  htmlFor="Name"
+                  htmlFor="newPassword"
                   className="font-bold text-[13px] block mb-[5px]"
                 >
                   New password:
@@ -590,7 +590,7 @@ function YourAccount() {
                   value={fields.newPassChange}
                   type="password"
                   name="newPassChange"
-                  id="Name"
+                  id="newPassword"
                   className={`w-full border-solid ${
                     errors.newPassError ? `border-red-500` : `border-[#000]`
                   }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
@@ -611,7 +611,7 @@ function YourAccount() {
               </form>
               <form className="mb-[15px]">
                 <label
-                  htmlFor="Name"
+                  htmlFor="newPasswordR"
                   className="font-bold text-[13px] block mb-[5px]"
                 >
                   Reenter new password:
@@ -621,7 +621,7 @@ function YourAccount() {
                   value={fields.rePassChange}
                   type="password"
                   name="rePassChange"
-                  id="Name"
+                  id="newPasswordR"
                   className={`w-full border-solid ${
                     errors.rePassError ? `border-red-500` : `border-[#000]`
                   }   border-[1px] rounded outline-none text-[13px] p-[5px] `}
