@@ -178,7 +178,7 @@ function Login() {
           </form>
         </div>
 
-        <div className="text-center  before:mr-[5px] after:ml-[5px] text-[gray] mb-3 text-[13px]">
+        <div className="text-[13px] text-center text-[gray] mb-3">
           New to Trendful?
         </div>
 
@@ -187,6 +187,13 @@ function Login() {
           className="w-96 text-center p-1 rounded-lg text-[13px] border-solid	border-[#e1e1e1] border hover:bg-[#edfdff]"
         >
           Create your Trendful account
+        </Link>
+
+        <Link
+          to="/seller/login"
+          className="text-[13px] text-center text-blue-600 mt-10 hover:text-orange-500 transition-colors duration-300"
+        >
+          Your Seller Account
         </Link>
       </div>
     );
