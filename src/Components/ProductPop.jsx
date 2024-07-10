@@ -5,7 +5,7 @@ import InputField from "./InputField";
 import TextareaField from "./TextareaField";
 import axios from "axios";
 
-const ProductPop = ({ seller }) => {
+function ProductPop() {
   const [pop, setPop] = useState(true);
   const [data, setData] = useState({});
   const [categories, setCategories] = useState([]);
@@ -86,7 +86,7 @@ const ProductPop = ({ seller }) => {
         onClick={() => setPop(false)}
         className="fixed w-full min-h-screen top-0 left-0 bg-black opacity-50 "
       ></div>
-      <div className="absolute w-96 text-[15px] max-h-[90%] overflow-auto rounded-[10px]  bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
+      <div className="z-10 absolute w-96 text-[15px] max-h-[90%] overflow-auto rounded-[10px]  bg-white z-100  left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-5">
         <FaCircleXmark
           onClick={() => setPop(false)}
           className="absolute top-2 right-2 cursor-pointer text-[#3E64DA]"
@@ -161,6 +161,6 @@ const ProductPop = ({ seller }) => {
   ) : (
     ""
   );
-};
+}
 
 export default ProductPop;

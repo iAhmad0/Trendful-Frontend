@@ -14,14 +14,13 @@ async function checkLoggedIn() {
         }
       );
 
-      window.location.href = "http://localhost:5173/seller/products";
+      window.location.href = "http://localhost:5173/seller";
       return true;
     } catch (err) {
       localStorage.removeItem("sellerToken");
       return true;
     }
   } else {
-    localStorage.removeItem("sellerToken");
     return false;
   }
 }
@@ -100,7 +99,7 @@ function SellerRegister() {
         );
         if (request) {
           localStorage.setItem("sellerToken", request.data.token);
-          window.location.href = "http://localhost:5173/seller/products";
+          window.location.href = "http://localhost:5173/seller";
         }
       } catch (error) {
         setErrors({ regMailError: "Email already exists." });

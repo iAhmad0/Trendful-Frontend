@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import ProductPop from "./ProductPop";
 import { FaCircleXmark } from "react-icons/fa6";
-import DeletePop from "./DeletePop";
-import EditPop from "./EditPop";
+import ProductPop from "../Components/ProductPop";
+import DeletePop from "../Components/DeletePop";
+import EditPop from "../Components/EditPop";
+
 import axios from "axios";
+import { useEffect, useState } from "react";
 const imageURL = "http://localhost:3000/api/uploads/images/";
 
 const selectPromote = [
@@ -54,7 +55,7 @@ const PayPromote = [
   },
 ];
 
-function SellerProductPage() {
+function SellerProducts() {
   const [show, setShow] = useState(false);
   const [showPromote, setShowPromote] = useState(false);
   const [proName, setProName] = useState("");
@@ -107,15 +108,16 @@ function SellerProductPage() {
   }
 
   return (
-    <main className="p-[20px] min-h-screen ">
+    <main className="w-full min-h-screen p-[20px]">
       {showPop()}
       {deletePop()}
       {editPop()}
 
-      <div className="flex justify-between align-center">
-        <h3 className="text-[#3E64DA]">PRODUCTS</h3>
+      <div className="text-[#3E64DA] flex items-center justify-between mb-5">
+        <h3>PRODUCTS</h3>
+
         <button
-          className="block border-solid border-[#3E64DA] border-[1px] hover:border-[#F39E31] hover:text-[#F39E31] text-center w-[70px]  rounded-[5px] mb-[5px] text-[#3E64DA]"
+          className="w-16 text-center border border-[#3E64DA] hover:border-[#F39E31] hover:text-[#F39E31] rounded"
           onClick={() => setShow(!show)}
         >
           Add
@@ -127,20 +129,25 @@ function SellerProductPage() {
           if (products != []) {
             return (
               <div key={index} className="bg-[#eee] p-2">
-                <img
-                  src={imageURL + object.images[0]}
-                  alt=""
-                  className="w-[100%] h-[200px] object-contain mb-[10px]"
-                />
+                <div className="flex justify-center items-center mb-4">
+                  <img
+                    src={imageURL + object.images[0]}
+                    alt=""
+                    className="max-w-full max-h-48 mix-blend-multiply"
+                  />
+                </div>
+
                 <div className="flex items-center justify-between px-[6px]">
-                  <div className="left self-start">
+                  <div className="self-start pr-5">
                     <h6 className="font-bold text-left text-[13px] mb-[10px] text-black">
                       {object.name}
                     </h6>
+
                     <h6 className="font-bold text-left text-[13px] mb-[10px] text-black">
                       {object.price} L.E
                     </h6>
                   </div>
+
                   <div className="right text-right">
                     <button
                       onClick={() => {
@@ -230,6 +237,7 @@ function SellerProductPage() {
             </button>
           </form>
         </div>
+
         {pay ? (
           <div className="z-10 border border-[black] border-solid-[1px] p-[15px] order-3 absolute rounded-lg w-[50%] h-fit bg-[white] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
             <FaCircleXmark
@@ -285,6 +293,7 @@ function SellerProductPage() {
                   </div>
                 );
               })}
+
               <button
                 type="submit"
                 onClick={() => {
@@ -311,4 +320,5 @@ function SellerProductPage() {
     </main>
   );
 }
-export default SellerProductPage;
+
+export default SellerProducts;

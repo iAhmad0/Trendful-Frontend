@@ -7,9 +7,6 @@ import Layout from "./Routes/Layout";
 import Home from "./Routes/Home";
 import YourAccount from "./Routes/YourAccount";
 import ProductPage from "./Routes/ProductPage";
-import SellerProductPage from "./Routes/SellerProductPage";
-import SellerInventoryPage from "./Routes/SellerInventoryPage";
-import SellerAccount from "./Routes/SellerAccountPage";
 import SearchPage from "./Routes/SearchPage";
 import Cart from "./Routes/Cart";
 import Payment from "./Routes/Payment";
@@ -24,7 +21,12 @@ import AdminSellerAccountsPage from "./Routes/AdminSellerAccountsPage";
 
 import SellerLogin from "./Routes/SellerLogin";
 import SellerRegister from "./Routes/SellerRegister";
-import SellerOrderHistory from "./Routes/SellerOrderHistory";
+
+import SellerLayout from "./Routes/SellerLayout";
+import SellerProducts from "./Routes/SellerProducts";
+import SellerInventory from "./Routes/SellerInventory";
+import SellerHistory from "./Routes/SellerHistory";
+import SellerAccount from "./Routes/SellerAccount";
 
 import ErrorPage from "./Routes/ErrorPage";
 
@@ -45,6 +47,18 @@ function App() {
           <Route path="history" element={<PurchaseHistory />} />
           <Route path="points" element={<PointsAndRewardPage />} />
           <Route path="checkout" element={<Payment />} />
+          <Route path="*" element={<ErrorPage />} />
+        </Route>
+
+        <Route path="seller/login" element={<SellerLogin />} />
+        <Route path="seller/register" element={<SellerRegister />} />
+
+        <Route path="seller/" element={<SellerLayout />}>
+          <Route index element={<SellerProducts />} />
+          <Route path="inventory" element={<SellerInventory />} />
+          <Route path="history" element={<SellerHistory />} />
+          <Route path="settings" element={<SellerAccount />} />
+          <Route path="*" element={<ErrorPage />} />
         </Route>
 
         <Route path="admin/login" element={<AdminLogin />} />
@@ -58,15 +72,6 @@ function App() {
           path="admin/sellerAccount"
           element={<AdminSellerAccountsPage />}
         />
-        <Route path="seller/login" element={<SellerLogin />} />
-        <Route path="seller/register" element={<SellerRegister />} />
-
-        <Route path="seller/products" element={<SellerProductPage />} />
-        <Route path="seller/inventory" element={<SellerInventoryPage />} />
-        <Route path="seller/settings" element={<SellerAccount />} />
-        <Route path="seller/history" element={<SellerOrderHistory />} />
-
-        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );

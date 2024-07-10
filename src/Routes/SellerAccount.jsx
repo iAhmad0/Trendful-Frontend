@@ -24,28 +24,6 @@ function SellerAccount() {
     rePassChange: "",
   });
 
-  async function checkLoggedIn() {
-    if (localStorage.getItem("sellerToken")) {
-      try {
-        const request = await axios.post(
-          "http://localhost:3000/api/seller/token",
-          {
-            token: localStorage.getItem("sellerToken"),
-          }
-        );
-      } catch (err) {
-        localStorage.removeItem("sellerToken");
-        window.location.href = "http://localhost:5173/seller/login";
-      }
-    } else {
-      window.location.href = "http://localhost:5173/seller/login";
-    }
-  }
-
-  useEffect(() => {
-    checkLoggedIn();
-  }, []);
-
   async function getInfo() {
     if (localStorage.getItem("sellerToken")) {
       try {
@@ -277,20 +255,23 @@ function SellerAccount() {
   };
 
   return (
-    <>
+    <div className="mx-auto mt-5">
       {/* Setting Page --------------------------------------------------------------------------- */}
       <div
-        className={`my-5 mx-auto w-[50%] p-[15px] ${
+        className={`p-4 mx-auto my-5 ${
           navigate.mainBox ? "visible" : "hidden"
         }`}
       >
-        <h1 className="text-[20px] font-bold mb-[15px]">Login & Security</h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+        <h1 className="text-xl font-bold mb-5">Login & Security</h1>
+
+        <div className="w-[500px] border-2 border-[#ccc] rounded-lg">
           {settingBoxInfo.map((box, index) => {
             return (
               <div
                 key={index}
-                className="p-[15px] flex items-center justify-between border-[2px] border-solid border-b-[#ccc] border-t-transparent border-l-transparent border-r-transparent"
+                className={`flex justify-between items-center p-4 ${
+                  index != 3 ? "border-b" : ""
+                }`}
               >
                 <p className="font-bold p-[10px]">
                   {box.title}
@@ -314,6 +295,7 @@ function SellerAccount() {
                     ""
                   )}
                 </p>
+
                 <button
                   onClick={handleNavigation}
                   name={box.eName}
@@ -328,19 +310,21 @@ function SellerAccount() {
       </div>
       {/* Name Change ------------------------------------------------------------------------------ */}
       <div
-        className={`ml-auto mr-auto w-[40%] p-[15px] ${
+        className={`p-4 mx-auto my-5 ${
           navigate.toNameChange ? "visible" : "hidden"
         }`}
       >
         <h1 className="text-[20px] font-bold mb-[15px]">Change your name</h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+
+        <div className="w-96 border-2 border-[#ccc] rounded-lg">
           <div className="p-[15px]">
-            <p className="text-[14px] mb-[30px]">
+            <p className="text-sm mb-[30px]">
               If you want to change the name associated with your Trendful
-              customer account, you may do so below Be sure to click the
-              <span className="font-bold">Save Changes</span> button when you
+              account, you may do so below. Make sure to click the
+              <span className="font-bold"> Save Changes</span> button when you
               are done.
             </p>
+
             <form className="mb-[15px]">
               <label
                 htmlFor="Name"
@@ -348,6 +332,7 @@ function SellerAccount() {
               >
                 New name
               </label>
+
               <input
                 onChange={handleChange}
                 value={fields.nameChange}
@@ -389,18 +374,18 @@ function SellerAccount() {
           </div>
         </div>
       </div>
+
       {/* Email Change------------------------------------------------------------------------------ */}
       <div
-        className={`ml-auto mr-auto w-[30%] p-[15px]  ${
+        className={`w-96 p-4 mx-auto my-5 ${
           navigate.toEmailChange ? "visible" : "hidden"
         }`}
       >
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
-          <div className="p-[15px]">
-            <h1 className="text-[20px] text-center mb-[15px]">
-              Add an email address
-            </h1>
-            <p className="text-[14px] mb-[30px]">
+        <h1 className="text-[20px] font-bold mb-[15px]">Change your email</h1>
+
+        <div className="border-2 border-[#ccc] rounded-lg">
+          <div className="p-4">
+            <p className="text-sm mb-[30px]">
               Enter the new email address you would like to associate with your
               account below.
             </p>
@@ -452,27 +437,30 @@ function SellerAccount() {
           </div>
         </div>
       </div>
+
       {/* Mobile Number Change --------------------------------------------------------------------- */}
       <div
-        className={`ml-auto mr-auto w-[40%] p-[15px]  ${
+        className={`w-96 p-4 mx-auto my-5 ${
           navigate.toPhoneChange ? "visible" : "hidden"
         }`}
       >
         <h1 className="text-[20px] font-bold mb-[15px]">
-          Change Mobile Phone Number
+          Change Mobile Number
         </h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+        <div className="border-2 border-[#ccc] rounded-lg">
           <div className="p-[15px]">
             <form className="mb-[15px]">
               <label
                 htmlFor="Name"
                 className="font-bold text-[13px] block mb-[5px]"
               >
-                Mobile number
+                Mobile Number
               </label>
-              <span className="inline-block mr-[20px] font-bold text-[14px]">
+
+              <span className="inline-block mr-2 font-bold text-[14px]">
                 EG +20
               </span>
+
               <input
                 onChange={handleChange}
                 value={fields.phoneChange}
@@ -497,7 +485,7 @@ function SellerAccount() {
                 ""
               )}
             </form>
-            <p></p>
+
             <button
               type="submit"
               onClick={handlePhoneSubmit}
@@ -509,21 +497,23 @@ function SellerAccount() {
             <button
               onClick={handleReverseNavigation}
               name="toPhoneChange"
-              className="w-full pt-[5px] pb-[5px] w-[50%] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[5px]"
+              className="w-full pt-[5px] pb-[5px] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[5px]"
             >
               Return to setting menu
             </button>
           </div>
         </div>
       </div>
+
       {/* Password Change--------------------------------------------------------------------------- */}
       <div
-        className={`ml-auto mr-auto w-[30%] p-[15px]  ${
+        className={`w-96 p-4 mx-auto my-5 ${
           navigate.toPassChange ? "visible" : "hidden"
         }`}
       >
         <h1 className="text-[20px] font-bold mb-[15px]">Change Password</h1>
-        <div className="border-[2px] rounded-[10px] border-solid border-[#ccc]">
+
+        <div className="border-2 border-[#ccc] rounded-lg">
           <div className="p-[15px]">
             <p className="text-[14px] mb-[30px]">
               Use the form below to change the password for your Trendful
@@ -636,18 +626,11 @@ function SellerAccount() {
             >
               Return to setting menu
             </button>
-
-            <p className="font-bold text-[14px] mb-[10px]">
-              Lost or stolen device? Unusual activity
-              <span className="block font-normal">
-                <span className="text-blue-600">Secure your account</span>{" "}
-                instead
-              </span>
-            </p>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
+
 export default SellerAccount;

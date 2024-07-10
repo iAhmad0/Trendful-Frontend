@@ -15,14 +15,12 @@ async function checkLoggedIn() {
         }
       );
 
-      window.location.href = "http://localhost:5173/seller/products";
-      return true;
+      window.location.href = "http://localhost:5173/seller";
     } catch (err) {
       localStorage.removeItem("sellerToken");
       return true;
     }
   } else {
-    localStorage.removeItem("sellerToken");
     return false;
   }
 }
@@ -63,7 +61,7 @@ function SellerLogin() {
 
         if (request) {
           localStorage.setItem("sellerToken", request.data.token);
-          window.location.href = "http://localhost:5173/seller/products";
+          window.location.href = "http://localhost:5173/seller";
         }
       } catch (error) {
         setErrors({

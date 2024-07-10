@@ -44,7 +44,7 @@ function SellerHistory() {
   }, []);
 
   return (
-    <div className="mx-auto w-[500px] my-2 p-2">
+    <div className="w-[500px] p-2 mx-auto my-2">
       {data.map((product, index) => {
         return (
           <div
