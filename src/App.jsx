@@ -13,14 +13,6 @@ import Payment from "./Routes/Payment";
 import PurchaseHistory from "./Routes/PurchaseHistory";
 import PointsAndRewardPage from "./Routes/PointsAndRewardPage";
 
-import AdminLogin from "./Routes/AdminLogin";
-import AdminLayout from "./Routes/AdminLayout";
-import AdminHome from "./Routes/AdminHome";
-import AdminProducts from "./Routes/AdminProducts";
-import AdminChat from "./Routes/AdminChat";
-import AdminCustomerAccountsPage from "./Routes/AdminCustomerAccountsPage";
-import AdminSellerAccountsPage from "./Routes/AdminSellerAccountsPage";
-
 import SellerLogin from "./Routes/SellerLogin";
 import SellerRegister from "./Routes/SellerRegister";
 
@@ -29,6 +21,15 @@ import SellerProducts from "./Routes/SellerProducts";
 import SellerInventory from "./Routes/SellerInventory";
 import SellerOrders from "./Routes/SellerOrders";
 import SellerAccount from "./Routes/SellerAccount";
+
+import AdminLogin from "./Routes/AdminLogin";
+
+import AdminLayout from "./Routes/AdminLayout";
+import AdminHome from "./Routes/AdminHome";
+import AdminProducts from "./Routes/AdminProducts";
+import AdminBuyersAccounts from "./Routes/AdminBuyersAccounts";
+import AdminSellersAccounts from "./Routes/AdminSellersAccounts";
+import AdminChat from "./Routes/AdminChat";
 
 import ErrorPage from "./Routes/ErrorPage";
 
@@ -68,9 +69,9 @@ function App() {
         <Route path="control/admin/" element={<AdminLayout />}>
           <Route index element={<AdminHome />} />
           <Route path="products" element={<AdminProducts />} />
-          <Route path="chat" element={<AdminChat />} />
-          <Route path="allBuyers" element={<AdminCustomerAccountsPage />} />
-          <Route path="allSellers" element={<AdminSellerAccountsPage />} />
+          <Route path="support" element={<AdminChat />} />
+          <Route path="allBuyers" element={<AdminBuyersAccounts />} />
+          <Route path="allSellers" element={<AdminSellersAccounts />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -10,7 +10,7 @@ function AdminHome() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:3000/admin/get-home-products"
+        "http://localhost:3000/api/get-home-products"
       );
 
       const home = response.data;
@@ -32,7 +32,7 @@ function AdminHome() {
   useEffect(() => {
     const fetchData = async () => {
       const home = await axios.get(
-        "http://localhost:3000/admin/get-home-products"
+        "http://localhost:3000/api/get-home-products"
       );
 
       const response = await axios.get(

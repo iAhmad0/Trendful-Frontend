@@ -4,7 +4,33 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Home() {
+  const [homeProducts, setHomeProducts] = useState([]);
   const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        "http://localhost:3000/api/get-home-products"
+      );
+
+      const home = response.data;
+      const allHomeProducts = [];
+
+      for (let i = 0; i < home.length; i++) {
+        const product = await axios.get(
+          "http://localhost:3000/api/v1/cart/" + home[i].productID
+        );
+
+        product.data._id = product.data.id;
+        delete product.data.id;
+        allHomeProducts.push(product.data);
+      }
+
+      setHomeProducts(allHomeProducts);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,11 +40,34 @@ function Home() {
 
       setData(response.data);
     };
+
     fetchData();
   }, []);
 
   return (
-    <div className="bg-[rgb(227,230,230)] min-h-screen p-8">
+    <div className="bg-[rgb(227,230,230)] min-h-screen grid gap-8 p-8">
+      {homeProducts.length ? (
+        <div className="bg-white p-5">
+          <h1 className="font-bold mb-10">Recommended</h1>
+
+          <div className="grid grid-cols-6 gap-8">
+            {homeProducts.map((product, index) => {
+              return (
+                <Product
+                  key={index}
+                  link={product._id}
+                  img={product.image}
+                  name={product.name}
+                  price={product.price}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div className="bg-white p-5">
         <h1 className="font-bold mb-10">Products</h1>
 

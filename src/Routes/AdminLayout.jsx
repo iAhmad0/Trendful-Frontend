@@ -72,7 +72,7 @@ function SellerLayout() {
                 </li>
               </Link>
 
-              <Link to="/control/admin/buyers">
+              <Link to="/control/admin/allBuyers">
                 <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
                   <div className="flex items-center">
                     <RiAccountPinBoxLine className="w-5 h-5 mr-2" />
@@ -81,7 +81,7 @@ function SellerLayout() {
                 </li>
               </Link>
 
-              <Link to="/control/admin/sellers">
+              <Link to="/control/admin/allSellers">
                 <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
                   <div className="flex items-center">
                     <VscAccount className="w-5 h-5 mr-2" />

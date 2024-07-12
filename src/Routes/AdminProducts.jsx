@@ -1,5 +1,3 @@
-import DeletePop from "../Components/DeletePop";
-
 import axios from "axios";
 import { FaCircleXmark } from "react-icons/fa6";
 import { Link } from "react-router-dom";
