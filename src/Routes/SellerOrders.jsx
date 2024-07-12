@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const imageURL = "http://localhost:3000/api/uploads/images/";
 
-function SellerHistory() {
+function SellerOrders() {
   const [data, setData] = useState([]);
 
   async function getHistory() {
@@ -20,7 +20,7 @@ function SellerHistory() {
     if (response) {
       for (let i = 0; i < products.length; i++) {
         const response = await axios.get(
-          "http://localhost:3000/api/v1/" + products[i].productID
+          "http://localhost:3000/api/v1/cart/" + products[i].productID
         );
 
         const product = response.data;
@@ -30,12 +30,13 @@ function SellerHistory() {
           name: product.name,
           price: product.price,
           quantity: products[i].quantity,
-          images: product.images,
+          image: product.image,
         };
 
         allProducts.push(info);
       }
     }
+
     setData(allProducts);
   }
 
@@ -44,14 +45,20 @@ function SellerHistory() {
   }, []);
 
   return (
-    <div className="w-[500px] p-2 mx-auto my-2">
+    <div className="w-[500px] grid items-center gap-4 mx-auto my-8">
       {data.map((product, index) => {
         return (
           <div
-            key={index}
-            className="flex justify-between items-center mb-[15px] relative border border-gray-300 border-1 p-2 pr-10 rounded-lg"
+            key={product.id + index}
+            className="grid grid-cols-2 p-2 border border-gray-300 border-1 rounded-lg"
           >
-            <img src={imageURL + product.images[0]} alt="" className="h-48" />
+            <div className="flex justify-center items-center">
+              <img
+                src={imageURL + product.image}
+                alt=""
+                className="max-w-48 max-h-32"
+              />
+            </div>
 
             <div>
               <p className="my-2">Name: {product.name}</p>
@@ -65,4 +72,4 @@ function SellerHistory() {
   );
 }
 
-export default SellerHistory;
+export default SellerOrders;

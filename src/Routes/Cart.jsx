@@ -95,7 +95,7 @@ function Cart() {
       if (cart) {
         for (let i = 0; i < cart.length; i++) {
           const response = await axios.get(
-            "http://localhost:3000/api/v1/" + cart[i].id
+            "http://localhost:3000/api/v1/cart/" + cart[i].id
           );
 
           const product = response.data;
@@ -105,7 +105,7 @@ function Cart() {
             name: product.name,
             price: product.price,
             quantity: cart[i].quantity,
-            images: product.images,
+            image: product.image,
           };
 
           products.push(info);
@@ -131,7 +131,7 @@ function Cart() {
               <div className="flex justify-center items-center">
                 <Link to={"/product/" + product.id}>
                   <img
-                    src={imageURL + product.images[0]}
+                    src={imageURL + product.image}
                     alt=""
                     className="max-w-48 max-h-32"
                   />

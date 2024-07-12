@@ -1,7 +1,8 @@
+import { AiOutlineHome } from "react-icons/ai";
 import { AiOutlineProduct } from "react-icons/ai";
-import { MdOutlineInventory2 } from "react-icons/md";
-import { GoChecklist } from "react-icons/go";
-import { IoSettingsOutline } from "react-icons/io5";
+import { RiAccountPinBoxLine } from "react-icons/ri";
+import { VscAccount } from "react-icons/vsc";
+import { RiCustomerServiceLine } from "react-icons/ri";
 import { GrLogout } from "react-icons/gr";
 
 import axios from "axios";
@@ -13,29 +14,29 @@ function logOut() {
 }
 
 function SellerLayout() {
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState(true);
 
-  async function checkLoggedIn() {
-    if (localStorage.getItem("sellerToken")) {
-      try {
-        const request = await axios.post(
-          "http://localhost:3000/api/seller/token",
-          {
-            token: localStorage.getItem("sellerToken"),
-          }
-        );
+  // async function checkLoggedIn() {
+  //   if (localStorage.getItem("sellerToken")) {
+  //     try {
+  //       const request = await axios.post(
+  //         "http://localhost:3000/api/seller/token",
+  //         {
+  //           token: localStorage.getItem("sellerToken"),
+  //         }
+  //       );
 
-        setRender(true);
-      } catch (err) {
-        localStorage.removeItem("sellerToken");
-        window.location.href = "http://localhost:5173/seller/login";
-      }
-    } else {
-      window.location.href = "http://localhost:5173/seller/login";
-    }
-  }
+  //       setRender(true);
+  //     } catch (err) {
+  //       localStorage.removeItem("sellerToken");
+  //       window.location.href = "http://localhost:5173/seller/login";
+  //     }
+  //   } else {
+  //     window.location.href = "http://localhost:5173/seller/login";
+  //   }
+  // }
 
-  checkLoggedIn();
+  // checkLoggedIn();
 
   if (render) {
     return (
@@ -53,7 +54,16 @@ function SellerLayout() {
             </div>
 
             <ul>
-              <Link to="/seller">
+              <Link to="/control/admin">
+                <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
+                  <div className="flex items-center">
+                    <AiOutlineHome className="w-5 h-5 mr-2" />
+                    Home
+                  </div>
+                </li>
+              </Link>
+
+              <Link to="/control/admin/products">
                 <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
                   <div className="flex items-center">
                     <AiOutlineProduct className="w-5 h-5 mr-2" />
@@ -62,34 +72,34 @@ function SellerLayout() {
                 </li>
               </Link>
 
-              <Link to="/seller/inventory">
+              <Link to="/control/admin/buyers">
                 <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
                   <div className="flex items-center">
-                    <MdOutlineInventory2 className="w-5 h-5 mr-2" />
-                    Inventory
+                    <RiAccountPinBoxLine className="w-5 h-5 mr-2" />
+                    Buyers Accounts
                   </div>
                 </li>
               </Link>
 
-              <Link to="/seller/history">
+              <Link to="/control/admin/sellers">
                 <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
                   <div className="flex items-center">
-                    <GoChecklist className="w-5 h-5 mr-2" />
-                    Orders
+                    <VscAccount className="w-5 h-5 mr-2" />
+                    Sellers Accounts
                   </div>
                 </li>
               </Link>
 
-              <Link to="/seller/settings">
+              <Link to="/control/admin/support">
                 <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
                   <div className="flex items-center">
-                    <IoSettingsOutline className="w-5 h-5 mr-2" />
-                    Settings
+                    <RiCustomerServiceLine className="w-5 h-5 mr-2" />
+                    Support
                   </div>
                 </li>
               </Link>
 
-              <Link to="/seller/login" onClick={logOut}>
+              <Link to="/control/admin/login" onClick={logOut}>
                 <li className="text-sm p-5 hover:cursor-pointer hover:bg-[#F39E31]">
                   <div className="flex items-center">
                     <GrLogout className="w-5 h-5 mr-2" />

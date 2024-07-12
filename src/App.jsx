@@ -14,7 +14,9 @@ import PurchaseHistory from "./Routes/PurchaseHistory";
 import PointsAndRewardPage from "./Routes/PointsAndRewardPage";
 
 import AdminLogin from "./Routes/AdminLogin";
-import AdminPage from "./Routes/AdminPage";
+import AdminLayout from "./Routes/AdminLayout";
+import AdminHome from "./Routes/AdminHome";
+import AdminProducts from "./Routes/AdminProducts";
 import AdminChat from "./Routes/AdminChat";
 import AdminCustomerAccountsPage from "./Routes/AdminCustomerAccountsPage";
 import AdminSellerAccountsPage from "./Routes/AdminSellerAccountsPage";
@@ -25,7 +27,7 @@ import SellerRegister from "./Routes/SellerRegister";
 import SellerLayout from "./Routes/SellerLayout";
 import SellerProducts from "./Routes/SellerProducts";
 import SellerInventory from "./Routes/SellerInventory";
-import SellerHistory from "./Routes/SellerHistory";
+import SellerOrders from "./Routes/SellerOrders";
 import SellerAccount from "./Routes/SellerAccount";
 
 import ErrorPage from "./Routes/ErrorPage";
@@ -56,22 +58,20 @@ function App() {
         <Route path="seller/" element={<SellerLayout />}>
           <Route index element={<SellerProducts />} />
           <Route path="inventory" element={<SellerInventory />} />
-          <Route path="history" element={<SellerHistory />} />
+          <Route path="history" element={<SellerOrders />} />
           <Route path="settings" element={<SellerAccount />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
 
-        <Route path="admin/login" element={<AdminLogin />} />
-        <Route path="admin/products" element={<AdminPage />} />
-        <Route path="admin/chat" element={<AdminChat />} />
-        <Route
-          path="admin/customerAccount"
-          element={<AdminCustomerAccountsPage />}
-        />
-        <Route
-          path="admin/sellerAccount"
-          element={<AdminSellerAccountsPage />}
-        />
+        <Route path="control/admin/login" element={<AdminLogin />} />
+
+        <Route path="control/admin/" element={<AdminLayout />}>
+          <Route index element={<AdminHome />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="chat" element={<AdminChat />} />
+          <Route path="allBuyers" element={<AdminCustomerAccountsPage />} />
+          <Route path="allSellers" element={<AdminSellerAccountsPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

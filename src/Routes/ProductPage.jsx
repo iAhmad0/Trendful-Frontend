@@ -38,7 +38,7 @@ function ProductPage() {
             description={data.description}
           />
 
-          <PricingSection price={data.price} stock={data.stock} />
+          <PricingSection id={data.id} price={data.price} stock={data.stock} />
         </div>
       </>
     );

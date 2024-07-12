@@ -20,7 +20,7 @@ function SellerInventory() {
 
   useEffect(() => {
     getSellerProducts();
-  }, [products]);
+  }, []);
 
   return (
     <main className="flex-1 p-[20px] text-white">
@@ -30,7 +30,7 @@ function SellerInventory() {
 
       <table className=" bg-[#eee] w-[100%] border-collapse border  my-[15px] mt-[20px] border-[black]">
         <thead>
-          <tr className=" text-[white] w-[25%] text-center bg-[#3E64DA] h-[60px] border-collapse border border-[black]">
+          <tr className="text-[white] w-[25%] text-center bg-[#3E64DA] h-[60px] border-collapse border border-[black]">
             <th>Image</th>
             <th>Name</th>
             <th>Price</th>
@@ -45,12 +45,14 @@ function SellerInventory() {
                 key={index}
                 className="text-[black] text-center border-collapse border border-[black]"
               >
-                <td className="flex justify-center">
-                  <img
-                    src={imageURL + product.images[0]}
-                    alt=""
-                    className="h-52 my-2 mix-blend-multiply"
-                  />
+                <td>
+                  <div className="h-52 flex justify-center items-center px-5">
+                    <img
+                      src={imageURL + product.images[0]}
+                      alt=""
+                      className="max-h-48 my-2 mix-blend-multiply"
+                    />
+                  </div>
                 </td>
                 <td className="w-[25%] text-center">{product.name}</td>
                 <td className="w-[25%] text-center">{product.price}</td>

@@ -129,16 +129,16 @@ function SellerProducts() {
           if (products != []) {
             return (
               <div key={index} className="bg-[#eee] p-2">
-                <div className="flex justify-center items-center mb-4">
+                <div className="h-48 flex justify-center items-center mb-4">
                   <img
                     src={imageURL + object.images[0]}
                     alt=""
-                    className="max-w-full max-h-48 mix-blend-multiply"
+                    className="max-w-80 max-h-48 mix-blend-multiply"
                   />
                 </div>
 
-                <div className="flex items-center justify-between px-[6px]">
-                  <div className="self-start pr-5">
+                <div className="flex justify-between px-2">
+                  <div className="pr-5">
                     <h6 className="font-bold text-left text-[13px] mb-[10px] text-black">
                       {object.name}
                     </h6>
@@ -148,7 +148,7 @@ function SellerProducts() {
                     </h6>
                   </div>
 
-                  <div className="right text-right">
+                  <div>
                     <button
                       onClick={() => {
                         setShowPromote(true);

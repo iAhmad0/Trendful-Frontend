@@ -19,7 +19,7 @@ function SearchProduct() {
           setData(response.data);
         } else {
           const response = await axios.get(
-            "http://localhost:3000/api/v1/all-products"
+            "http://localhost:3000/api/search-products"
           );
 
           setData(response.data);
@@ -46,12 +46,10 @@ function SearchProduct() {
                 />
               </div>
               <div className="flex-1 text-[black] ml-4">
-                {" "}
                 <h1 className="font-bold text-left mb-[5px]">{object.name}</h1>
                 <h1 className="text-left mb-[10px]">{object.description}</h1>
               </div>
               <div className="flex justify-end items-end">
-                {" "}
                 <h1 className="font-bold text-left mb-[10px]">
                   EGP {object.price}
                 </h1>

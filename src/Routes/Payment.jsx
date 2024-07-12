@@ -4,7 +4,7 @@ import SelectShipping from "../Components/SelectShipping";
 import SelectPayment from "../Components/SelectPayment";
 import PromoCode from "../Components/PromoCode";
 import axios from "axios";
-import { setGlobalState, useGlobalState } from "../globalStates";
+import { useGlobalState } from "../globalStates";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -33,17 +33,17 @@ function Payment() {
       if (cart) {
         for (let i = 0; i < cart.length; i++) {
           const response = await axios.get(
-            "http://localhost:3000/api/v1/" + cart[i].id
+            "http://localhost:3000/api/v1/checkout/" + cart[i].id
           );
 
           const product = response.data;
 
           const info = {
             id: product.id,
+            sellerID: product.sellerID,
             name: product.name,
             price: product.price,
             quantity: cart[i].quantity,
-            images: product.images,
           };
 
           allProducts.push(info);
@@ -70,9 +70,18 @@ function Payment() {
 
     if (Object.keys(data).length >= 8 && cart.length != 0 && total != 0) {
       const order = [];
+      const orderedProducts = [];
+
+      for (let i = 0; i < products.length; i++) {
+        orderedProducts.push({
+          id: products[i].id,
+          sellerID: products[i].sellerID,
+          quantity: products[i].quantity,
+        });
+      }
       order.push(localStorage.getItem("token"));
       order.push(data);
-      order.push(cart);
+      order.push(orderedProducts);
       order.push(Number(total));
 
       try {

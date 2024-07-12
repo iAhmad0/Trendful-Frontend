@@ -18,15 +18,16 @@ function PurchaseHistory() {
         );
 
         const products = [];
+
         for (let i = 0; i < response.data.length; i++) {
-          products.push(...response.data[i]);
+          products.push(response.data[i]);
         }
 
         const allProducts = [];
 
         for (let i = 0; i < products.length; i++) {
           const response = await axios.get(
-            "http://localhost:3000/api/v1/" + products[i].id
+            "http://localhost:3000/api/v1/cart/" + products[i].productID
           );
 
           const product = response.data;
@@ -36,7 +37,7 @@ function PurchaseHistory() {
             name: product.name,
             price: product.price,
             quantity: products[i].quantity,
-            images: product.images,
+            image: product.image,
           };
 
           allProducts.push(info);
@@ -59,16 +60,16 @@ function PurchaseHistory() {
 
   return (
     <div className="w-[500px] grid items-center gap-4 mx-auto my-8">
-      {data.map((product) => {
+      {data.map((product, index) => {
         return (
           <div
-            key={product.id}
+            key={product.id + index}
             className="grid grid-cols-2 p-2 border border-gray-300 border-1 rounded-lg"
           >
             <div className="flex justify-center items-center">
               <Link to={"/product/" + product.id}>
                 <img
-                  src={imageURL + product.images[0]}
+                  src={imageURL + product.image}
                   alt=""
                   className="max-w-48 max-h-32"
                 />

@@ -9,7 +9,7 @@ function Home() {
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/all-products"
+        "http://localhost:3000/api/v1/home-products"
       );
 
       setData(response.data);
@@ -27,10 +27,10 @@ function Home() {
             return (
               <Product
                 key={index}
-                img={object.images[0]}
+                link={object._id}
+                img={object.image}
                 name={object.name}
                 price={object.price}
-                link={object._id}
               />
             );
           })}

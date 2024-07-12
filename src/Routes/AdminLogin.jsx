@@ -48,23 +48,26 @@ function AdminLogin() {
     }
   };
 
-  const handleLoginSubmit = (e) => {
+  async function handleLoginSubmit(e) {
     e.preventDefault();
     const errors = {};
 
     const handleLogin = async () => {
       try {
-        const request = await axios.post("http://localhost:3000/admin-login", {
-          email: fields.logEmail,
-          password: fields.logPass,
-        });
+        const request = await axios.post(
+          "http://localhost:3000/control/admin-login",
+          {
+            email: fields.logEmail,
+            password: fields.logPass,
+          }
+        );
+
         if (request) {
-          console.log(request);
-          localStorage.setItem("token", request.token);
+          localStorage.setItem("admin", request.data.token);
         }
+
         return true;
       } catch (error) {
-        console.log(error);
         setErros({
           ...Erros,
           logEmailError: "",
@@ -74,29 +77,27 @@ function AdminLogin() {
     };
 
     if (Object.keys(errors).length === 0) {
-      const checkLogin = async () => {
-        const response = await handleLogin();
-        if (response) {
-          // window.location.href = "http://localhost:5173/admin/products";
-        }
-      };
-      checkLogin();
+      const response = await handleLogin();
+      if (response) {
+        window.location.href = "http://localhost:5173/control/admin/products";
+      }
     }
-  };
+  }
 
   if (render) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen">
-        {/* Login Component */}
         <div className="my-5">
           <img src="/images/logo-nobg.png" alt="" className="w-[150px]" />
         </div>
+
         <div className={`w-96 `}>
           <form
             className="sign-form  rounded-md	 border-solid	border-form border w-full  p-6 mb-4"
             onSubmit={handleLoginSubmit}
           >
             <h2 className="text-left mb-2 text-3xl font-normal">Sign in</h2>
+
             <div className="field-container mb-5">
               <label
                 htmlFor="email"
@@ -115,15 +116,14 @@ function AdminLogin() {
                 }	border rounded w-full	h-8 pl-1.5 field-shadow`}
               />
             </div>
+
             <div className="field-container mb-5 relative">
               <div className="flex justify-between mb-1">
                 <label htmlFor="password" className="font-bold label-font	">
                   Password
                 </label>
-                {/* <p className="label-font forget-color forget cursor-pointer">
-                  Forgot Your Password?
-                </p> */}
               </div>
+
               <input
                 onChange={handleChange}
                 id="password"
@@ -170,7 +170,10 @@ function AdminLogin() {
                 ""
               )}
             </div>
-            <button className="block mt-5 w-full bg-[#3E64DA] text-[white] p-2 rounded-lg label-font">
+            <button
+              type="submit"
+              className="block mt-5 w-full bg-[#3E64DA] text-[white] p-2 rounded-lg label-font"
+            >
               Sign in
             </button>
           </form>

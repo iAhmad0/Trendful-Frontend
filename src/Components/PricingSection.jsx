@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 
-function PricingSection({ price, stock }) {
+function PricingSection({ id, price, stock }) {
   const leftover = Math.trunc((price - Math.floor(price)) * 100);
-
-  const id = window.location.pathname.substring(
-    window.location.pathname.lastIndexOf("/") + 1
-  );
 
   function addToCart() {
     if (localStorage.getItem("cart")) {
