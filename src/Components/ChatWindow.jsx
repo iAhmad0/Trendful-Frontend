@@ -1,5 +1,6 @@
-import React from 'react'
-import { IoMdSend } from 'react-icons/io'
+import React from "react";
+import { IoMdSend } from "react-icons/io";
+
 function ChatWindow() {
   return (
     <main className="flex-1 px-[15px] py-[10px] h-screen border-box">
@@ -11,38 +12,38 @@ function ChatWindow() {
             placeholder="type a message ..."
             className="w-[100%] h-[40px] p-[10px] bg-[#2A3942] text-[white] outline-none field "
             onFocus={(e) => {
-              e.target.placeholder = ''
+              e.target.placeholder = "";
             }}
             onBlur={(e) => {
-              e.target.placeholder = 'type a message...'
+              e.target.placeholder = "type a message...";
             }}
           />
           <IoMdSend
             className="absolute text-[white] cursor-pointer right-[9px] top-[31%]"
             onClick={function () {
-              const messageBox = document.querySelector('.message-container')
-              const messageField = document.querySelector('.field')
+              const messageBox = document.querySelector(".message-container");
+              const messageField = document.querySelector(".field");
               if (messageField.value) {
-                const message = document.createElement('div')
-                message.textContent = messageField.value
-                messageField.value = ''
+                const message = document.createElement("div");
+                message.textContent = messageField.value;
+                messageField.value = "";
                 message.classList.add(
-                  'ml-[150px]',
-                  'bg-[#3E64DA]',
-                  'w-auto',
-                  'inline-block',
-                  'p-[10px]',
-                  'rounded-lg',
-                  'text-[white]',
-                  'mb-[5px]'
-                )
-                messageBox.appendChild(message)
+                  "ml-[150px]",
+                  "bg-[#3E64DA]",
+                  "w-auto",
+                  "inline-block",
+                  "p-[10px]",
+                  "rounded-lg",
+                  "text-[white]",
+                  "mb-[5px]"
+                );
+                messageBox.appendChild(message);
               }
             }}
           />
         </div>
       </div>
     </main>
-  )
+  );
 }
-export default ChatWindow
+export default ChatWindow;

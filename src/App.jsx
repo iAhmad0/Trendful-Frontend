@@ -12,6 +12,7 @@ import Cart from "./Routes/Cart";
 import Payment from "./Routes/Payment";
 import PurchaseHistory from "./Routes/PurchaseHistory";
 import PointsAndRewardPage from "./Routes/PointsAndRewardPage";
+import BuyerChat from "./Routes/BuyerChat";
 
 import SellerLogin from "./Routes/SellerLogin";
 import SellerRegister from "./Routes/SellerRegister";
@@ -50,6 +51,7 @@ function App() {
           <Route path="history" element={<PurchaseHistory />} />
           <Route path="points" element={<PointsAndRewardPage />} />
           <Route path="checkout" element={<Payment />} />
+          <Route path="support" element={<BuyerChat />} />
           <Route path="*" element={<ErrorPage />} />
         </Route>
 
@@ -69,10 +71,12 @@ function App() {
         <Route path="control/admin/" element={<AdminLayout />}>
           <Route index element={<AdminHome />} />
           <Route path="products" element={<AdminProducts />} />
-          <Route path="support" element={<AdminChat />} />
           <Route path="allBuyers" element={<AdminBuyersAccounts />} />
           <Route path="allSellers" element={<AdminSellersAccounts />} />
+          <Route path="*" element={<ErrorPage />} />
         </Route>
+
+        <Route path="control/admin/support" element={<AdminChat />} />
       </Routes>
     </BrowserRouter>
   );

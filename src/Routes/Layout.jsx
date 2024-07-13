@@ -235,6 +235,12 @@ function Layout() {
               </li>
             </Link>
 
+            <Link to="/support">
+              <li className="cursor-pointer p-[10px] hover:bg-[#eee]">
+                Support
+              </li>
+            </Link>
+
             <Link to="/login">
               <li
                 onClick={logOut}
@@ -247,6 +253,7 @@ function Layout() {
         </nav>
 
         <div
+          onClick={hidenav}
           className={`bg-[rgb(0,0,0,0.6)] absolute w-full h-full top-0 left-0 z-10 ${
             !value ? "hidden" : ""
           }`}
