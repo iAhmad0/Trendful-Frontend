@@ -72,6 +72,7 @@ function SellerProducts() {
   });
   const [products, setProducts] = useState([]);
   const [id, setID] = useState("");
+  let productId;
 
   async function getSellerProducts() {
     try {
@@ -106,7 +107,17 @@ function SellerProducts() {
       return <EditPop id={id} />;
     }
   }
-
+  const handlePromote = async function () {
+    const duration = AdPrice === 500 ? 1 : AdPrice === 750 ? 3 : 7;
+    const request = await axios.post(
+      "http://localhost:3000/advertising/add-product",
+      {
+        durationInDays: duration,
+        productId: id,
+      }
+    );
+    console.log(request);
+  };
   return (
     <main className="w-full min-h-screen p-[20px]">
       {showPop()}
@@ -151,6 +162,7 @@ function SellerProducts() {
                   <div>
                     <button
                       onClick={() => {
+                        setID(object._id);
                         setShowPromote(true);
                         setProName(object.type);
                       }}
@@ -298,6 +310,7 @@ function SellerProducts() {
                 type="submit"
                 onClick={() => {
                   if (data.credit && data.cvc && data.ex && data.name) {
+                    handlePromote();
                     setPay(false);
                   }
                   console.log(data);
