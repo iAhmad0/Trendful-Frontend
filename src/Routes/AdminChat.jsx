@@ -14,6 +14,7 @@ function AdminChat() {
   const [userID, setUserID] = useState(null);
 
   const [send, setSend] = useState("");
+  const [userMessages, setUserMessages] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
 
   async function check() {
@@ -75,16 +76,21 @@ function AdminChat() {
 
     socket.on("adminGetMessage", (message) => {
       const old = allMessages;
-      old.push([message.message, "received"]);
+      old.push({ id: message.id, allMessages: [message.message, "received"] });
       const messages = [...old];
 
       setAllMessages(messages);
+      setUserMessages(allMessages.filter((id) => id.id == userID));
     });
 
     return () => {
       socket.off("adminGetMessage");
     };
-  }, [socket, allMessages]);
+  }, [socket, allMessages, userID]);
+
+  useEffect(() => {
+    setUserMessages(allMessages.filter((id) => id.id == userID));
+  }, [allMessages, userID]);
 
   function sendMessage(e) {
     e.preventDefault();
@@ -98,11 +104,12 @@ function AdminChat() {
     });
 
     const old = allMessages;
-    old.push([send, "sent"]);
+    old.push({ id: userID, allMessages: [send, "sent"] });
     const messages = [...old];
 
     setSend("");
     setAllMessages(messages);
+    setUserMessages(allMessages.filter((id) => id.id == userID));
   }
 
   return (
@@ -124,7 +131,7 @@ function AdminChat() {
                   chat.classList.remove("bg-[#F39E31]");
                   e.currentTarget.classList.add("bg-[#F39E31]");
                 });
-                setAllMessages([]);
+                setUserMessages(allMessages.filter((id) => id.id == userID));
               }}
             >
               <img
@@ -145,17 +152,17 @@ function AdminChat() {
       {userID ? (
         <main className="w-1/2 h-screen flex flex-col px-4 py-2 mx-auto">
           <div className="bg-slate-200 h-full flex flex-col p-5 overflow-y-scroll">
-            {allMessages.map((message, index) => {
+            {userMessages.map((user, index) => {
               return (
-                <div key={index} className="w-full grid mb-2">
+                <div key={user.id + index} className="w-full grid mb-2">
                   <p
                     className={`w-fit ${
-                      message[1] == "received"
+                      user.allMessages[1] == "received"
                         ? "bg-slate-500 justify-self-end"
                         : "bg-[#3E64DA]"
                     } text-white rounded-lg px-4 py-2`}
                   >
-                    {message[0]}
+                    {user.allMessages[0]}
                   </p>
                 </div>
               );

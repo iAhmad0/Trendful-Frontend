@@ -72,7 +72,7 @@ function BuyerChat() {
     if (socket === null) return;
     if (send === "") return;
 
-    socket.emit("buyerSendMessage", { message: send });
+    socket.emit("buyerSendMessage", { message: send, id });
 
     const old = allMessages;
     old.push([send, "sent"]);

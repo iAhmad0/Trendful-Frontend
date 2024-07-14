@@ -196,12 +196,6 @@ function YourAccount() {
       message: buyer.email,
       eName: "toEmailChange",
     },
-    {
-      title: "Primary mobile number",
-      buttonText: "Add",
-      message: buyer.mobile,
-      eName: "toPhoneChange",
-    },
     { title: "Password", buttonText: "Edit", eName: "toPassChange" },
   ];
   //Handeling Submitting Starts
@@ -461,73 +455,6 @@ function YourAccount() {
                 className="pt-[5px] pb-[5px] w-[100%] bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
               >
                 Return to settings menu
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Number Change --------------------------------------------------------------------- */}
-        <div
-          className={`w-96 p-4 mx-auto my-5 ${
-            navigate.toPhoneChange ? "visible" : "hidden"
-          }`}
-        >
-          <h1 className="text-[20px] font-bold mb-[15px]">
-            Change Mobile Number
-          </h1>
-          <div className="border-2 border-[#ccc] rounded-lg">
-            <div className="p-[15px]">
-              <form className="mb-[15px]">
-                <label
-                  htmlFor="mobile"
-                  className="font-bold text-[13px] block mb-[5px]"
-                >
-                  Mobile Number
-                </label>
-
-                <span className="inline-block mr-2 font-bold text-[14px]">
-                  EG +20
-                </span>
-
-                <input
-                  onChange={handleChange}
-                  value={fields.phoneChange}
-                  type="text"
-                  name="phoneChange"
-                  id="mobile"
-                  className={`w-[81%] border-solid ${
-                    errors.phoneError ? `border-red-500` : `border-[#000]`
-                  } border-[1px] rounded outline-none text-[13px] p-[5px] `}
-                />
-                {errors.phoneError ? (
-                  <div className="mt-1 flex items-center">
-                    <FontAwesomeIcon
-                      icon={faExclamation}
-                      className=" text-[14px] mr-3 text-red-500"
-                    />
-                    <span className=" text-[14px] text-red-500">
-                      {errors.phoneError}
-                    </span>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </form>
-
-              <button
-                type="submit"
-                onClick={handlePhoneSubmit}
-                className="pt-[5px] pb-[5px] w-full block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[10px]"
-              >
-                Continue
-              </button>
-
-              <button
-                onClick={handleReverseNavigation}
-                name="toPhoneChange"
-                className="w-full pt-[5px] pb-[5px] block bg-[#3e64da] text-[white] rounded-[8px] text-[13px]  mb-[5px]"
-              >
-                Return to setting menu
               </button>
             </div>
           </div>

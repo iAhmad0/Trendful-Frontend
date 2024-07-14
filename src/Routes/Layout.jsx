@@ -157,7 +157,7 @@ function Layout() {
                   </div>
 
                   <div>
-                    <Link to="/points">
+                    <Link to="/history">
                       <span className="text-[13px]">Your Points</span>
                     </Link>
                   </div>
