@@ -11,7 +11,6 @@ import SearchPage from "./Routes/SearchPage";
 import Cart from "./Routes/Cart";
 import Payment from "./Routes/Payment";
 import PurchaseHistory from "./Routes/PurchaseHistory";
-import PointsAndRewardPage from "./Routes/PointsAndRewardPage";
 import BuyerChat from "./Routes/BuyerChat";
 
 import SellerLogin from "./Routes/SellerLogin";
@@ -49,7 +48,6 @@ function App() {
           <Route path="search/:word" element={<SearchPage />} />
           <Route path="cart" element={<Cart />} />
           <Route path="history" element={<PurchaseHistory />} />
-          <Route path="points" element={<PointsAndRewardPage />} />
           <Route path="checkout" element={<Payment />} />
           <Route path="support" element={<BuyerChat />} />
           <Route path="*" element={<ErrorPage />} />

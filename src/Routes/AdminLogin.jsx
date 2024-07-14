@@ -4,31 +4,33 @@ import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { AiOutlineEye, AiFillEyeInvisible } from "react-icons/ai";
 
-// async function checkLoggedIn() {
-//   if (localStorage.getItem("token")) {
-//     try {
-//       const request = await axios.post(
-//         "http://localhost:3000/api/admin-logged/token",
-//         {
-//           token: localStorage.getItem("token"),
-//         }
-//       );
-//       window.location.href = "http://localhost:5173/";
-//     } catch (err) {
-//       localStorage.removeItem("token");
-//     }
-//   } else {
-//     localStorage.removeItem("token");
-//   }
-// }
-
 function AdminLogin() {
-  const [render, setRender] = useState(true);
+  const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
 
-  // useEffect(() => {
-  //   setRender(checkLoggedIn());
-  // }, []);
+  async function checkLoggedIn() {
+    if (localStorage.getItem("admin")) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/control/token",
+          {
+            token: localStorage.getItem("admin"),
+          }
+        );
+
+        window.location.href = "http://localhost:5173/control/admin";
+      } catch (err) {
+        localStorage.removeItem("admin");
+        setRender(true);
+      }
+    } else {
+      setRender(true);
+    }
+  }
+
+  useEffect(() => {
+    checkLoggedIn();
+  }, []);
 
   const [fields, setFields] = useState({
     logEmail: "",

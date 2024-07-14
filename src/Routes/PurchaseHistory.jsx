@@ -6,6 +6,7 @@ const imageURL = "http://localhost:3000/api/uploads/images/";
 
 function PurchaseHistory() {
   const [data, setData] = useState([]);
+  const [points, setPoints] = useState(0);
 
   async function getHistory() {
     if (localStorage.getItem("token") != undefined) {
@@ -17,12 +18,12 @@ function PurchaseHistory() {
           }
         );
 
+        setPoints(response.data.points);
         const products = [];
 
-        for (let i = 0; i < response.data.length; i++) {
-          products.push(response.data[i]);
+        for (let i = 0; i < response.data.orders.length; i++) {
+          products.push(response.data.orders[i]);
         }
-
         const allProducts = [];
 
         for (let i = 0; i < products.length; i++) {
@@ -37,6 +38,7 @@ function PurchaseHistory() {
             name: product.name,
             price: product.price,
             quantity: products[i].quantity,
+            points: products[i].points,
             image: product.image,
           };
 
@@ -49,7 +51,6 @@ function PurchaseHistory() {
       }
     }
   }
-
   useEffect(() => {
     getHistory();
   }, []);
@@ -80,10 +81,14 @@ function PurchaseHistory() {
               <p className="my-2">Name: {product.name}</p>
               <p className="my-2">Quantity: {product.quantity}</p>
               <p className="my-2">Price: {product.price}</p>
+              <p className="my-2">Points: {product.points}</p>
             </div>
           </div>
         );
       })}
+      <p>
+        Total Points: <span className="font-bold">{points}</span>
+      </p>
     </div>
   );
 }

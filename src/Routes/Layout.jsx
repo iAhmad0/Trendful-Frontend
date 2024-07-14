@@ -218,25 +218,28 @@ function Layout() {
             </li>
 
             <Link to="/history">
-              <li className={"cursor-pointer p-[10px] hover:bg-[#eee]"}>
+              <li
+                onClick={hidenav}
+                className={"cursor-pointer p-[10px] hover:bg-[#eee]"}
+              >
                 {"Purchase History"}
               </li>
             </Link>
 
-            <Link to="/points">
-              <li className="cursor-pointer p-[10px] hover:bg-[#eee]">
-                {"Your Points"}
-              </li>
-            </Link>
-
             <Link to="/settings">
-              <li className={"cursor-pointer p-[10px] hover:bg-[#eee]"}>
+              <li
+                onClick={hidenav}
+                className={"cursor-pointer p-[10px] hover:bg-[#eee]"}
+              >
                 {"Your Account"}
               </li>
             </Link>
 
             <Link to="/support">
-              <li className="cursor-pointer p-[10px] hover:bg-[#eee]">
+              <li
+                onClick={hidenav}
+                className="cursor-pointer p-[10px] hover:bg-[#eee]"
+              >
                 Support
               </li>
             </Link>

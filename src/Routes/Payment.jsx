@@ -2,18 +2,18 @@ import AddressInfo from "../Components/AddressInfo";
 import BankInfo from "../Components/BankInfo";
 import SelectShipping from "../Components/SelectShipping";
 import SelectPayment from "../Components/SelectPayment";
-import PromoCode from "../Components/PromoCode";
 import axios from "axios";
-import { useGlobalState } from "../globalStates";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SelectPoints from "../Components/SelectPoints";
 
 function Payment() {
   const [products, setProducts] = useState([]);
   const [data, setData] = useState([]);
+  const [discount, setDiscount] = useState(0);
+  const [shipping, setShipping] = useState(0);
   const [total, setTotal] = useState(0);
 
-  const discount = useGlobalState("discount")[0];
   const cart = JSON.parse(localStorage.getItem("cart"));
 
   const handleChange = (e) => {
@@ -24,6 +24,27 @@ function Payment() {
       [name]: value,
     });
   };
+
+  async function getDiscount() {
+    const response = await axios.get(
+      "http://localhost:3000/api/buyer/get-discount/" +
+        localStorage.getItem("token")
+    );
+
+    setDiscount(response.data);
+  }
+
+  useEffect(() => {
+    if (data.points === "true") {
+      getDiscount();
+    } else {
+      setDiscount(0);
+    }
+  }, [data.points]);
+
+  useEffect(() => {
+    setShipping(data.shipping);
+  }, [data.shipping]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,7 +89,7 @@ function Payment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (Object.keys(data).length >= 8 && cart.length != 0 && total != 0) {
+    if (Object.keys(data).length >= 7 && cart.length != 0 && total != 0) {
       const order = [];
       const orderedProducts = [];
 
@@ -76,13 +97,21 @@ function Payment() {
         orderedProducts.push({
           id: products[i].id,
           sellerID: products[i].sellerID,
+          price: products[i].price,
           quantity: products[i].quantity,
         });
       }
+
+      const info = { ...data };
+      delete info.shipping;
+      delete info.points;
+
       order.push(localStorage.getItem("token"));
-      order.push(data);
+      order.push(info);
       order.push(orderedProducts);
-      order.push(Number(total));
+      order.push(Number(shipping));
+      order.push(discount);
+      order.push(Number(total) + Number(shipping) - Number(discount));
 
       try {
         const response = await axios.post(
@@ -131,7 +160,7 @@ function Payment() {
             <SelectPayment handleChange={handleChange} />
           </div>
 
-          <PromoCode />
+          <SelectPoints handleChange={handleChange} />
 
           <table className="w-full">
             <caption className="font-bold">Invoice</caption>
@@ -183,7 +212,7 @@ function Payment() {
             <p>TOTAL</p>
             <p>
               {data.shipping != undefined
-                ? `${Number(total) + Number(data.shipping) - 0} EGP`
+                ? `${Number(total) + Number(data.shipping) - discount} EGP`
                 : ""}
             </p>
           </div>
