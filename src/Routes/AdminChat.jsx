@@ -17,6 +17,8 @@ function AdminChat() {
   const [userMessages, setUserMessages] = useState([]);
   const [allMessages, setAllMessages] = useState([]);
 
+  const [notification, setNotification] = useState([]);
+
   async function check() {
     const response = await axios.post("http://localhost:3000/control/token", {
       token: localStorage.getItem("admin"),
@@ -81,16 +83,24 @@ function AdminChat() {
 
       setAllMessages(messages);
       setUserMessages(allMessages.filter((id) => id.id == userID));
+
+      const notify = notification;
+      notify.push({ id: message.id });
+      setNotification(notify);
     });
 
     return () => {
       socket.off("adminGetMessage");
     };
-  }, [socket, allMessages, userID]);
+  }, [socket, allMessages, userID, notification]);
 
   useEffect(() => {
     setUserMessages(allMessages.filter((id) => id.id == userID));
   }, [allMessages, userID]);
+
+  useEffect(() => {
+    setNotification(notification.filter((user) => user.id != userID));
+  }, [userID]);
 
   function sendMessage(e) {
     e.preventDefault();
@@ -144,6 +154,16 @@ function AdminChat() {
                 <p className="mb-[7px]">{user.name}</p>
                 <p>{user.email}</p>
               </div>
+
+              {notification.map((notify, index) => {
+                if (notify.id == user._id)
+                  return (
+                    <div
+                      key={user.id + index}
+                      className="bg-white w-3 h-2.5 rounded-[50%]"
+                    ></div>
+                  );
+              })}
             </li>
           );
         })}
